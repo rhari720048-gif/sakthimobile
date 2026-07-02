@@ -65,11 +65,13 @@ const Footer = () => {
         <div className="footer-bottom">
           <div className="footer-bottom-content">
             <p>&copy; {new Date().getFullYear()} Sakthi Mobiles. All Rights Reserved.</p>
-            <div className="powered-by">
-              <span className="powered-text">Powered by</span>
-              <img src={genzLogo} alt="GENZ NEURAL-X" className="genz-logo" />
-              <strong className="genz-text">GENZ NEURAL-X</strong>
-            </div>
+            <a href="https://genzneuralx.com" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+              <div className="powered-by">
+                <span className="powered-text">Powered by</span>
+                <img src={genzLogo} alt="GENZ NEURAL-X" className="genz-logo" />
+                <strong className="genz-text">GENZ NEURAL-X</strong>
+              </div>
+            </a>
           </div>
         </div>
       </div>

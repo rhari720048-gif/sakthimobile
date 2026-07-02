@@ -4,12 +4,8 @@ import AnnouncementBanner from '../components/AnnouncementBanner';
 import Hero from '../components/Hero';
 import Stats from '../components/Stats';
 import Services from '../components/Services';
-import Accessories from '../components/Accessories';
-import Features from '../components/Features';
-import Timeline from '../components/Timeline';
 import BrandCarousel from '../components/BrandCarousel';
 import Reviews from '../components/Reviews';
-import Contact from '../components/Contact';
 import Footer from '../components/Footer';
 import { motion, useScroll } from 'framer-motion';
 
@@ -38,13 +34,9 @@ const LandingPage = () => {
       <Navbar />
       <Hero />
       <Stats />
-      <Services />
-      <Accessories />
-      <Features />
-      <Timeline />
+      <Services limit={3} />
       <BrandCarousel />
       <Reviews />
-      <Contact />
       <Footer />
     </div>
   );

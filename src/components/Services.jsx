@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Smartphone, Wrench, Cpu, Headphones, Truck, ArrowRight, X, MessageCircle, Info } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import TextReveal from './TextReveal';
 import { useSettings } from '../context/SettingsContext';
 import { trackWhatsAppClick } from '../utils/analytics';
@@ -14,7 +15,7 @@ const categories = [
   { id: 'accessories', label: 'Accessories & Sales', subtitle: 'Cases, Chargers, TWS', icon: <Headphones size={20} /> }
 ];
 
-const Services = () => {
+const Services = ({ limit }) => {
   const [activeTab, setActiveTab] = useState('hardware');
   const [selectedService, setSelectedService] = useState(null);
   const [showForm, setShowForm] = useState(false);
@@ -35,6 +36,7 @@ const Services = () => {
   }, []);
 
   const currentTabServices = customServices.filter(s => s.category === activeTab);
+  const displayedServices = limit ? currentTabServices.slice(0, limit) : currentTabServices;
 
   const { settings, loading } = useSettings();
   
@@ -109,7 +111,7 @@ const Services = () => {
               exit={{ opacity: 0, x: -50 }}
               transition={{ duration: 0.4 }}
             >
-              {currentTabServices.map((service, index) => (
+              {displayedServices.map((service, index) => (
                 <div 
                   key={index} 
                   className="spotlight-card-style glass-panel"
@@ -133,6 +135,14 @@ const Services = () => {
             </motion.div>
           </AnimatePresence>
         </div>
+
+        {limit && (
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '40px' }}>
+            <Link to="/services" className="btn-primary" style={{ padding: '12px 30px', borderRadius: '30px', background: 'var(--accent-cyan)', color: '#fff', textDecoration: 'none', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              View All Services <ArrowRight size={18} />
+            </Link>
+          </div>
+        )}
 
         {/* Courier Banner */}
         <motion.div 

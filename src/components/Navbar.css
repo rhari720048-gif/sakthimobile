@@ -67,8 +67,10 @@
   transition: color 0.2s ease;
 }
 
-.nav-link:hover {
+.nav-link:hover,
+.nav-link.active {
   color: var(--text-primary);
+  font-weight: 600;
 }
 
 .nav-btn-primary {
@@ -125,8 +127,10 @@
   cursor: pointer;
 }
 
-.mobile-nav-link:hover {
+.mobile-nav-link:hover,
+.mobile-nav-link.active {
   background: rgba(0, 0, 0, 0.05);
+  font-weight: 700;
 }
 
 .mobile-btn-primary {

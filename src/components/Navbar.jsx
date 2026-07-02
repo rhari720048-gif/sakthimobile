@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Smartphone } from 'lucide-react';
 import MagneticButton from './MagneticButton';
 import { useSettings } from '../context/SettingsContext';
@@ -8,6 +9,7 @@ import './Navbar.css';
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
   const { settings, loading } = useSettings();
   const showBanner = !loading && settings?.bannerActive && settings?.bannerText;
 
@@ -20,27 +22,30 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { name: 'Home', href: '#home' },
-    { name: 'Services', href: '#services' },
-    { name: 'Features', href: '#features' },
-    { name: 'Reviews', href: '#reviews' },
-    { name: 'Contact', href: '#contact' },
+    { name: 'Home', path: '/' },
+    { name: 'Services', path: '/services' },
+    { name: 'About Us', path: '/about' },
+    { name: 'Contact', path: '/contact' },
   ];
 
   return (
     <nav className={`navbar ${isScrolled ? 'scrolled' : ''} ${showBanner ? 'has-banner' : ''}`}>
       <div className="navbar-container">
-        <a href="#home" className="logo">
+        <Link to="/" className="logo">
           <Smartphone className="logo-icon" />
           <span className="logo-text">Sakthi <span className="gradient-text-cyan">Mobiles</span></span>
-        </a>
+        </Link>
 
         {/* Desktop Menu */}
         <div className="desktop-menu">
           {navLinks.map((link) => (
-            <a key={link.name} href={link.href} className="nav-link">
+            <Link 
+              key={link.name} 
+              to={link.path} 
+              className={`nav-link ${location.pathname === link.path ? 'active' : ''}`}
+            >
               {link.name}
-            </a>
+            </Link>
           ))}
           
         </div>
@@ -65,14 +70,14 @@ const Navbar = () => {
             transition={{ duration: 0.2 }}
           >
             {navLinks.map((link) => (
-              <a 
+              <Link 
                 key={link.name} 
-                href={link.href} 
-                className="mobile-nav-link"
+                to={link.path} 
+                className={`mobile-nav-link ${location.pathname === link.path ? 'active' : ''}`}
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {link.name}
-              </a>
+              </Link>
             ))}
             
           </motion.div>

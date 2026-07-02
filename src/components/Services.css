@@ -95,6 +95,23 @@
   padding-bottom: 20px;
 }
 
+/* Vertical Grid Group (Services Page) */
+.vertical-services-wrapper {
+  padding: 20px 0;
+  width: 100%;
+}
+
+.vertical-services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.vertical-services-grid .spotlight-card-style {
+  width: 100%;
+  max-width: none;
+}
+
 /* Service Cards */
 .spotlight-card-style {
   width: 280px;

@@ -69,9 +69,16 @@ const Services = ({ limit }) => {
   return (
     <section id="services" className="services-section">
       <div className="container">
-        <div className="section-header">
-          <TextReveal text={<>Premium <span className="gradient-text-gold">Services</span></>} />
-          <p>Professional, reliable, and swift solutions for all your mobile needs.</p>
+        <div className="section-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '20px', textAlign: 'left' }}>
+          <div>
+            <TextReveal text={<>Premium <span className="gradient-text-gold">Services</span></>} />
+            <p style={{ margin: 0 }}>Professional, reliable, and swift solutions for all your mobile needs.</p>
+          </div>
+          {limit && (
+            <Link to="/services" className="btn-primary" style={{ padding: '12px 24px', borderRadius: '30px', background: 'var(--accent-cyan)', color: '#fff', textDecoration: 'none', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              View All <ArrowRight size={18} />
+            </Link>
+          )}
         </div>
 
         {/* Modern Animated Tabs */}
@@ -100,12 +107,12 @@ const Services = ({ limit }) => {
           ))}
         </div>
 
-        {/* Horizontal Scroll Group */}
-        <div className="horizontal-services-wrapper">
+        {/* Services Group */}
+        <div className={limit ? "horizontal-services-wrapper" : "vertical-services-wrapper"}>
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
-              className="horizontal-services-scroll"
+              className={limit ? "horizontal-services-scroll" : "vertical-services-grid"}
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -50 }}
@@ -135,14 +142,6 @@ const Services = ({ limit }) => {
             </motion.div>
           </AnimatePresence>
         </div>
-
-        {limit && (
-          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '40px' }}>
-            <Link to="/services" className="btn-primary" style={{ padding: '12px 30px', borderRadius: '30px', background: 'var(--accent-cyan)', color: '#fff', textDecoration: 'none', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              View All Services <ArrowRight size={18} />
-            </Link>
-          </div>
-        )}
 
         {/* Courier Banner */}
         <motion.div 

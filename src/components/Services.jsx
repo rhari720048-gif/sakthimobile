@@ -101,11 +101,11 @@ const Services = ({ limit }) => {
         </div>
 
         {/* Services Group */}
-        <div className={limit ? "horizontal-services-wrapper" : "vertical-services-wrapper"}>
+        <div className="vertical-services-wrapper">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
-              className={limit ? "horizontal-services-scroll" : "vertical-services-grid"}
+              className="vertical-services-grid"
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -50 }}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Phone, MapPin, MessageCircle, Clock, Smartphone } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { useSettings } from '../context/SettingsContext';
 import { trackWhatsAppClick } from '../utils/analytics';
 import './Footer.css';
@@ -38,18 +39,18 @@ const Footer = () => {
           
           <div className="footer-links">
             <h4>Quick Links</h4>
-            <a href="#home">Home</a>
-            <a href="#services">Services</a>
-            <a href="#features">Why Us</a>
-            <a href="#contact">Contact</a>
+            <Link to="/">Home</Link>
+            <Link to="/services">Services</Link>
+            <Link to="/about">About Us</Link>
+            <Link to="/contact">Contact</Link>
           </div>
           
           <div className="footer-services">
             <h4>Top Services</h4>
-            <span>Display Replacement</span>
-            <span>Battery Change</span>
-            <span>IC Level Repair</span>
-            <span>Software Flash</span>
+            <Link to="/services">Display Replacement</Link>
+            <Link to="/services">Battery Change</Link>
+            <Link to="/services">IC Level Repair</Link>
+            <Link to="/services">Software Flash</Link>
           </div>
         </div>
         

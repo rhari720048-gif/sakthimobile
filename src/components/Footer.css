@@ -29,7 +29,7 @@
   font-size: 1.1rem;
 }
 
-.footer-links a, .footer-services span {
+.footer-links a, .footer-services a {
   color: var(--text-secondary);
   text-decoration: none;
   font-size: 0.95rem;
@@ -37,7 +37,7 @@
   display: inline-block;
 }
 
-.footer-links a:hover {
+.footer-links a:hover, .footer-services a:hover {
   color: var(--accent-cyan);
   transform: translateX(5px);
 }

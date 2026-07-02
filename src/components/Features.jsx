@@ -32,13 +32,13 @@ const Features = () => {
     <section id="features" className="features-section">
       <div className="container">
         <div className="section-header">
-          <TextReveal text={<>Engala Yen <span className="gradient-text-cyan">Choose Pannanum?</span></>} />
+          <TextReveal text={<>Engala Yen <span className="gradient-text-cyan">Choose Pannanum !!</span></>} />
           <p>Sakthi Mobiles-a unga mobile repair-ku select panna idhuthaan kaaranam.</p>
         </div>
 
         <div className="features-grid">
           {features.map((feature, index) => (
-            <motion.div 
+            <motion.div
               key={index}
               className={`feature-card bento-${index}`}
               initial={{ opacity: 0, y: 30 }}

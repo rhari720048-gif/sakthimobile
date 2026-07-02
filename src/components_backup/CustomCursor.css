@@ -1,0 +1,38 @@
+/* CustomCursor.css */
+.custom-cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  background-color: #d4af37;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: difference;
+}
+
+.custom-cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 36px;
+  height: 36px;
+  border: 2px solid #d4af37;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s, height 0.2s, background-color 0.2s;
+}
+
+.custom-cursor-ring.hovering {
+  background-color: rgba(212, 175, 55, 0.2);
+  border-color: transparent;
+}
+
+/* Ensure links and buttons have no default cursor if custom cursor is active */
+body.custom-cursor-enabled * {
+  cursor: none !important;
+}

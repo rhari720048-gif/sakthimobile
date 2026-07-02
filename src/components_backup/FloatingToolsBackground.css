@@ -1,0 +1,19 @@
+.global-bg-tools-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 0; /* Stays behind everything */
+  pointer-events: none; /* Allows clicking through it */
+}
+
+.g-tool {
+  position: absolute;
+  color: #d4af37;
+  will-change: transform;
+  transform: translateZ(0); /* Force GPU acceleration */
+  filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.2));
+  backface-visibility: hidden;
+}

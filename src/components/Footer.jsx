@@ -47,10 +47,10 @@ const Footer = () => {
           
           <div className="footer-services">
             <h4>Top Services</h4>
-            <Link to="/services">Display Replacement</Link>
-            <Link to="/services">Display Glass Replacement</Link>
-            <Link to="/services">IC Level Repair</Link>
-            <Link to="/services">Software Flash</Link>
+            <Link to="/services" state={{ openService: 'Display Replacement' }}>Display Replacement</Link>
+            <Link to="/services" state={{ openService: 'Display Glass Replacement' }}>Display Glass Replacement</Link>
+            <Link to="/services" state={{ openService: 'Dead Mobile / Motherboard' }}>IC Level Repair</Link>
+            <Link to="/services" state={{ openService: 'Software Flash' }}>Software Flash</Link>
           </div>
         </div>
         

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Smartphone, Wrench, Cpu, Headphones, Truck, ArrowRight, X, MessageCircle, Info } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import TextReveal from './TextReveal';
 import { useSettings } from '../context/SettingsContext';
 import { trackWhatsAppClick } from '../utils/analytics';
@@ -16,6 +16,8 @@ const categories = [
 ];
 
 const Services = ({ limit }) => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('hardware');
   const [selectedService, setSelectedService] = useState(null);
   const [showForm, setShowForm] = useState(false);
@@ -34,6 +36,19 @@ const Services = ({ limit }) => {
 
     return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    if (location.state?.openService && customServices.length > 0) {
+      const serviceToOpen = customServices.find(s => s.name === location.state.openService);
+      if (serviceToOpen) {
+        handleOpenModal(serviceToOpen);
+        setActiveTab(serviceToOpen.category);
+        
+        // Reset the state safely using React Router
+        navigate(location.pathname, { replace: true, state: {} });
+      }
+    }
+  }, [location.state?.openService, customServices]);
 
   const currentTabServices = customServices.filter(s => s.category === activeTab);
   const displayedServices = limit ? currentTabServices.slice(0, limit) : currentTabServices;

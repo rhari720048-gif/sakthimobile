@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Wrench, ShieldCheck, Zap, MapPin, Smartphone, ArrowRight } from 'lucide-react';
+import { Wrench, ShieldCheck, Zap, MapPin, Smartphone, ArrowRight, CheckCircle } from 'lucide-react';
 import { useSettings } from '../context/SettingsContext';
 import { trackWhatsAppClick } from '../utils/analytics';
 import MagneticButton from './MagneticButton';
@@ -182,6 +182,15 @@ const Hero = () => {
               <div>
                 <h4>Fast</h4>
                 <p>Turnaround</p>
+              </div>
+            </div>
+            <div className="floating-card c-3 glass-panel">
+              <div className="floating-icon-wrapper" style={{ background: '#10b981', boxShadow: '0 8px 20px rgba(16, 185, 129, 0.3)' }}>
+                <CheckCircle size={24} color="#fff" />
+              </div>
+              <div>
+                <h4>100%</h4>
+                <p>Genuine Parts</p>
               </div>
             </div>
           </motion.div>

@@ -520,6 +520,12 @@
   animation: float 8s ease-in-out infinite reverse;
 }
 
+.c-3 {
+  bottom: 250px;
+  left: -50px;
+  animation: float 7s ease-in-out infinite 1s;
+}
+
 @keyframes float {
   0% { transform: translateY(0px) translateZ(20px); }
   50% { transform: translateY(-15px) translateZ(20px); }
@@ -558,7 +564,36 @@
     font-size: 3rem;
   }
   .floating-card {
-    display: none;
+    padding: 8px 12px;
+    gap: 8px;
+    border-radius: 12px;
+  }
+  .floating-icon-wrapper {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+  }
+  .floating-icon-wrapper svg {
+    width: 16px;
+    height: 16px;
+  }
+  .floating-card h4 {
+    font-size: 0.8rem;
+  }
+  .floating-card p {
+    font-size: 0.7rem;
+  }
+  .c-1 {
+    top: 60px;
+    left: -10px;
+  }
+  .c-2 {
+    bottom: 60px;
+    right: -10px;
+  }
+  .c-3 {
+    bottom: 200px;
+    left: -10px;
   }
   .hero-image-container {
     width: 280px;

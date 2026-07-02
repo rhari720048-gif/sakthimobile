@@ -61,7 +61,7 @@ const Timeline = () => {
                   className="timeline-content glass-panel"
                   initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
+                  viewport={{ once: true, margin: "-50px" }}
                   transition={{ duration: 0.5, type: "spring", bounce: 0.4 }}
                 >
                   <div className="step-number">Step {index + 1}</div>
@@ -76,7 +76,7 @@ const Timeline = () => {
                   className="timeline-node"
                   initial={{ scale: 0 }}
                   whileInView={{ scale: 1 }}
-                  viewport={{ once: true, margin: "-100px" }}
+                  viewport={{ once: true, margin: "-50px" }}
                   transition={{ duration: 0.4, delay: 0.2 }}
                 >
                   {step.icon}

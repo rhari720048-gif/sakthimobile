@@ -69,16 +69,9 @@ const Services = ({ limit }) => {
   return (
     <section id="services" className="services-section">
       <div className="container">
-        <div className="section-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '20px', textAlign: 'left' }}>
-          <div>
-            <TextReveal text={<>Premium <span className="gradient-text-gold">Services</span></>} />
-            <p style={{ margin: 0 }}>Professional, reliable, and swift solutions for all your mobile needs.</p>
-          </div>
-          {limit && (
-            <Link to="/services" className="btn-primary" style={{ padding: '12px 24px', borderRadius: '30px', background: 'var(--accent-cyan)', color: '#fff', textDecoration: 'none', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              View All <ArrowRight size={18} />
-            </Link>
-          )}
+        <div className="section-header">
+          <TextReveal text={<>Premium <span className="gradient-text-gold">Services</span></>} />
+          <p>Professional, reliable, and swift solutions for all your mobile needs.</p>
         </div>
 
         {/* Modern Animated Tabs */}
@@ -139,6 +132,23 @@ const Services = ({ limit }) => {
                   </div>
                 </div>
               ))}
+              
+              {limit && (
+                <Link to="/services" style={{ textDecoration: 'none' }}>
+                  <div 
+                    className="spotlight-card-style glass-panel view-all-card"
+                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', background: 'rgba(6, 182, 212, 0.05)', border: '2px dashed rgba(6, 182, 212, 0.3)' }}
+                  >
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px', color: 'var(--accent-cyan)', textAlign: 'center' }}>
+                      <div style={{ padding: '20px', background: 'rgba(6, 182, 212, 0.1)', borderRadius: '50%' }}>
+                        <ArrowRight size={40} />
+                      </div>
+                      <h3 style={{ fontSize: '1.4rem' }}>View All Services</h3>
+                      <p style={{ color: 'var(--text-secondary)' }}>Explore full range</p>
+                    </div>
+                  </div>
+                </Link>
+              )}
             </motion.div>
           </AnimatePresence>
         </div>

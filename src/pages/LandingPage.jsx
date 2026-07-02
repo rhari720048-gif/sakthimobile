@@ -34,7 +34,7 @@ const LandingPage = () => {
       <Navbar />
       <Hero />
       <Stats />
-      <Services limit={3} />
+      <Services limit={4} />
       <BrandCarousel />
       <Reviews />
       <Footer />

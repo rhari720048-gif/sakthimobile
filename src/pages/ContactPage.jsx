@@ -46,8 +46,7 @@ const ContactPage = () => {
                 <div>
                   <h3 style={{ fontSize: '1.2rem', marginBottom: '10px' }}>Working Hours</h3>
                   <p style={{ color: 'var(--text-secondary)' }}>
-                    Monday - Saturday: 9:00 AM - 9:00 PM<br />
-                    Sunday: 10:00 AM - 2:00 PM
+                    9:30 AM to 9:30 PM (All Days)
                   </p>
                 </div>
               </div>

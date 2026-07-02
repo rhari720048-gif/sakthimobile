@@ -12,7 +12,7 @@ export const SettingsProvider = ({ children }) => {
     phoneDisplay: '+91 73734 72735',
     email: 'info@sakthimobiles.com',
     address: 'Srivilliputhur, Tamil Nadu',
-    hours: 'Mon-Sat 9AM-8PM',
+    hours: '9:30 AM to 9:30 PM (All Days)',
     bannerText: '10% Off on Display Replacements this week!',
     bannerActive: true
   });

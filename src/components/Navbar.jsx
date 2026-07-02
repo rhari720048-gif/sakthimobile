@@ -59,46 +59,28 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Mobile Menu Dropdown / Sidebar */}
+      {/* Mobile Menu Dropdown */}
       <AnimatePresence>
         {mobileMenuOpen && (
-          <>
-            <motion.div 
-              className="mobile-menu-overlay"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setMobileMenuOpen(false)}
-            />
-            <motion.div 
-              className="mobile-menu"
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            >
-              <button className="mobile-menu-close" onClick={() => setMobileMenuOpen(false)}>
-                <X size={24} />
-              </button>
-              
-              <div style={{ padding: '0 10px', marginBottom: '20px' }}>
-                <span style={{ fontSize: '1.4rem', fontWeight: '800', color: 'var(--text-primary)' }}>
-                  Sakthi <span className="gradient-text-cyan">Mobiles</span>
-                </span>
-              </div>
-
-              {navLinks.map((link) => (
-                <Link 
-                  key={link.name} 
-                  to={link.path} 
-                  className={`mobile-nav-link ${location.pathname === link.path ? 'active' : ''}`}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {link.name}
-                </Link>
-              ))}
-            </motion.div>
-          </>
+          <motion.div 
+            className="mobile-menu glass-panel"
+            initial={{ opacity: 0, y: -20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -20, scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+          >
+            {navLinks.map((link) => (
+              <Link 
+                key={link.name} 
+                to={link.path} 
+                className={`mobile-nav-link ${location.pathname === link.path ? 'active' : ''}`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {link.name}
+              </Link>
+            ))}
+            
+          </motion.div>
         )}
       </AnimatePresence>
     </nav>

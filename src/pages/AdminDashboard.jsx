@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, Settings, PlusCircle, Trash2, Star, LayoutDashboard, MessageSquarePlus, Smartphone, Wrench, Headphones, PieChart, Activity, User, Sliders, Save, CheckCircle, ShoppingBag, Battery, Cable, MessageCircle } from 'lucide-react';
+import { LogOut, Settings, PlusCircle, Trash2, Star, LayoutDashboard, MessageSquarePlus, Smartphone, Wrench, Headphones, PieChart, Activity, User, Sliders, Save, CheckCircle, ShoppingBag, Battery, Cable, MessageCircle, Menu, X } from 'lucide-react';
 import { db } from '../firebase';
 import { collection, addDoc, onSnapshot, deleteDoc, doc, serverTimestamp, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -10,6 +10,7 @@ import './AdminDashboard.css';
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('overview');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [reviews, setReviews] = useState([]);
   const [services, setServices] = useState([]);
   const [accessories, setAccessories] = useState([]);
@@ -204,8 +205,18 @@ const AdminDashboard = () => {
   return (
     <div className="admin-layout">
       {/* Sidebar Navigation */}
-      <aside className="admin-sidebar">
-        <div className="admin-brand">
+      <aside className={`admin-sidebar ${isMobileMenuOpen ? 'open' : ''}`}>
+        <div className="admin-sidebar-header-mobile">
+          <div className="admin-brand" style={{ marginBottom: 0 }}>
+            <Settings color="#4f46e5" size={28} />
+            <h1>Admin Pro</h1>
+          </div>
+          <button className="mobile-close-btn" onClick={() => setIsMobileMenuOpen(false)}>
+            <X size={24} />
+          </button>
+        </div>
+        
+        <div className="admin-brand desktop-brand">
           <Settings color="#4f46e5" size={28} />
           <h1>Admin Pro</h1>
         </div>
@@ -213,7 +224,7 @@ const AdminDashboard = () => {
         <nav className="admin-nav">
           <button 
             className={`admin-nav-item ${activeTab === 'overview' ? 'active' : ''}`}
-            onClick={() => setActiveTab('overview')}
+            onClick={() => { setActiveTab('overview'); setIsMobileMenuOpen(false); }}
           >
             <PieChart size={20} />
             Dashboard Overview
@@ -221,7 +232,7 @@ const AdminDashboard = () => {
 
           <button 
             className={`admin-nav-item ${activeTab === 'services' ? 'active' : ''}`}
-            onClick={() => setActiveTab('services')}
+            onClick={() => { setActiveTab('services'); setIsMobileMenuOpen(false); }}
           >
             <LayoutDashboard size={20} />
             Manage Services
@@ -229,7 +240,7 @@ const AdminDashboard = () => {
 
           <button 
             className={`admin-nav-item ${activeTab === 'accessories' ? 'active' : ''}`}
-            onClick={() => setActiveTab('accessories')}
+            onClick={() => { setActiveTab('accessories'); setIsMobileMenuOpen(false); }}
           >
             <ShoppingBag size={20} />
             Manage Accessories
@@ -237,7 +248,7 @@ const AdminDashboard = () => {
           
           <button 
             className={`admin-nav-item ${activeTab === 'reviews' ? 'active' : ''}`}
-            onClick={() => setActiveTab('reviews')}
+            onClick={() => { setActiveTab('reviews'); setIsMobileMenuOpen(false); }}
           >
             <MessageSquarePlus size={20} />
             Customer Reviews
@@ -245,7 +256,7 @@ const AdminDashboard = () => {
           
           <button 
             className={`admin-nav-item ${activeTab === 'settings' ? 'active' : ''}`}
-            onClick={() => setActiveTab('settings')}
+            onClick={() => { setActiveTab('settings'); setIsMobileMenuOpen(false); }}
           >
             <Sliders size={20} />
             Shop Settings
@@ -261,13 +272,21 @@ const AdminDashboard = () => {
       <main className="admin-main">
         {/* Topbar */}
         <header className="admin-topbar">
+          <button className="mobile-menu-btn" onClick={() => setIsMobileMenuOpen(true)}>
+            <Menu size={24} />
+          </button>
           <div className="admin-profile">
-            <span>Welcome, Admin</span>
+            <span className="profile-name">Welcome, Admin</span>
             <div className="admin-avatar">
               <User size={20} />
             </div>
           </div>
         </header>
+
+        {/* Overlay for mobile sidebar */}
+        {isMobileMenuOpen && (
+          <div className="admin-sidebar-overlay" onClick={() => setIsMobileMenuOpen(false)}></div>
+        )}
 
         {/* Content Container */}
         <div className="admin-content">

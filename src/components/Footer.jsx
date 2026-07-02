@@ -3,6 +3,7 @@ import { Phone, MapPin, MessageCircle, Clock, Smartphone } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useSettings } from '../context/SettingsContext';
 import { trackWhatsAppClick } from '../utils/analytics';
+import genzLogo from '../assets/genz-logo.png';
 import './Footer.css';
 
 const Footer = () => {
@@ -66,7 +67,7 @@ const Footer = () => {
             <p>&copy; {new Date().getFullYear()} Sakthi Mobiles. All Rights Reserved.</p>
             <div className="powered-by">
               <span className="powered-text">Powered by</span>
-              <img src="/genz-logo.jpg" alt="GENZ NEURAL-X" className="genz-logo" />
+              <img src={genzLogo} alt="GENZ NEURAL-X" className="genz-logo" />
               <strong className="genz-text">GENZ NEURAL-X</strong>
             </div>
           </div>

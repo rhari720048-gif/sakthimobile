@@ -7,6 +7,7 @@ import Services from '../components/Services';
 import BrandCarousel from '../components/BrandCarousel';
 import Reviews from '../components/Reviews';
 import Footer from '../components/Footer';
+import GoogleAd from '../components/GoogleAd';
 import { motion, useScroll } from 'framer-motion';
 
 const LandingPage = () => {
@@ -35,6 +36,7 @@ const LandingPage = () => {
       <Hero />
       <Stats />
       <Services limit={4} />
+      <div className="container"><GoogleAd slotId="landing-mid-slot" /></div>
       <BrandCarousel />
       <Reviews />
       <Footer />

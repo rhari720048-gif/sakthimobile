@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useSettings } from '../context/SettingsContext';
 import { trackWhatsAppClick } from '../utils/analytics';
 import genzLogo from '../assets/genz-logo.png';
+import GoogleAd from './GoogleAd';
 import './Footer.css';
 
 const Footer = () => {
@@ -12,8 +13,12 @@ const Footer = () => {
   if (loading) return null;
 
   return (
-    <footer className="footer-section">
-      <div className="container">
+    <>
+      <div className="container" style={{ marginBottom: '-30px', position: 'relative', zIndex: 10 }}>
+        <GoogleAd slotId="footer-ad-slot" />
+      </div>
+      <footer className="footer-section">
+        <div className="container">
         <div className="footer-content">
           <div className="footer-brand">
             <h3>Sakthi <span className="gradient-text-cyan">Mobiles</span></h3>
@@ -74,8 +79,8 @@ const Footer = () => {
             </a>
           </div>
         </div>
-      </div>
-    </footer>
+      </footer>
+    </>
   );
 };
 

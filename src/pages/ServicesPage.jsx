@@ -3,6 +3,7 @@ import Navbar from '../components/Navbar';
 import Services from '../components/Services';
 import Accessories from '../components/Accessories';
 import Footer from '../components/Footer';
+import GoogleAd from '../components/GoogleAd';
 import TextReveal from '../components/TextReveal';
 import { HelpCircle } from 'lucide-react';
 
@@ -38,6 +39,8 @@ const ServicesPage = () => {
         <Services />
         <Accessories />
         
+        <div className="container"><GoogleAd slotId="services-page-slot" /></div>
+
         {/* Extra Well-Planned Section for Services Page */}
         <section className="faq-section" style={{ padding: '60px 0', background: 'var(--bg-secondary)' }}>
           <div className="container">

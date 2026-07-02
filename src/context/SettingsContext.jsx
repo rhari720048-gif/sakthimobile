@@ -14,7 +14,8 @@ export const SettingsProvider = ({ children }) => {
     address: 'Srivilliputhur, Tamil Nadu',
     hours: '9:30 AM to 9:30 PM (All Days)',
     bannerText: '10% Off on Display Replacements this week!',
-    bannerActive: true
+    bannerActive: true,
+    googleAdsId: ''
   });
   const [loading, setLoading] = useState(true);
 
@@ -31,14 +32,24 @@ export const SettingsProvider = ({ children }) => {
     
     initializeSettings();
 
-    const unsubscribe = onSnapshot(settingsRef, (docSnap) => {
+    const unsubscribeGeneral = onSnapshot(settingsRef, (docSnap) => {
       if (docSnap.exists()) {
-        setSettings(docSnap.data());
+        setSettings(prev => ({ ...prev, ...docSnap.data() }));
       }
       setLoading(false);
     });
 
-    return () => unsubscribe();
+    const superAdminRef = doc(db, 'settings', 'superadmin');
+    const unsubscribeSuperAdmin = onSnapshot(superAdminRef, (docSnap) => {
+      if (docSnap.exists()) {
+        setSettings(prev => ({ ...prev, googleAdsId: docSnap.data().googleAdsId || '' }));
+      }
+    });
+
+    return () => {
+      unsubscribeGeneral();
+      unsubscribeSuperAdmin();
+    };
   }, []);
 
   return (

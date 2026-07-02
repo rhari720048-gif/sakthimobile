@@ -8,6 +8,8 @@ import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
+import SuperAdminLogin from './pages/SuperAdminLogin';
+import SuperAdminDashboard from './pages/SuperAdminDashboard';
 import LegalPage from './pages/LegalPage';
 import { SettingsProvider } from './context/SettingsContext';
 
@@ -23,6 +25,8 @@ function App() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/superadmin" element={<SuperAdminLogin />} />
+          <Route path="/superadmin/dashboard" element={<SuperAdminDashboard />} />
           <Route path="/privacy" element={<LegalPage title="Privacy Policy" lastUpdated="January 2024" />} />
           <Route path="/terms" element={<LegalPage title="Terms & Conditions" lastUpdated="January 2024" />} />
           <Route path="/refund" element={<LegalPage title="Return & Refund Policy" lastUpdated="January 2024" />} />

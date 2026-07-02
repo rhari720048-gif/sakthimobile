@@ -6,7 +6,7 @@
 
 .footer-content {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
   gap: 40px;
   margin-bottom: 40px;
 }
@@ -17,19 +17,19 @@
   color: var(--text-primary);
 }
 
-.footer-links, .footer-services {
+.footer-links, .footer-services, .footer-legal {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.footer-links h4, .footer-services h4 {
+.footer-links h4, .footer-services h4, .footer-legal h4 {
   color: var(--text-primary);
   margin-bottom: 16px;
   font-size: 1.1rem;
 }
 
-.footer-links a, .footer-services a {
+.footer-links a, .footer-services a, .footer-legal a {
   color: var(--text-secondary);
   text-decoration: none;
   font-size: 0.95rem;
@@ -37,21 +37,72 @@
   display: inline-block;
 }
 
-.footer-links a:hover, .footer-services a:hover {
+.footer-links a:hover, .footer-services a:hover, .footer-legal a:hover {
   color: var(--accent-cyan);
   transform: translateX(5px);
 }
 
 .footer-bottom {
-  text-align: center;
   padding-top: 20px;
   border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.footer-bottom-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.footer-bottom-content p {
   color: var(--text-secondary);
   font-size: 0.85rem;
+  margin: 0;
+}
+
+.powered-by {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0,0,0,0.03);
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.powered-text {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.genz-logo {
+  height: 20px;
+  width: auto;
+}
+
+.genz-text {
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  background: linear-gradient(90deg, #1a202c, #3182ce);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@media (max-width: 992px) {
+  .footer-content {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 @media (max-width: 768px) {
   .footer-content {
     grid-template-columns: 1fr;
+  }
+  .footer-bottom-content {
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
   }
 }

@@ -52,10 +52,24 @@ const Footer = () => {
             <Link to="/services" state={{ openService: 'Dead Mobile / Motherboard' }}>IC Level Repair</Link>
             <Link to="/services" state={{ openService: 'Software Flash' }}>Software Flash</Link>
           </div>
+          
+          <div className="footer-legal">
+            <h4>Legal</h4>
+            <Link to="/privacy">Privacy Policy</Link>
+            <Link to="/terms">Terms & Conditions</Link>
+            <Link to="/refund">Return & Refund Policy</Link>
+          </div>
         </div>
         
         <div className="footer-bottom">
-          <p>&copy; {new Date().getFullYear()} Sakthi Mobiles. All Rights Reserved.</p>
+          <div className="footer-bottom-content">
+            <p>&copy; {new Date().getFullYear()} Sakthi Mobiles. All Rights Reserved.</p>
+            <div className="powered-by">
+              <span className="powered-text">Powered by</span>
+              <img src="/genz-logo.jpg" alt="GENZ NEURAL-X" className="genz-logo" />
+              <strong className="genz-text">GENZ NEURAL-X</strong>
+            </div>
+          </div>
         </div>
       </div>
     </footer>

@@ -48,7 +48,7 @@ const Footer = () => {
           <div className="footer-services">
             <h4>Top Services</h4>
             <Link to="/services">Display Replacement</Link>
-            <Link to="/services">Battery Change</Link>
+            <Link to="/services">Display Glass Replacement</Link>
             <Link to="/services">IC Level Repair</Link>
             <Link to="/services">Software Flash</Link>
           </div>

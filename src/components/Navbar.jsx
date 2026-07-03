@@ -28,6 +28,13 @@ const Navbar = () => {
     { name: 'Contact', path: '/contact' },
   ];
 
+  const [hoveredPath, setHoveredPath] = useState(location.pathname);
+
+  // Sync hover state with active location when not hovering
+  useEffect(() => {
+    setHoveredPath(location.pathname);
+  }, [location.pathname]);
+
   return (
     <nav className={`navbar ${isScrolled ? 'scrolled' : ''} ${showBanner ? 'has-banner' : ''}`}>
       <div className="navbar-container">
@@ -37,17 +44,28 @@ const Navbar = () => {
         </Link>
 
         {/* Desktop Menu */}
-        <div className="desktop-menu">
+        <div className="desktop-menu" onMouseLeave={() => setHoveredPath(location.pathname)}>
           {navLinks.map((link) => (
             <Link 
               key={link.name} 
               to={link.path} 
               className={`nav-link ${location.pathname === link.path ? 'active' : ''}`}
+              onMouseEnter={() => setHoveredPath(link.path)}
+              style={{ position: 'relative' }}
             >
-              {link.name}
+              {hoveredPath === link.path && (
+                <motion.div
+                  layoutId="nav-indicator"
+                  className="nav-indicator"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                />
+              )}
+              <span style={{ position: 'relative', zIndex: 2 }}>{link.name}</span>
             </Link>
           ))}
-          
         </div>
 
         {/* Mobile Menu Button */}
@@ -79,7 +97,6 @@ const Navbar = () => {
                 {link.name}
               </Link>
             ))}
-            
           </motion.div>
         )}
       </AnimatePresence>

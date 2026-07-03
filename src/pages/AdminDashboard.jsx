@@ -437,7 +437,6 @@ const AdminDashboard = () => {
                       >
                         <option value="hardware">Hardware Repair</option>
                         <option value="software">Software Solutions</option>
-                        <option value="accessories">Accessories & Sales</option>
                       </select>
                     </div>
                     
@@ -508,7 +507,7 @@ const AdminDashboard = () => {
                     <h2 style={{fontSize: '1.8rem'}}>Existing Services</h2>
                   </motion.h2>
                   
-                  {['hardware', 'software', 'accessories'].map(category => {
+                  {['hardware', 'software'].map(category => {
                     const categoryServices = services.filter(s => s.category === category);
                     
                     return (

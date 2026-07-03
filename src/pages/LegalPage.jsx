@@ -1,14 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import AnnouncementBanner from '../components/AnnouncementBanner';
-import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 const LegalPage = ({ title, lastUpdated }) => {
   return (
     <div className="app-container">
-      <AnnouncementBanner />
-      <Navbar />
       <div className="legal-header" style={{ paddingTop: '120px', paddingBottom: '40px', background: 'var(--bg-main)', textAlign: 'center' }}>
         <h1 style={{ fontSize: '3rem', color: 'var(--text-primary)', marginBottom: '10px' }}>{title}</h1>
         <p style={{ color: 'var(--text-secondary)' }}>Last Updated: {lastUpdated}</p>

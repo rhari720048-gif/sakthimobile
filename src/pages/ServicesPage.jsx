@@ -1,6 +1,4 @@
 import React, { useEffect } from 'react';
-import AnnouncementBanner from '../components/AnnouncementBanner';
-import Navbar from '../components/Navbar';
 import Services from '../components/Services';
 import Footer from '../components/Footer';
 import GoogleAd from '../components/GoogleAd';
@@ -34,8 +32,6 @@ const ServicesPage = () => {
 
   return (
     <div className="app-container">
-      <AnnouncementBanner />
-      <Navbar />
       
       <div style={{ paddingTop: '80px' }}>
         <div className="pb-0">

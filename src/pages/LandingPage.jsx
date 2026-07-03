@@ -1,6 +1,4 @@
 import React from 'react';
-import Navbar from '../components/Navbar';
-import AnnouncementBanner from '../components/AnnouncementBanner';
 import Hero from '../components/Hero';
 import Marquee from '../components/Marquee';
 import Stats from '../components/Stats';
@@ -34,8 +32,6 @@ const LandingPage = () => {
         }}
       />
 
-      <AnnouncementBanner />
-      <Navbar />
       <Hero />
       <Marquee />
       <Stats />

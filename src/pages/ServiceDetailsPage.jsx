@@ -4,8 +4,6 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, MessageCircle, Info, CheckCircle, Smartphone, Wrench } from 'lucide-react';
 import { db } from '../firebase';
 import { doc, getDoc, collection, getDocs, query, limit } from 'firebase/firestore';
-import AnnouncementBanner from '../components/AnnouncementBanner';
-import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { trackWhatsAppClick } from '../utils/analytics';
 import { Link } from 'react-router-dom';
@@ -163,8 +161,6 @@ const ServiceDetailsPage = () => {
 
   return (
     <div className="app-container">
-      <AnnouncementBanner />
-      <Navbar />
       
       <main className="service-details-main">
         <div className="service-details-container">

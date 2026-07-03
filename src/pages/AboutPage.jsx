@@ -1,6 +1,4 @@
 import React, { useEffect } from 'react';
-import AnnouncementBanner from '../components/AnnouncementBanner';
-import Navbar from '../components/Navbar';
 import Features from '../components/Features';
 import Timeline from '../components/Timeline';
 import Footer from '../components/Footer';
@@ -15,8 +13,6 @@ const AboutPage = () => {
 
   return (
     <div className="app-container">
-      <AnnouncementBanner />
-      <Navbar />
       
       <div style={{ paddingTop: '100px' }}>
         

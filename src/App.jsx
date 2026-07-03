@@ -16,6 +16,8 @@ import { SettingsProvider } from './context/SettingsContext';
 import { AnimatePresence } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
 import PageTransition from './components/PageTransition';
+import Navbar from './components/Navbar';
+import AnnouncementBanner from './components/AnnouncementBanner';
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -43,6 +45,8 @@ function App() {
   return (
     <SettingsProvider>
       <Router>
+        <AnnouncementBanner />
+        <Navbar />
         <div className="floating-glow-1"></div>
         <div className="floating-glow-2"></div>
         <Toaster position="top-center" reverseOrder={false} />

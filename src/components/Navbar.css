@@ -178,5 +178,9 @@
   }
   .navbar {
     width: 95%;
+    animation: none !important;
+  }
+  .navbar.scrolled {
+    animation: none !important;
   }
 }

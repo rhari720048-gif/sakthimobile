@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import AnnouncementBanner from '../components/AnnouncementBanner';
-import Navbar from '../components/Navbar';
 import Contact from '../components/Contact';
 import Footer from '../components/Footer';
 import TextReveal from '../components/TextReveal';
@@ -15,8 +13,6 @@ const ContactPage = () => {
 
   return (
     <div className="app-container">
-      <AnnouncementBanner />
-      <Navbar />
       
       <div style={{ paddingTop: '80px' }}>
         

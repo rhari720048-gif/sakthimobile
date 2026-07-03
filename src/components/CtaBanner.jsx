@@ -45,7 +45,7 @@ const CtaBanner = () => {
           </MagneticButton>
         </motion.div>
       </div>
-      <div style={{ position: 'absolute', bottom: '-50px', left: '50%', transform: 'translateX(-50%)', width: '200vw', height: '200px', background: 'var(--bg-main)', borderRadius: '50%', filter: 'blur(50px)', zIndex: 1 }}></div>
+      <div style={{ position: 'absolute', bottom: '-50px', left: '50%', transform: 'translateX(-50%)', width: '200%', height: '200px', background: 'var(--bg-main)', borderRadius: '50%', filter: 'blur(50px)', zIndex: 1 }}></div>
     </section>
   );
 };

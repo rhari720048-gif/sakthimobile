@@ -21,23 +21,21 @@ function AnimatedRoutes() {
   const location = useLocation();
   
   return (
-    <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<PageTransition><LandingPage /></PageTransition>} />
-        <Route path="/services" element={<PageTransition><ServicesPage /></PageTransition>} />
-        <Route path="/service/:id" element={<PageTransition><ServiceDetailsPage /></PageTransition>} />
-        <Route path="/about" element={<PageTransition><AboutPage /></PageTransition>} />
-        <Route path="/contact" element={<PageTransition><ContactPage /></PageTransition>} />
-        <Route path="/admin" element={<PageTransition><AdminLogin /></PageTransition>} />
-        <Route path="/admin/dashboard" element={<PageTransition><AdminDashboard /></PageTransition>} />
-        <Route path="/superadmin" element={<PageTransition><SuperAdminLogin /></PageTransition>} />
-        <Route path="/superadmin/dashboard" element={<PageTransition><SuperAdminDashboard /></PageTransition>} />
-        <Route path="/privacy" element={<PageTransition><LegalPage title="Privacy Policy" lastUpdated="January 2024" /></PageTransition>} />
-        <Route path="/terms" element={<PageTransition><LegalPage title="Terms & Conditions" lastUpdated="January 2024" /></PageTransition>} />
-        <Route path="/refund" element={<PageTransition><LegalPage title="Return & Refund Policy" lastUpdated="January 2024" /></PageTransition>} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </AnimatePresence>
+    <Routes location={location} key={location.pathname}>
+      <Route path="/" element={<PageTransition><LandingPage /></PageTransition>} />
+      <Route path="/services" element={<PageTransition><ServicesPage /></PageTransition>} />
+      <Route path="/service/:id" element={<PageTransition><ServiceDetailsPage /></PageTransition>} />
+      <Route path="/about" element={<PageTransition><AboutPage /></PageTransition>} />
+      <Route path="/contact" element={<PageTransition><ContactPage /></PageTransition>} />
+      <Route path="/admin" element={<PageTransition><AdminLogin /></PageTransition>} />
+      <Route path="/admin/dashboard" element={<PageTransition><AdminDashboard /></PageTransition>} />
+      <Route path="/superadmin" element={<PageTransition><SuperAdminLogin /></PageTransition>} />
+      <Route path="/superadmin/dashboard" element={<PageTransition><SuperAdminDashboard /></PageTransition>} />
+      <Route path="/privacy" element={<PageTransition><LegalPage title="Privacy Policy" lastUpdated="January 2024" /></PageTransition>} />
+      <Route path="/terms" element={<PageTransition><LegalPage title="Terms & Conditions" lastUpdated="January 2024" /></PageTransition>} />
+      <Route path="/refund" element={<PageTransition><LegalPage title="Return & Refund Policy" lastUpdated="January 2024" /></PageTransition>} />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
 }
 

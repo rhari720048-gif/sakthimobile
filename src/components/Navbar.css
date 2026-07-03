@@ -177,10 +177,26 @@
     display: block;
   }
   .navbar {
-    width: 95%;
+    width: 100%;
+    border-radius: 0;
     animation: none !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
   }
   .navbar.scrolled {
+    width: 100%;
+    border-radius: 0;
     animation: none !important;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.15) !important;
+  }
+  .navbar.has-banner {
+    top: 42px; /* Standard banner height */
+  }
+  .navbar.has-banner.scrolled {
+    top: 42px;
+  }
+  .mobile-menu {
+    border-radius: 0 0 24px 24px;
+    top: 100%;
+    border-top: none;
   }
 }

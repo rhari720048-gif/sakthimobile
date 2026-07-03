@@ -4,6 +4,7 @@ import { toast } from 'react-hot-toast';
 import { Star, MessageSquarePlus, X } from 'lucide-react';
 import './Reviews.css';
 import TextReveal from './TextReveal';
+import TiltCard from './TiltCard';
 import { db } from '../firebase';
 import { collection, onSnapshot, addDoc, serverTimestamp } from 'firebase/firestore';
 
@@ -85,25 +86,26 @@ const Reviews = () => {
       <div className="marquee-container">
         <div className="marquee-track">
           {marqueeReviews.map((review, index) => (
-            <div 
-              key={`${review.id}-${index}`}
-              className="review-card glass-panel"
-            >
-              <div className="review-header">
-                <div className="reviewer-info">
-                  <div className="reviewer-avatar">
-                    {review.name.charAt(0).toUpperCase()}
+            <TiltCard key={index} className="review-card" maxTilt={10}>
+              <div>
+                <div className="review-header">
+                  <div className="reviewer-info">
+                    <div className="reviewer-avatar">
+                      {review.name.charAt(0).toUpperCase()}
+                    </div>
+                    <div>
+                      <h4>{review.name}</h4>
+                      <div className="review-rating">
+                        {[...Array(review.rating || 5)].map((_, i) => (
+                          <Star key={i} size={14} fill="var(--accent-gold)" color="var(--accent-gold)" />
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                  <h4>{review.name}</h4>
                 </div>
-                <div className="review-rating shimmer-effect">
-                  {[...Array(review.rating)].map((_, i) => (
-                    <Star key={i} size={16} fill="var(--accent-gold)" color="var(--accent-gold)" />
-                  ))}
-                </div>
+                <p className="review-text">"{review.text}"</p>
               </div>
-              <p className="review-text">"{review.text}"</p>
-            </div>
+            </TiltCard>
           ))}
         </div>
       </div>

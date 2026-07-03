@@ -11,27 +11,44 @@ import AdminDashboard from './pages/AdminDashboard';
 import SuperAdminLogin from './pages/SuperAdminLogin';
 import SuperAdminDashboard from './pages/SuperAdminDashboard';
 import LegalPage from './pages/LegalPage';
+import ServiceDetailsPage from './pages/ServiceDetailsPage';
 import { SettingsProvider } from './context/SettingsContext';
+import { AnimatePresence } from 'framer-motion';
+import { useLocation } from 'react-router-dom';
+import PageTransition from './components/PageTransition';
+
+function AnimatedRoutes() {
+  const location = useLocation();
+  
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<PageTransition><LandingPage /></PageTransition>} />
+        <Route path="/services" element={<PageTransition><ServicesPage /></PageTransition>} />
+        <Route path="/service/:id" element={<PageTransition><ServiceDetailsPage /></PageTransition>} />
+        <Route path="/about" element={<PageTransition><AboutPage /></PageTransition>} />
+        <Route path="/contact" element={<PageTransition><ContactPage /></PageTransition>} />
+        <Route path="/admin" element={<PageTransition><AdminLogin /></PageTransition>} />
+        <Route path="/admin/dashboard" element={<PageTransition><AdminDashboard /></PageTransition>} />
+        <Route path="/superadmin" element={<PageTransition><SuperAdminLogin /></PageTransition>} />
+        <Route path="/superadmin/dashboard" element={<PageTransition><SuperAdminDashboard /></PageTransition>} />
+        <Route path="/privacy" element={<PageTransition><LegalPage title="Privacy Policy" lastUpdated="January 2024" /></PageTransition>} />
+        <Route path="/terms" element={<PageTransition><LegalPage title="Terms & Conditions" lastUpdated="January 2024" /></PageTransition>} />
+        <Route path="/refund" element={<PageTransition><LegalPage title="Return & Refund Policy" lastUpdated="January 2024" /></PageTransition>} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </AnimatePresence>
+  );
+}
 
 function App() {
   return (
     <SettingsProvider>
       <Router>
+        <div className="floating-glow-1"></div>
+        <div className="floating-glow-2"></div>
         <Toaster position="top-center" reverseOrder={false} />
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/services" element={<ServicesPage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/admin" element={<AdminLogin />} />
-          <Route path="/admin/dashboard" element={<AdminDashboard />} />
-          <Route path="/superadmin" element={<SuperAdminLogin />} />
-          <Route path="/superadmin/dashboard" element={<SuperAdminDashboard />} />
-          <Route path="/privacy" element={<LegalPage title="Privacy Policy" lastUpdated="January 2024" />} />
-          <Route path="/terms" element={<LegalPage title="Terms & Conditions" lastUpdated="January 2024" />} />
-          <Route path="/refund" element={<LegalPage title="Return & Refund Policy" lastUpdated="January 2024" />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+        <AnimatedRoutes />
       </Router>
     </SettingsProvider>
   );

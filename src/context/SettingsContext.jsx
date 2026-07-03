@@ -37,6 +37,9 @@ export const SettingsProvider = ({ children }) => {
         setSettings(prev => ({ ...prev, ...docSnap.data() }));
       }
       setLoading(false);
+    }, (error) => {
+      console.error("Error fetching settings:", error);
+      setLoading(false);
     });
 
     const superAdminRef = doc(db, 'settings', 'superadmin');

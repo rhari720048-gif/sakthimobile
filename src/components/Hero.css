@@ -43,6 +43,35 @@
   animation: breatheGlow 15s infinite ease-in-out reverse;
 }
 
+/* Fantastic Particles */
+.particles-container {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--size);
+  height: var(--size);
+  background-color: var(--color);
+  border-radius: 50%;
+  box-shadow: 0 0 20px var(--color), 0 0 40px var(--color);
+  animation: floatParticle var(--duration) linear infinite alternate;
+  animation-delay: var(--delay);
+  opacity: 0.6;
+}
+
+@keyframes floatParticle {
+  0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 0; }
+  50% { opacity: 0.8; }
+  100% { transform: translateY(-300px) scale(1.5) rotate(360deg); opacity: 0; }
+}
+
 .hero-container {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;

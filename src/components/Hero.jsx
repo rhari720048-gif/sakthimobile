@@ -21,9 +21,22 @@ const Hero = () => {
 
   return (
     <section id="home" className="hero-section">
-      {/* Abstract Background Elements */}
+      {/* Abstract Background Elements with Particles */}
       <div className="hero-bg-glow glow-gold"></div>
       <div className="hero-bg-glow glow-cyan"></div>
+      
+      <div className="particles-container">
+        {[...Array(20)].map((_, i) => (
+          <div key={i} className="particle" style={{
+            '--x': `${Math.random() * 100}vw`,
+            '--y': `${Math.random() * 100}vh`,
+            '--delay': `${Math.random() * 5}s`,
+            '--duration': `${10 + Math.random() * 10}s`,
+            '--size': `${2 + Math.random() * 6}px`,
+            '--color': Math.random() > 0.5 ? 'var(--accent-cyan)' : 'var(--accent-gold)'
+          }}></div>
+        ))}
+      </div>
       
       <div className="container hero-container">
         <div className="hero-content">

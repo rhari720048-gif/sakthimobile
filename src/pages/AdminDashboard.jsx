@@ -19,12 +19,17 @@ const AdminDashboard = () => {
   
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSavingSettings, setIsSavingSettings] = useState(false);
+  const [editingServiceId, setEditingServiceId] = useState(null);
+  const [editServiceForm, setEditServiceForm] = useState(null);
+
+  const [editingAccessoryId, setEditingAccessoryId] = useState(null);
+  const [editAccessoryForm, setEditAccessoryForm] = useState(null);
   
   const [serviceForm, setServiceForm] = useState({
-    name: '', desc: '', details: '', category: 'hardware'
+    name: '', desc: '', details: '', category: 'hardware', imageUrl: '', videoUrl: ''
   });
   const [accessoryForm, setAccessoryForm] = useState({
-    name: '', desc: '', price: '', icon: 'Headphones'
+    name: '', desc: '', icon: 'Headphones', imageUrl: ''
   });
 
   useEffect(() => {
@@ -99,7 +104,7 @@ const AdminDashboard = () => {
         createdAt: serverTimestamp()
       });
       toast.success("Service added successfully!");
-      setServiceForm({ name: '', desc: '', details: '', category: 'hardware' });
+      setServiceForm({ name: '', desc: '', details: '', category: 'hardware', imageUrl: '', videoUrl: '' });
     } catch (error) {
       console.error("Error adding service: ", error);
       toast.error("Failed to add service.");
@@ -117,7 +122,7 @@ const AdminDashboard = () => {
         createdAt: serverTimestamp()
       });
       toast.success("Accessory added successfully!");
-      setAccessoryForm({ name: '', desc: '', price: '', icon: 'Headphones' });
+      setAccessoryForm({ name: '', desc: '', icon: 'Headphones', imageUrl: '' });
     } catch (error) {
       console.error("Error adding accessory: ", error);
       toast.error("Failed to add accessory.");
@@ -173,6 +178,48 @@ const AdminDashboard = () => {
       toast.error("Failed to save settings.");
     } finally {
       setIsSavingSettings(false);
+    }
+  };
+
+  const handleResetWhatsAppCount = async () => {
+    if (window.confirm("Are you sure you want to reset the WhatsApp inquiries count to 0?")) {
+      try {
+        await setDoc(doc(db, 'analytics', 'whatsapp'), { clickCount: 0 });
+        toast.success("WhatsApp count reset to 0.");
+      } catch (error) {
+        console.error("Error resetting WhatsApp count: ", error);
+        toast.error("Failed to reset count.");
+      }
+    }
+  };
+
+  const handleSaveServiceEdit = async (e, id) => {
+    e.preventDefault();
+    if (editServiceForm.imageUrl && editServiceForm.imageUrl.toLowerCase().includes('.pdf')) {
+      toast.error("Invalid Image URL: You have entered a PDF link. Please provide a direct link to an image (.jpg, .png).");
+      return;
+    }
+    try {
+      await updateDoc(doc(db, 'services', id), editServiceForm);
+      toast.success("Service updated successfully!");
+      setEditingServiceId(null);
+    } catch (error) {
+      toast.error("Failed to update service.");
+    }
+  };
+
+  const handleSaveAccessoryEdit = async (e, id) => {
+    e.preventDefault();
+    if (editAccessoryForm.imageUrl && editAccessoryForm.imageUrl.toLowerCase().includes('.pdf')) {
+      toast.error("Invalid Image URL: You have entered a PDF link. Please provide a direct link to an image (.jpg, .png).");
+      return;
+    }
+    try {
+      await updateDoc(doc(db, 'accessories', id), editAccessoryForm);
+      toast.success("Accessory updated successfully!");
+      setEditingAccessoryId(null);
+    } catch (error) {
+      toast.error("Failed to update accessory.");
     }
   };
 
@@ -332,7 +379,10 @@ const AdminDashboard = () => {
                       <MessageCircle size={28} />
                     </div>
                     <div className="admin-stat-info">
-                      <h4>WhatsApp Inquiries</h4>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <h4>WhatsApp Inquiries</h4>
+                        <button onClick={handleResetWhatsAppCount} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '0.8rem', textDecoration: 'underline' }} title="Reset Count">Reset</button>
+                      </div>
                       <p>{whatsappClicks}</p>
                     </div>
                   </motion.div>
@@ -424,6 +474,29 @@ const AdminDashboard = () => {
                       />
                     </div>
                     
+                    <div className="admin-form-group">
+                      <label>Image URL (Optional)</label>
+                      <input 
+                        type="url"
+                        className="admin-input"
+                        value={serviceForm.imageUrl}
+                        onChange={(e) => setServiceForm({...serviceForm, imageUrl: e.target.value})}
+                        placeholder="e.g. https://ik.imagekit.io/.../image.jpg"
+                      />
+                    </div>
+                    
+                    <div className="admin-form-group">
+                      <label>Video URL (Optional)</label>
+                      <input 
+                        type="url"
+                        className="admin-input"
+                        value={serviceForm.videoUrl || ''}
+                        onChange={(e) => setServiceForm({...serviceForm, videoUrl: e.target.value})}
+                        placeholder="e.g. https://www.youtube.com/watch?v=..."
+                      />
+                    </div>
+                    
+
                     <button type="submit" disabled={isSubmitting} className="admin-btn-primary" style={{ width: '100%' }}>
                       {isSubmitting ? 'Adding...' : <><PlusCircle size={20} /> Publish Service</>}
                     </button>
@@ -450,15 +523,33 @@ const AdminDashboard = () => {
                           ) : (
                             categoryServices.map(service => (
                               <div key={service.id} className="admin-card">
-                                <button 
-                                  onClick={() => handleDeleteService(service.id)}
-                                  className="admin-delete-btn"
-                                  title="Delete Service"
-                                >
-                                  <Trash2 size={18} />
-                                </button>
-                                <h4 className="admin-card-title" style={{ marginTop: '30px' }}>{service.name}</h4>
-                                <p className="admin-card-desc">{service.desc}</p>
+                                {editingServiceId === service.id ? (
+                                  <form onSubmit={(e) => handleSaveServiceEdit(e, service.id)} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                                    <input type="text" className="admin-input" value={editServiceForm.name} onChange={(e) => setEditServiceForm({...editServiceForm, name: e.target.value})} required placeholder="Service Name" />
+                                    <input type="text" className="admin-input" value={editServiceForm.desc} onChange={(e) => setEditServiceForm({...editServiceForm, desc: e.target.value})} required placeholder="Short Description" />
+                                    <input type="url" className="admin-input" placeholder="Image URL (Optional)" value={editServiceForm.imageUrl || ''} onChange={(e) => setEditServiceForm({...editServiceForm, imageUrl: e.target.value})} />
+                                    <input type="url" className="admin-input" placeholder="Video URL (Optional)" value={editServiceForm.videoUrl || ''} onChange={(e) => setEditServiceForm({...editServiceForm, videoUrl: e.target.value})} />
+
+                                    <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+                                      <button type="submit" className="admin-btn-primary" style={{ flex: 1, padding: '8px' }}>Save</button>
+                                      <button type="button" onClick={() => setEditingServiceId(null)} className="admin-btn-secondary" style={{ flex: 1, padding: '8px', background: '#f1f5f9', color: '#0f172a' }}>Cancel</button>
+                                    </div>
+                                  </form>
+                                ) : (
+                                  <>
+                                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginBottom: '10px' }}>
+                                      <button onClick={() => { setEditingServiceId(service.id); setEditServiceForm(service); }} className="admin-btn-secondary" style={{ padding: '5px', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="Edit Service">
+                                        <Settings size={16} />
+                                      </button>
+                                      <button onClick={() => handleDeleteService(service.id)} className="admin-delete-btn" style={{ position: 'relative', top: 0, right: 0 }} title="Delete Service">
+                                        <Trash2 size={18} />
+                                      </button>
+                                    </div>
+                                    <h4 className="admin-card-title">{service.name}</h4>
+                                    <p className="admin-card-desc">{service.desc}</p>
+                                    {service.imageUrl && <p className="admin-card-details" style={{ fontSize: '0.8rem', color: '#64748b' }}>Has Image</p>}
+                                  </>
+                                )}
                               </div>
                             ))
                           )}
@@ -508,16 +599,19 @@ const AdminDashboard = () => {
                       />
                     </div>
 
+
+
                     <div className="admin-form-group">
-                      <label>Price (Optional)</label>
+                      <label>Image URL (Optional)</label>
                       <input 
-                        type="text"
+                        type="url"
                         className="admin-input"
-                        value={accessoryForm.price}
-                        onChange={(e) => setAccessoryForm({...accessoryForm, price: e.target.value})}
-                        placeholder="e.g. 1499"
+                        value={accessoryForm.imageUrl}
+                        onChange={(e) => setAccessoryForm({...accessoryForm, imageUrl: e.target.value})}
+                        placeholder="e.g. https://ik.imagekit.io/.../image.jpg"
                       />
                     </div>
+
 
                     <div className="admin-form-group">
                       <label>Icon / Category</label>
@@ -546,17 +640,31 @@ const AdminDashboard = () => {
                     {accessories.length === 0 && <div className="admin-empty-state">No accessories added yet.</div>}
                     {accessories.map(acc => (
                       <motion.div key={acc.id} className="admin-card" variants={itemVariants}>
-                        <button 
-                          onClick={() => handleDeleteAccessory(acc.id)}
-                          className="admin-delete-btn"
-                          title="Delete Accessory"
-                        >
-                          <Trash2 size={18} />
-                        </button>
-                        
-                        <h4 className="admin-card-title" style={{ marginTop: '10px' }}>{acc.name}</h4>
-                        <p className="admin-card-desc">{acc.desc}</p>
-                        {acc.price && <p className="admin-card-details"><strong>Price:</strong> ₹{acc.price}</p>}
+                        {editingAccessoryId === acc.id ? (
+                          <form onSubmit={(e) => handleSaveAccessoryEdit(e, acc.id)} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                            <input type="text" className="admin-input" value={editAccessoryForm.name} onChange={(e) => setEditAccessoryForm({...editAccessoryForm, name: e.target.value})} required placeholder="Accessory Name" />
+                            <input type="text" className="admin-input" value={editAccessoryForm.desc} onChange={(e) => setEditAccessoryForm({...editAccessoryForm, desc: e.target.value})} required placeholder="Short Description" />
+                            <input type="url" className="admin-input" placeholder="Image URL (Optional)" value={editAccessoryForm.imageUrl || ''} onChange={(e) => setEditAccessoryForm({...editAccessoryForm, imageUrl: e.target.value})} />
+                            <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+                              <button type="submit" className="admin-btn-primary" style={{ flex: 1, padding: '8px' }}>Save</button>
+                              <button type="button" onClick={() => setEditingAccessoryId(null)} className="admin-btn-secondary" style={{ flex: 1, padding: '8px', background: '#f1f5f9', color: '#0f172a' }}>Cancel</button>
+                            </div>
+                          </form>
+                        ) : (
+                          <>
+                            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginBottom: '10px' }}>
+                              <button onClick={() => { setEditingAccessoryId(acc.id); setEditAccessoryForm(acc); }} className="admin-btn-secondary" style={{ padding: '5px', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="Edit Accessory">
+                                <Settings size={16} />
+                              </button>
+                              <button onClick={() => handleDeleteAccessory(acc.id)} className="admin-delete-btn" style={{ position: 'relative', top: 0, right: 0 }} title="Delete Accessory">
+                                <Trash2 size={18} />
+                              </button>
+                            </div>
+                            <h4 className="admin-card-title">{acc.name}</h4>
+                            <p className="admin-card-desc">{acc.desc}</p>
+                            {acc.imageUrl && <p className="admin-card-details" style={{ fontSize: '0.8rem', color: '#64748b' }}>Has Image</p>}
+                          </>
+                        )}
                       </motion.div>
                     ))}
                   </motion.div>

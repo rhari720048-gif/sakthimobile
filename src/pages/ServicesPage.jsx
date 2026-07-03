@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
+import AnnouncementBanner from '../components/AnnouncementBanner';
 import Navbar from '../components/Navbar';
 import Services from '../components/Services';
-import Accessories from '../components/Accessories';
 import Footer from '../components/Footer';
 import GoogleAd from '../components/GoogleAd';
+import LiveSupportCard from '../components/LiveSupportCard';
 import TextReveal from '../components/TextReveal';
 import { HelpCircle } from 'lucide-react';
 
@@ -33,16 +34,20 @@ const ServicesPage = () => {
 
   return (
     <div className="app-container">
+      <AnnouncementBanner />
       <Navbar />
       
       <div style={{ paddingTop: '80px' }}>
-        <Services />
-        <Accessories />
+        <div className="pb-0">
+          <Services />
+        </div>
         
-        <div className="container"><GoogleAd slotId="services-page-slot" /></div>
+        <div className="container mt-0 mb-0"><GoogleAd slotId="services-page-slot" /></div>
+
+        <LiveSupportCard />
 
         {/* Extra Well-Planned Section for Services Page */}
-        <section className="faq-section" style={{ padding: '60px 0', background: 'var(--bg-secondary)' }}>
+        <section className="faq-section pt-0" style={{ padding: '60px 0', background: 'var(--bg-secondary)' }}>
           <div className="container">
             <div className="section-header" style={{ textAlign: 'center', marginBottom: '40px' }}>
               <TextReveal text={<>Frequently Asked <span className="gradient-text-cyan">Questions</span></>} />

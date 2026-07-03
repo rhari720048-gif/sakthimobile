@@ -2,10 +2,13 @@ import React from 'react';
 import Navbar from '../components/Navbar';
 import AnnouncementBanner from '../components/AnnouncementBanner';
 import Hero from '../components/Hero';
+import Marquee from '../components/Marquee';
 import Stats from '../components/Stats';
 import Services from '../components/Services';
 import BrandCarousel from '../components/BrandCarousel';
 import Reviews from '../components/Reviews';
+import WhyChooseUs from '../components/WhyChooseUs';
+import CtaBanner from '../components/CtaBanner';
 import Footer from '../components/Footer';
 import GoogleAd from '../components/GoogleAd';
 import { motion, useScroll } from 'framer-motion';
@@ -34,11 +37,29 @@ const LandingPage = () => {
       <AnnouncementBanner />
       <Navbar />
       <Hero />
+      <Marquee />
       <Stats />
-      <Services limit={4} />
-      <div className="container"><GoogleAd slotId="landing-mid-slot" /></div>
-      <BrandCarousel />
-      <Reviews />
+      
+      <div className="pb-0">
+        <Services limit={4} />
+      </div>
+      
+      <div className="container mt-0 mb-0">
+        <GoogleAd slotId="landing-mid-slot" />
+      </div>
+      
+      <WhyChooseUs />
+      
+      <div className="pt-0">
+        <BrandCarousel />
+      </div>
+      
+      <div className="pb-0">
+        <Reviews />
+      </div>
+      
+      <CtaBanner />
+      
       <Footer />
     </div>
   );

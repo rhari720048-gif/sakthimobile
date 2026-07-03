@@ -4,6 +4,8 @@ import { collection, onSnapshot } from 'firebase/firestore';
 import { ShoppingBag, Headphones, Battery, Smartphone, Cable } from 'lucide-react';
 import { useSettings } from '../context/SettingsContext';
 import { trackWhatsAppClick } from '../utils/analytics';
+import TiltCard from './TiltCard';
+import MagneticButton from './MagneticButton';
 import './Accessories.css';
 
 const getIcon = (iconName) => {
@@ -43,26 +45,39 @@ const Accessories = () => {
 
         <div className="accessories-grid">
           {accessories.map((item) => (
-            <div key={item.id} className="accessory-card glass-panel">
-              <div className="acc-icon-wrapper">
-                {getIcon(item.icon)}
+            <TiltCard key={item.id} className="accessory-card glass-panel" maxTilt={12}>
+              <div>
+                {item.imageUrl ? (
+                  <div className="acc-image-wrapper">
+                    <img src={item.imageUrl} alt={item.name} className="acc-image" />
+                  </div>
+                ) : (
+                  <div className="acc-icon-wrapper">
+                    {getIcon(item.icon)}
+                  </div>
+                )}
+                <div className="acc-body">
+                  <h3 className="acc-name">{item.name}</h3>
+                  <p className="acc-desc">{item.desc}</p>
+                  
+                  <div className="acc-footer">
+                    {item.price && <span className="acc-price">₹{item.price}</span>}
+                    <MagneticButton>
+                      <a 
+                        href={`https://wa.me/${settings.phone}?text=${encodeURIComponent(`Hi, I'm interested in buying ${item.name} from your store.`)}`} 
+                        target="_blank" 
+                        rel="noreferrer"
+                        className="buy-btn"
+                        onClick={trackWhatsAppClick}
+                        style={{ display: 'inline-block' }}
+                      >
+                        Buy Now
+                      </a>
+                    </MagneticButton>
+                  </div>
+                </div>
               </div>
-              <h3 className="acc-name">{item.name}</h3>
-              <p className="acc-desc">{item.desc}</p>
-              
-              <div className="acc-footer">
-                {item.price && <span className="acc-price">₹{item.price}</span>}
-                <a 
-                  href={`https://wa.me/${settings.phone}?text=${encodeURIComponent(`Hi, I'm interested in buying ${item.name} from your store.`)}`} 
-                  target="_blank" 
-                  rel="noreferrer"
-                  className="buy-btn"
-                  onClick={trackWhatsAppClick}
-                >
-                  Buy Now
-                </a>
-              </div>
-            </div>
+            </TiltCard>
           ))}
         </div>
       </div>

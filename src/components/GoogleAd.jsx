@@ -33,8 +33,8 @@ const GoogleAd = ({ className = '', style = {}, slotId = '' }) => {
       <div 
         className={`ad-placeholder ${className}`} 
         style={{ 
-          background: 'rgba(0,0,0,0.03)', 
-          border: '1px dashed rgba(0,0,0,0.1)', 
+          background: 'var(--glass-bg)', 
+          border: 'var(--glass-border)', 
           borderRadius: '12px', 
           display: 'flex', 
           alignItems: 'center', 
@@ -45,7 +45,7 @@ const GoogleAd = ({ className = '', style = {}, slotId = '' }) => {
           textTransform: 'uppercase',
           letterSpacing: '1px',
           minHeight: '90px',
-          margin: '20px auto',
+          margin: '0 auto',
           maxWidth: '1000px',
           width: '100%',
           ...style 
@@ -58,11 +58,14 @@ const GoogleAd = ({ className = '', style = {}, slotId = '' }) => {
 
   // Actual Google Ad implementation
   return (
-    <div className={`ad-container ${className}`} style={{ margin: '20px auto', textAlign: 'center', overflow: 'hidden', ...style }}>
+    <div className={`ad-container ${className}`} style={{ margin: '0 auto', textAlign: 'center', overflow: 'hidden', position: 'relative', minHeight: '90px', background: 'var(--glass-bg)', border: 'var(--glass-border)', borderRadius: '12px', ...style }}>
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-secondary)', fontSize: '0.9rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', zIndex: 0 }}>
+        Advertisement
+      </div>
       <ins
         ref={adRef}
         className="adsbygoogle"
-        style={{ display: 'block', ...style }}
+        style={{ display: 'block', position: 'relative', zIndex: 1, ...style }}
         data-ad-client={settings.googleAdsId}
         data-ad-slot={slotId || "auto"} // Use auto if slotId is not provided, though slotId is normally required by adsense
         data-ad-format="auto"

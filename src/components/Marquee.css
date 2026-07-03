@@ -1,0 +1,63 @@
+.marquee-container {
+  width: 100%;
+  overflow: hidden;
+  background: linear-gradient(90deg, rgba(6, 182, 212, 0.1), rgba(212, 175, 55, 0.1));
+  padding: 15px 0;
+  position: relative;
+  border-top: 1px solid rgba(6, 182, 212, 0.2);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+}
+
+.marquee-content {
+  display: flex;
+  white-space: nowrap;
+  will-change: transform;
+  animation: scrollMarquee 25s linear infinite;
+}
+
+.marquee-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  margin: 0 30px;
+  letter-spacing: 1px;
+}
+
+.marquee-icon {
+  color: var(--accent-cyan);
+  filter: drop-shadow(0 0 5px rgba(6, 182, 212, 0.5));
+}
+
+@keyframes scrollMarquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Gradient Fade Edges */
+.marquee-container::before,
+.marquee-container::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 150px;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.marquee-container::before {
+  left: 0;
+  background: linear-gradient(to right, var(--bg-main), transparent);
+}
+
+.marquee-container::after {
+  right: 0;
+  background: linear-gradient(to left, var(--bg-main), transparent);
+}

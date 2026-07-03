@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Smartphone, Wrench, Cpu, Headphones, Truck, ArrowRight, X, MessageCircle, Info } from 'lucide-react';
+import { Smartphone, Wrench, Cpu, Headphones, Truck, ArrowRight, Activity, CheckCircle, ShieldCheck } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import TextReveal from './TextReveal';
+import TiltCard from './TiltCard';
+import MagneticButton from './MagneticButton';
 import { useSettings } from '../context/SettingsContext';
 import { trackWhatsAppClick } from '../utils/analytics';
 import './Services.css';
@@ -19,67 +21,52 @@ const Services = ({ limit }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('hardware');
-  const [selectedService, setSelectedService] = useState(null);
-  const [showForm, setShowForm] = useState(false);
-  const [customerName, setCustomerName] = useState('');
-  const [customerCity, setCustomerCity] = useState('');
-  const [customerIssue, setCustomerIssue] = useState('');
   const [customServices, setCustomServices] = useState([]);
+  const [customAccessories, setCustomAccessories] = useState([]);
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, 'services'), (querySnapshot) => {
+    const unsubscribeServices = onSnapshot(collection(db, 'services'), (querySnapshot) => {
       const custom = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       setCustomServices(custom);
     }, (error) => {
-      console.error("Error fetching custom services:", error);
+      console.error("Error fetching services:", error);
     });
 
-    return () => unsubscribe();
+    const unsubscribeAccessories = onSnapshot(collection(db, 'accessories'), (querySnapshot) => {
+      const acc = querySnapshot.docs.map(doc => ({ id: doc.id, category: 'accessories', ...doc.data() }));
+      setCustomAccessories(acc);
+    }, (error) => {
+      console.error("Error fetching accessories:", error);
+    });
+
+    return () => {
+      unsubscribeServices();
+      unsubscribeAccessories();
+    };
   }, []);
 
   useEffect(() => {
     if (location.state?.openService && customServices.length > 0) {
       const serviceToOpen = customServices.find(s => s.name === location.state.openService);
       if (serviceToOpen) {
-        handleOpenModal(serviceToOpen);
-        setActiveTab(serviceToOpen.category);
-        
-        // Reset the state safely using React Router
-        navigate(location.pathname, { replace: true, state: {} });
+        navigate('/service/' + serviceToOpen.id, { state: { service: serviceToOpen } });
       }
     }
-  }, [location.state?.openService, customServices]);
+  }, [location.state?.openService, customServices, navigate]);
 
-  const currentTabServices = customServices.filter(s => s.category === activeTab);
+  const combinedServices = [
+    ...customServices.filter(s => s.category !== 'accessories'), 
+    ...customAccessories
+  ];
+
+  const currentTabServices = combinedServices.filter(s => s.category === activeTab);
   const displayedServices = limit ? currentTabServices.slice(0, limit) : currentTabServices;
 
   const { settings, loading } = useSettings();
   
   if (loading) return null;
 
-  const handleOpenModal = (service) => {
-    setSelectedService(service);
-    setShowForm(false);
-    setCustomerName('');
-    setCustomerCity('');
-    setCustomerIssue('');
-  };
-
-  const handleCloseModal = () => {
-    setSelectedService(null);
-  };
-
-  const handleWhatsAppSubmit = (e) => {
-    e.preventDefault();
-    if (!customerName || !customerCity) return;
-
-    const message = `Hi Sakthi Mobiles,\n\nI need a quote for a service.\n\n*--- Service Details ---*\n*Service:* ${selectedService.name}\n*Description:* ${selectedService.desc}\n\n*--- My Details ---*\n*Name:* ${customerName}\n*City:* ${customerCity}${customerIssue ? `\n*Issue:* ${customerIssue}` : ''}\n\nPlease let me know the quote and further details.`;
-    const whatsappUrl = `https://wa.me/${settings.phone}?text=${encodeURIComponent(message)}`;
-    
-    trackWhatsAppClick();
-    window.open(whatsappUrl, '_blank');
-    handleCloseModal();
-  };
+  if (loading) return null;
 
   return (
     <section id="services" className="services-section">
@@ -127,25 +114,54 @@ const Services = ({ limit }) => {
               transition={{ duration: 0.4 }}
             >
               {displayedServices.map((service, index) => (
-                <div 
-                  key={index} 
-                  className="spotlight-card-style glass-panel"
-                  onClick={() => handleOpenModal(service)}
-                >
-                  <div className="s-card-content-top">
-                    <div className="s-card-icon-wrapper">
-                      <Smartphone size={24} color="var(--accent-cyan)" />
+                <TiltCard key={index} className="spotlight-card-style glass-panel" style={{ cursor: 'pointer' }}>
+                  <div 
+                    onClick={() => navigate('/service/' + service.id, { state: { service } })}
+                    style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+                  >
+                    {service.imageUrl ? (
+                      <div className="s-card-image-wrapper">
+                        <img src={service.imageUrl} alt={service.name} className="s-card-image" />
+                        <div className="s-card-premium-badge">
+                          <ShieldCheck size={14} /> Verified
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="s-card-icon-header">
+                        <div className="s-card-animated-bg"></div>
+                        <div className="s-card-icon-wrapper">
+                          {service.category === 'hardware' && <Wrench size={24} color="var(--accent-cyan)" />}
+                          {service.category === 'software' && <Cpu size={24} color="var(--accent-cyan)" />}
+                          {service.category === 'accessories' && <Headphones size={24} color="var(--accent-cyan)" />}
+                        </div>
+                        <div className="s-card-premium-badge">
+                          <ShieldCheck size={14} /> Verified
+                        </div>
+                      </div>
+                    )}
+                    <div className="s-card-body">
+                      <div className="s-card-content-top">
+                        <h4 className="s-card-title">{service.name}</h4>
+                        <p className="s-card-desc">{service.desc || "Professional service guaranteed with quick turnaround."}</p>
+                      </div>
+                      
+                      {/* New Animated Pipeline Graphic to fill empty space */}
+                      <div className="s-card-pipeline">
+                        <div className="pipeline-step"><Activity size={14} /> Diagnose</div>
+                        <div className="pipeline-line"></div>
+                        <div className="pipeline-step"><Wrench size={14} /> Repair</div>
+                        <div className="pipeline-line"></div>
+                        <div className="pipeline-step"><CheckCircle size={14} /> Test</div>
+                      </div>
+                      
+                      <div className="s-card-action">
+                        <button className="s-card-quote-button">
+                          Get Quote <ArrowRight size={16} />
+                        </button>
+                      </div>
                     </div>
-                    <h4 className="s-card-title">{service.name}</h4>
-                    <p className="s-card-desc">{service.desc}</p>
                   </div>
-                  
-                  <div className="s-card-action">
-                    <button className="s-card-quote-button">
-                      Get Quote <ArrowRight size={16} />
-                    </button>
-                  </div>
-                </div>
+                </TiltCard>
               ))}
               
               {limit && (
@@ -183,122 +199,13 @@ const Services = ({ limit }) => {
             <h3>Courier Service Available!</h3>
             <p>You can courier your broken mobile to us from anywhere in Tamil Nadu. We will fix it and courier it back to you safely!</p>
           </div>
-          <a href="#contact" className="btn-primary" style={{ padding: '12px 24px', borderRadius: '30px', background: 'var(--text-primary)', color: 'var(--bg-main)', textDecoration: 'none', fontWeight: 'bold' }}>
-            Book Courier
-          </a>
+          <MagneticButton>
+            <a href="#contact" className="btn-primary" style={{ display: 'inline-block', padding: '12px 24px', borderRadius: '30px', background: 'var(--text-primary)', color: 'var(--bg-main)', textDecoration: 'none', fontWeight: 'bold' }}>
+              Book Courier
+            </a>
+          </MagneticButton>
         </motion.div>
       </div>
-
-      {/* Service Details & WhatsApp Form Modal */}
-      <AnimatePresence>
-        {selectedService && (
-          <motion.div 
-            className="service-modal-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={handleCloseModal}
-          >
-            <motion.div 
-              className="service-modal-content glass-panel"
-              initial={{ scale: 0.95, opacity: 0, y: 30 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.95, opacity: 0, y: 30 }}
-              transition={{ type: "spring", stiffness: 300, damping: 25 }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button className="modal-close-btn" onClick={handleCloseModal}>
-                <X size={24} />
-              </button>
-              
-              <div className="modal-header">
-                <div className="modal-icon-wrapper">
-                  <Smartphone size={32} color="var(--accent-cyan)" />
-                </div>
-                <h2>{selectedService.name}</h2>
-              </div>
-
-              {!showForm ? (
-                <motion.div 
-                  className="modal-details-view"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                >
-                  <div className="modal-info-box">
-                    <Info size={20} color="var(--accent-gold)" className="info-icon" />
-                    <p className="modal-detailed-desc">{selectedService.details}</p>
-                  </div>
-                  
-                  <button 
-                    className="whatsapp-enroll-btn mt-4"
-                    onClick={() => setShowForm(true)}
-                  >
-                    <MessageCircle size={20} />
-                    Enquire on WhatsApp
-                  </button>
-                </motion.div>
-              ) : (
-                <motion.form 
-                  className="whatsapp-form"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  onSubmit={handleWhatsAppSubmit}
-                >
-                  <p className="form-helper-text">Please provide your details so our technicians can prepare your quote.</p>
-                  
-                  <div className="input-group">
-                    <label>Your Name *</label>
-                    <input 
-                      type="text" 
-                      required 
-                      placeholder="e.g. Rahul"
-                      value={customerName}
-                      onChange={(e) => setCustomerName(e.target.value)}
-                    />
-                  </div>
-                  <div className="input-group">
-                    <label>Your City *</label>
-                    <input 
-                      type="text" 
-                      required 
-                      placeholder="e.g. Srivilliputhur"
-                      value={customerCity}
-                      onChange={(e) => setCustomerCity(e.target.value)}
-                    />
-                  </div>
-                  <div className="input-group">
-                    <label>Any Specific Issue? (Optional)</label>
-                    <textarea 
-                      placeholder="e.g. Screen is completely blank but phone rings"
-                      value={customerIssue}
-                      onChange={(e) => setCustomerIssue(e.target.value)}
-                      rows={2}
-                      style={{ 
-                        width: '100%', 
-                        padding: '12px 16px', 
-                        borderRadius: '12px', 
-                        background: 'rgba(0, 0, 0, 0.02)',
-                        border: '1px solid rgba(0, 0, 0, 0.1)',
-                        outline: 'none',
-                        color: 'var(--text-primary)',
-                        fontSize: '0.95rem',
-                        resize: 'vertical'
-                      }}
-                    />
-                  </div>
-                  <button type="submit" className="whatsapp-submit-btn">
-                    Submit to WhatsApp <ArrowRight size={18} />
-                  </button>
-                  <button type="button" className="back-btn" onClick={() => setShowForm(false)}>
-                    Back to Details
-                  </button>
-                </motion.form>
-              )}
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </section>
   );
 };

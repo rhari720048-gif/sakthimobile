@@ -15,7 +15,7 @@
   z-index: 0;
   opacity: 0.3;
   pointer-events: none;
-  filter: blur(80px);
+  /* Removed filter: blur(80px) for massive performance gain on mobile */
 }
 
 @keyframes breatheGlow {
@@ -23,6 +23,12 @@
   33% { transform: scale(1.1) translate3d(20px, -20px, 0); opacity: 0.3; }
   66% { transform: scale(0.9) translate3d(-20px, 20px, 0); opacity: 0.2; }
   100% { transform: scale(1) translate3d(0, 0, 0); opacity: 0.15; }
+}
+
+@media (max-width: 768px) {
+  .hero-bg-glow {
+    animation: none !important;
+  }
 }
 
 .glow-gold {
@@ -70,6 +76,12 @@
   0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 0; }
   50% { opacity: 0.8; }
   100% { transform: translateY(-300px) scale(1.5) rotate(360deg); opacity: 0; }
+}
+
+@media (max-width: 768px) {
+  .particle {
+    box-shadow: none; /* Removed heavy shadow for mobile performance */
+  }
 }
 
 .hero-container {
@@ -627,6 +639,10 @@
   .hero-image-container {
     width: 280px;
     height: 520px;
+  }
+  .floating-card {
+    backdrop-filter: none; /* Removed for scroll performance */
+    background: rgba(255, 255, 255, 0.98); /* Less transparent to compensate */
   }
 }
 

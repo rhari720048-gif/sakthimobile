@@ -1,5 +1,6 @@
 import React from 'react';
 import Hero from '../components/Hero';
+import HeroImage from '../components/HeroImage';
 import Marquee from '../components/Marquee';
 import Stats from '../components/Stats';
 import Services from '../components/Services';
@@ -32,31 +33,52 @@ const LandingPage = () => {
         }}
       />
 
-      <Hero />
-      <Marquee />
-      <Stats />
-      
-      <div className="pb-0">
-        <Services limit={4} />
+      <div className="landing-page-content">
+        <div className="section-hero">
+          <Hero />
+        </div>
+        
+        <div className="section-services pb-0">
+          <Services limit={4} />
+        </div>
+        
+        {/* Mobile-only Hero Mockup Graphics placed below Premium Services */}
+        <div className="mobile-only-hero-image">
+          <HeroImage />
+        </div>
+        
+        <div className="section-ad container mt-0 mb-0">
+          <GoogleAd slotId="landing-mid-slot" />
+        </div>
+        
+        <div className="section-why-choose-us">
+          <WhyChooseUs />
+        </div>
+        
+        <div className="section-stats">
+          <Stats />
+        </div>
+        
+        <div className="section-brand-carousel pt-0">
+          <BrandCarousel />
+        </div>
+        
+        <div className="section-reviews pb-0">
+          <Reviews />
+        </div>
+        
+        <div className="section-marquee">
+          <Marquee />
+        </div>
+        
+        <div className="section-cta">
+          <CtaBanner />
+        </div>
+        
+        <div className="section-footer">
+          <Footer />
+        </div>
       </div>
-      
-      <div className="container mt-0 mb-0">
-        <GoogleAd slotId="landing-mid-slot" />
-      </div>
-      
-      <WhyChooseUs />
-      
-      <div className="pt-0">
-        <BrandCarousel />
-      </div>
-      
-      <div className="pb-0">
-        <Reviews />
-      </div>
-      
-      <CtaBanner />
-      
-      <Footer />
     </div>
   );
 };

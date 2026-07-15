@@ -26,7 +26,7 @@ const AdminLogin = () => {
           border: 'var(--glass-border)',
         },
         iconTheme: {
-          primary: 'var(--accent-gold)',
+          primary: 'var(--accent-cyan)',
           secondary: '#fff',
         },
       });
@@ -46,7 +46,7 @@ const AdminLogin = () => {
       >
         <div className="login-header">
           <div className="shield-icon">
-            <Lock size={32} color="var(--accent-gold)" />
+            <Lock size={32} color="var(--accent-cyan)" />
           </div>
           <h2>Admin Portal</h2>
           <p>Secure login for Sakthi Mobiles management</p>

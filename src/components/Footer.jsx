@@ -14,15 +14,48 @@ const Footer = () => {
 
   return (
     <>
-      <div className="container" style={{ marginBottom: '-30px', position: 'relative', zIndex: 10 }}>
+      <div className="container" style={{ marginBottom: '20px', position: 'relative', zIndex: 10 }}>
         <GoogleAd slotId="footer-ad-slot" />
       </div>
       <footer className="footer-section">
         <div className="container">
+          {/* Premium Footer Header Grid */}
+          <div className="footer-header-cta">
+            <div className="cta-left">
+              <h4>Ready to Restore Your Device?</h4>
+              <p>Experience fast, reliable, and premium mobile repair services today.</p>
+            </div>
+            <div className="cta-right">
+              <Link to="/contact" className="footer-cta-btn">Book a Repair</Link>
+            </div>
+          </div>
+
           <div className="footer-content">
             <div className="footer-brand">
               <h3>Sakthi <span className="gradient-text-cyan">Mobiles</span></h3>
-              <p style={{ color: 'var(--accent-gold)', fontWeight: 'bold', fontSize: '0.9rem', marginTop: '4px', textTransform: 'uppercase', letterSpacing: '1px' }}>Made by Thunder <img src="/favicon.svg" alt="icon" style={{ width: '1em', height: '1em', display: 'inline-block', verticalAlign: 'middle', marginLeft: '2px' }} /></p>
+              <p className="footer-brand-desc">Your trusted destination for expert mobile repairs, high-fidelity display replacements, and top-tier software flashing solutions.</p>
+              <div className="footer-socials">
+                <a href="https://facebook.com" target="_blank" rel="noreferrer" className="social-icon-btn">
+                  <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="16" width="16" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                  </svg>
+                </a>
+                <a href="https://instagram.com" target="_blank" rel="noreferrer" className="social-icon-btn">
+                  <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="16" width="16" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                  </svg>
+                </a>
+                <a href={`https://wa.me/${settings.phone}`} target="_blank" rel="noreferrer" className="social-icon-btn" onClick={trackWhatsAppClick}><MessageCircle size={16} /></a>
+              </div>
+              <p style={{ color: 'var(--accent-gold)', fontWeight: 'bold', fontSize: '0.85rem', marginTop: '16px', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                Made by Thunder <img src="/favicon.svg" alt="icon" style={{ width: '1em', height: '1em', display: 'inline-block', verticalAlign: 'middle', marginLeft: '2px' }} />
+              </p>
+            </div>
+            
+            <div className="footer-info-column">
+              <h4>Contact Us</h4>
               <ul className="footer-contact">
                 <li>
                   <MapPin size={18} className="footer-icon" />

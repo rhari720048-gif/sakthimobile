@@ -107,78 +107,107 @@ const Services = ({ limit }) => {
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
-              className="vertical-services-grid"
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -50 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.4 }}
             >
-              {displayedServices.map((service, index) => (
-                <TiltCard key={index} className="spotlight-card-style glass-panel" style={{ cursor: 'pointer' }}>
-                  <div 
-                    onClick={() => navigate('/service/' + service.id, { state: { service } })}
-                    style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-                  >
-                    {service.imageUrl ? (
-                      <div className="s-card-image-wrapper">
-                        <img src={service.imageUrl} alt={service.name} className="s-card-image" />
-                        <div className="s-card-premium-badge">
-                          <ShieldCheck size={14} /> Verified
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="s-card-icon-header">
-                        <div className="s-card-animated-bg"></div>
-                        <div className="s-card-icon-wrapper">
-                          {service.category === 'hardware' && <Wrench size={24} color="var(--accent-cyan)" />}
-                          {service.category === 'software' && <Cpu size={24} color="var(--accent-cyan)" />}
-                          {service.category === 'accessories' && <Headphones size={24} color="var(--accent-cyan)" />}
-                        </div>
-                        <div className="s-card-premium-badge">
-                          <ShieldCheck size={14} /> Verified
-                        </div>
-                      </div>
-                    )}
-                    <div className="s-card-body">
-                      <div className="s-card-content-top">
-                        <h4 className="s-card-title">{service.name}</h4>
-                        <p className="s-card-desc">{service.desc || "Professional service guaranteed with quick turnaround."}</p>
-                      </div>
+              <div className="services-table-wrapper glass-panel">
+                <table className="services-table">
+                  <thead>
+                    <tr>
+                      <th>Service</th>
+                      <th>Description</th>
+                      <th>Process</th>
+                      <th>Quality</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {displayedServices.map((service) => {
+                      let categoryTagColor = 'rgba(6, 182, 212, 0.08)';
+                      let categoryTagText = 'Hardware';
+                      let estTime = '1-2 Hours';
                       
-                      {/* New Animated Pipeline Graphic to fill empty space */}
-                      <div className="s-card-pipeline">
-                        <div className="pipeline-step"><Activity size={14} /> Diagnose</div>
-                        <div className="pipeline-line"></div>
-                        <div className="pipeline-step"><Wrench size={14} /> Repair</div>
-                        <div className="pipeline-line"></div>
-                        <div className="pipeline-step"><CheckCircle size={14} /> Test</div>
-                      </div>
-                      
-                      <div className="s-card-action">
-                        <button className="s-card-quote-button">
-                          Get Quote <ArrowRight size={16} />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </TiltCard>
-              ))}
-              
+                      if (service.category === 'software') {
+                        categoryTagColor = 'rgba(212, 175, 55, 0.08)';
+                        categoryTagText = 'Software';
+                        estTime = '30 Mins';
+                      } else if (service.category === 'accessories') {
+                        categoryTagColor = 'rgba(16, 185, 129, 0.08)';
+                        categoryTagText = 'Accessory';
+                        estTime = 'Instant';
+                      }
+
+                      return (
+                        <tr 
+                          key={service.id} 
+                          onClick={() => navigate('/service/' + service.id, { state: { service } })}
+                          className="premium-table-row"
+                        >
+                          <td className="service-cell">
+                            <div className="table-img-container">
+                              {service.imageUrl ? (
+                                <img src={service.imageUrl} alt={service.name} className="table-service-img" />
+                              ) : (
+                                <div className="table-service-icon">
+                                  {service.category === 'hardware' && <Wrench size={20} color="var(--accent-cyan)" />}
+                                  {service.category === 'software' && <Cpu size={20} color="var(--accent-cyan)" />}
+                                  {service.category === 'accessories' && <Headphones size={20} color="var(--accent-cyan)" />}
+                                </div>
+                              )}
+                            </div>
+                            <div className="name-container">
+                              <span className="table-service-name">{service.name}</span>
+                              <span className="category-badge" style={{ backgroundColor: categoryTagColor }}>
+                                {categoryTagText}
+                              </span>
+                            </div>
+                          </td>
+                          <td className="desc-cell">
+                            <p className="table-service-desc">{service.desc || "Professional service guaranteed with quick turnaround."}</p>
+                            <span className="est-time-label">⏱️ Est. Time: {estTime}</span>
+                          </td>
+                          <td className="process-cell">
+                            <div className="table-pipeline-v2">
+                              <div className="pipeline-node active">
+                                <span className="node-dot"></span>
+                                <span className="node-label">Diagnose</span>
+                              </div>
+                              <div className="pipeline-connector"></div>
+                              <div className="pipeline-node active">
+                                <span className="node-dot"></span>
+                                <span className="node-label">Repair</span>
+                              </div>
+                              <div className="pipeline-connector"></div>
+                              <div className="pipeline-node active">
+                                <span className="node-dot"></span>
+                                <span className="node-label">Test</span>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="status-cell">
+                            <span className="table-badge verified"><ShieldCheck size={12} /> Verified</span>
+                          </td>
+                          <td className="action-cell">
+                            <button className="table-quote-btn-premium">
+                              <span>Get Quote</span>
+                              <ArrowRight size={14} className="arrow-icon" />
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+
               {limit && (
-                <Link to="/services" style={{ textDecoration: 'none' }}>
-                  <div 
-                    className="spotlight-card-style glass-panel view-all-card"
-                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', background: 'rgba(6, 182, 212, 0.05)', border: '2px dashed rgba(6, 182, 212, 0.3)' }}
-                  >
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px', color: 'var(--accent-cyan)', textAlign: 'center' }}>
-                      <div style={{ padding: '20px', background: 'rgba(6, 182, 212, 0.1)', borderRadius: '50%' }}>
-                        <ArrowRight size={40} />
-                      </div>
-                      <h3 style={{ fontSize: '1.4rem' }}>View All Services</h3>
-                      <p style={{ color: 'var(--text-secondary)' }}>Explore full range</p>
-                    </div>
-                  </div>
-                </Link>
+                <div className="view-all-table-container">
+                  <Link to="/services" className="view-all-table-btn">
+                    View All Services <ArrowRight size={18} style={{ marginLeft: '6px' }} />
+                  </Link>
+                </div>
               )}
             </motion.div>
           </AnimatePresence>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { LogOut, Settings, PlusCircle, Trash2, Star, LayoutDashboard, MessageSquarePlus, Smartphone, Wrench, Headphones, PieChart, Activity, User, Sliders, Save, CheckCircle, ShoppingBag, Battery, Cable, MessageCircle, Menu, X } from 'lucide-react';
 import { db } from '../firebase';
 import { collection, addDoc, onSnapshot, deleteDoc, doc, serverTimestamp, getDoc, setDoc, updateDoc } from 'firebase/firestore';
@@ -9,7 +9,9 @@ import './AdminDashboard.css';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('overview');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeTab = searchParams.get('tab') || 'overview';
+  const setActiveTab = (tab) => setSearchParams({ tab });
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [reviews, setReviews] = useState([]);
   const [services, setServices] = useState([]);
@@ -98,12 +100,14 @@ const AdminDashboard = () => {
   const handleServiceSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    const category = activeTab === 'software' ? 'software' : 'hardware';
     try {
       await addDoc(collection(db, 'services'), {
         ...serviceForm,
+        category,
         createdAt: serverTimestamp()
       });
-      toast.success("Service added successfully!");
+      toast.success(`${category === 'hardware' ? 'Hardware' : 'Software'} service added successfully!`);
       setServiceForm({ name: '', desc: '', details: '', category: 'hardware', imageUrl: '', videoUrl: '' });
     } catch (error) {
       console.error("Error adding service: ", error);
@@ -251,6 +255,10 @@ const AdminDashboard = () => {
 
   return (
     <div className="admin-layout">
+      {/* Decorative Glow Blobs */}
+      <div className="admin-glow-1"></div>
+      <div className="admin-glow-2"></div>
+
       {/* Sidebar Navigation */}
       <aside className={`admin-sidebar ${isMobileMenuOpen ? 'open' : ''}`}>
         <div className="admin-sidebar-header-mobile">
@@ -278,11 +286,19 @@ const AdminDashboard = () => {
           </button>
 
           <button 
-            className={`admin-nav-item ${activeTab === 'services' ? 'active' : ''}`}
-            onClick={() => { setActiveTab('services'); setIsMobileMenuOpen(false); }}
+            className={`admin-nav-item ${activeTab === 'hardware' ? 'active' : ''}`}
+            onClick={() => { setActiveTab('hardware'); setIsMobileMenuOpen(false); }}
           >
-            <LayoutDashboard size={20} />
-            Manage Services
+            <Wrench size={20} />
+            Hardware Repair
+          </button>
+
+          <button 
+            className={`admin-nav-item ${activeTab === 'software' ? 'active' : ''}`}
+            onClick={() => { setActiveTab('software'); setIsMobileMenuOpen(false); }}
+          >
+            <Sliders size={20} />
+            Software Solutions
           </button>
 
           <button 
@@ -411,154 +427,140 @@ const AdminDashboard = () => {
               </motion.div>
             )}
 
-            {/* SERVICES TAB */}
-            {activeTab === 'services' && (
-              <motion.div
-                key="services-tab"
-                variants={containerVariants}
-                initial="hidden"
-                animate="show"
-                exit="exit"
-              >
-                <motion.header className="admin-header" variants={itemVariants}>
-                  <h2>Service Management</h2>
-                  <p>Add new repair services or remove existing ones from the customer portal.</p>
-                </motion.header>
+            {/* SERVICES TABS (HARDWARE / SOFTWARE) */}
+            {(activeTab === 'hardware' || activeTab === 'software') && (() => {
+              const category = activeTab; // 'hardware' or 'software'
+              const categoryServices = services.filter(s => s.category === category);
+              
+              return (
+                <motion.div
+                  key={`${category}-tab`}
+                  variants={containerVariants}
+                  initial="hidden"
+                  animate="show"
+                  exit="exit"
+                >
+                  <motion.header className="admin-header" variants={itemVariants}>
+                    <h2>{category === 'hardware' ? 'Hardware Repair Management' : 'Software Solutions Management'}</h2>
+                    <p>Add new {category === 'hardware' ? 'hardware repair services' : 'software solutions'} or remove existing ones from the customer portal.</p>
+                  </motion.header>
 
-                <motion.div className="admin-form-card" variants={itemVariants}>
-                  <h3 className="admin-section-title" style={{ marginTop: 0 }}>Add New Service</h3>
-                  <form onSubmit={handleServiceSubmit}>
-                    <div className="admin-form-group">
-                      <label>Category</label>
-                      <select 
-                        className="admin-input"
-                        value={serviceForm.category}
-                        onChange={(e) => setServiceForm({...serviceForm, category: e.target.value})}
-                      >
-                        <option value="hardware">Hardware Repair</option>
-                        <option value="software">Software Solutions</option>
-                      </select>
-                    </div>
-                    
-                    <div className="admin-form-group">
-                      <label>Service Name</label>
-                      <input 
-                        type="text" required
-                        className="admin-input"
-                        value={serviceForm.name}
-                        onChange={(e) => setServiceForm({...serviceForm, name: e.target.value})}
-                        placeholder="e.g. Display Replacement"
-                      />
-                    </div>
-                    
-                    <div className="admin-form-group">
-                      <label>Short Description</label>
-                      <input 
-                        type="text" required
-                        className="admin-input"
-                        value={serviceForm.desc}
-                        onChange={(e) => setServiceForm({...serviceForm, desc: e.target.value})}
-                        placeholder="Appears on the service card"
-                      />
-                    </div>
-                    
-                    <div className="admin-form-group">
-                      <label>Detailed Description</label>
-                      <textarea 
-                        required rows="3"
-                        className="admin-input"
-                        value={serviceForm.details}
-                        onChange={(e) => setServiceForm({...serviceForm, details: e.target.value})}
-                        placeholder="Full details shown in the popup"
-                      />
-                    </div>
-                    
-                    <div className="admin-form-group">
-                      <label>Image URL (Optional)</label>
-                      <input 
-                        type="url"
-                        className="admin-input"
-                        value={serviceForm.imageUrl}
-                        onChange={(e) => setServiceForm({...serviceForm, imageUrl: e.target.value})}
-                        placeholder="e.g. https://ik.imagekit.io/.../image.jpg"
-                      />
-                    </div>
-                    
-                    <div className="admin-form-group">
-                      <label>Video URL (Optional)</label>
-                      <input 
-                        type="url"
-                        className="admin-input"
-                        value={serviceForm.videoUrl || ''}
-                        onChange={(e) => setServiceForm({...serviceForm, videoUrl: e.target.value})}
-                        placeholder="e.g. https://www.youtube.com/watch?v=..."
-                      />
-                    </div>
-                    
+                  <motion.div className="admin-form-card" variants={itemVariants}>
+                    <h3 className="admin-section-title" style={{ marginTop: 0 }}>Add New {category === 'hardware' ? 'Hardware Service' : 'Software Service'}</h3>
+                    <form onSubmit={handleServiceSubmit}>
+                      <div className="admin-form-group">
+                        <label>Service Name</label>
+                        <input 
+                          type="text" required
+                          className="admin-input"
+                          value={serviceForm.name}
+                          onChange={(e) => setServiceForm({...serviceForm, name: e.target.value})}
+                          placeholder={category === 'hardware' ? 'e.g. Display Replacement' : 'e.g. OS Flash / Installation'}
+                        />
+                      </div>
+                      
+                      <div className="admin-form-group">
+                        <label>Short Description</label>
+                        <input 
+                          type="text" required
+                          className="admin-input"
+                          value={serviceForm.desc}
+                          onChange={(e) => setServiceForm({...serviceForm, desc: e.target.value})}
+                          placeholder="Appears on the service card"
+                        />
+                      </div>
+                      
+                      <div className="admin-form-group">
+                        <label>Detailed Description</label>
+                        <textarea 
+                          required rows="3"
+                          className="admin-input"
+                          value={serviceForm.details}
+                          onChange={(e) => setServiceForm({...serviceForm, details: e.target.value})}
+                          placeholder="Full details shown in the popup"
+                        />
+                      </div>
+                      
+                      <div className="admin-form-group">
+                        <label>Image URL (Optional)</label>
+                        <input 
+                          type="url"
+                          className="admin-input"
+                          value={serviceForm.imageUrl}
+                          onChange={(e) => setServiceForm({...serviceForm, imageUrl: e.target.value})}
+                          placeholder="e.g. https://ik.imagekit.io/.../image.jpg"
+                        />
+                      </div>
+                      
+                      <div className="admin-form-group">
+                        <label>Video URL (Optional)</label>
+                        <input 
+                          type="url"
+                          className="admin-input"
+                          value={serviceForm.videoUrl || ''}
+                          onChange={(e) => setServiceForm({...serviceForm, videoUrl: e.target.value})}
+                          placeholder="e.g. https://www.youtube.com/watch?v=..."
+                        />
+                      </div>
 
-                    <button type="submit" disabled={isSubmitting} className="admin-btn-primary" style={{ width: '100%' }}>
-                      {isSubmitting ? 'Adding...' : <><PlusCircle size={20} /> Publish Service</>}
-                    </button>
-                  </form>
-                </motion.div>
+                      <button type="submit" disabled={isSubmitting} className="admin-btn-primary" style={{ width: '100%' }}>
+                        {isSubmitting ? 'Adding...' : <><PlusCircle size={20} /> Publish Service</>}
+                      </button>
+                    </form>
+                  </motion.div>
 
-                <motion.div style={{ marginTop: '60px' }} variants={containerVariants}>
-                  <motion.h2 className="admin-header" variants={itemVariants}>
-                    <h2 style={{fontSize: '1.8rem'}}>Existing Services</h2>
-                  </motion.h2>
-                  
-                  {['hardware', 'software'].map(category => {
-                    const categoryServices = services.filter(s => s.category === category);
-                    
-                    return (
-                      <motion.div key={category} style={{ marginBottom: '40px' }} variants={itemVariants}>
-                        <h3 className="admin-category-title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                          {getCategoryIcon(category)} {category}
-                        </h3>
-                        
-                        <div className="admin-grid">
-                          {categoryServices.length === 0 ? (
-                            <div className="admin-empty-state">No {category} services found.</div>
-                          ) : (
-                            categoryServices.map(service => (
-                              <div key={service.id} className="admin-card">
-                                {editingServiceId === service.id ? (
-                                  <form onSubmit={(e) => handleSaveServiceEdit(e, service.id)} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                                    <input type="text" className="admin-input" value={editServiceForm.name} onChange={(e) => setEditServiceForm({...editServiceForm, name: e.target.value})} required placeholder="Service Name" />
-                                    <input type="text" className="admin-input" value={editServiceForm.desc} onChange={(e) => setEditServiceForm({...editServiceForm, desc: e.target.value})} required placeholder="Short Description" />
-                                    <input type="url" className="admin-input" placeholder="Image URL (Optional)" value={editServiceForm.imageUrl || ''} onChange={(e) => setEditServiceForm({...editServiceForm, imageUrl: e.target.value})} />
-                                    <input type="url" className="admin-input" placeholder="Video URL (Optional)" value={editServiceForm.videoUrl || ''} onChange={(e) => setEditServiceForm({...editServiceForm, videoUrl: e.target.value})} />
+                  <motion.div style={{ marginTop: '60px' }} variants={containerVariants}>
+                    <motion.h2 className="admin-header" variants={itemVariants}>
+                      <h2 style={{fontSize: '1.8rem'}}>Existing {category === 'hardware' ? 'Hardware Services' : 'Software Services'}</h2>
+                    </motion.h2>
 
-                                    <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
-                                      <button type="submit" className="admin-btn-primary" style={{ flex: 1, padding: '8px' }}>Save</button>
-                                      <button type="button" onClick={() => setEditingServiceId(null)} className="admin-btn-secondary" style={{ flex: 1, padding: '8px', background: '#f1f5f9', color: '#0f172a' }}>Cancel</button>
+                    {categoryServices.length === 0 ? (
+                      <div className="admin-empty-state">No {category === 'hardware' ? 'hardware repair' : 'software solutions'} services found.</div>
+                    ) : (
+                      <div className="admin-table-container">
+                        <table className="admin-table">
+                          <thead>
+                            <tr>
+                              <th style={{ width: '80px' }}>Image</th>
+                              <th>Name</th>
+                              <th>Description</th>
+                              <th style={{ width: '120px', textAlign: 'right' }}>Actions</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {categoryServices.map(service => (
+                              <tr key={service.id}>
+                                <td data-label="Image">
+                                  {service.imageUrl ? (
+                                    <img src={service.imageUrl} className="admin-table-thumb" alt={service.name} />
+                                  ) : (
+                                    <div className="admin-table-thumb-placeholder">
+                                      <Smartphone size={20} />
                                     </div>
-                                  </form>
-                                ) : (
-                                  <>
-                                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginBottom: '10px' }}>
-                                      <button onClick={() => { setEditingServiceId(service.id); setEditServiceForm(service); }} className="admin-btn-secondary" style={{ padding: '5px', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="Edit Service">
-                                        <Settings size={16} />
-                                      </button>
-                                      <button onClick={() => handleDeleteService(service.id)} className="admin-delete-btn" style={{ position: 'relative', top: 0, right: 0 }} title="Delete Service">
-                                        <Trash2 size={18} />
-                                      </button>
-                                    </div>
-                                    <h4 className="admin-card-title">{service.name}</h4>
-                                    <p className="admin-card-desc">{service.desc}</p>
-                                    {service.imageUrl && <p className="admin-card-details" style={{ fontSize: '0.8rem', color: '#64748b' }}>Has Image</p>}
-                                  </>
-                                )}
-                              </div>
-                            ))
-                          )}
-                        </div>
-                      </motion.div>
-                    );
-                  })}
+                                  )}
+                                </td>
+                                <td data-label="Name" style={{ fontWeight: '700' }}>{service.name}</td>
+                                <td data-label="Description" style={{ color: 'var(--text-secondary)' }}>{service.desc}</td>
+                                <td data-label="Actions">
+                                  <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
+                                    <button onClick={() => { setEditingServiceId(service.id); setEditServiceForm(service); }} className="admin-btn-secondary" style={{ padding: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="Edit Service">
+                                      <Settings size={16} />
+                                    </button>
+                                    <button onClick={() => handleDeleteService(service.id)} className="admin-delete-btn" style={{ width: '32px', height: '32px' }} title="Delete Service">
+                                      <Trash2 size={16} />
+                                    </button>
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+                  </motion.div>
                 </motion.div>
-              </motion.div>
-            )}
+              );
+            })()}
 
             {/* ACCESSORIES TAB */}
             {activeTab === 'accessories' && (
@@ -635,38 +637,49 @@ const AdminDashboard = () => {
 
                 <motion.div variants={itemVariants}>
                   <h3 className="admin-section-title">Current Accessories ({accessories.length})</h3>
-                  <motion.div className="admin-grid">
-                    {accessories.length === 0 && <div className="admin-empty-state">No accessories added yet.</div>}
-                    {accessories.map(acc => (
-                      <motion.div key={acc.id} className="admin-card" variants={itemVariants}>
-                        {editingAccessoryId === acc.id ? (
-                          <form onSubmit={(e) => handleSaveAccessoryEdit(e, acc.id)} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                            <input type="text" className="admin-input" value={editAccessoryForm.name} onChange={(e) => setEditAccessoryForm({...editAccessoryForm, name: e.target.value})} required placeholder="Accessory Name" />
-                            <input type="text" className="admin-input" value={editAccessoryForm.desc} onChange={(e) => setEditAccessoryForm({...editAccessoryForm, desc: e.target.value})} required placeholder="Short Description" />
-                            <input type="url" className="admin-input" placeholder="Image URL (Optional)" value={editAccessoryForm.imageUrl || ''} onChange={(e) => setEditAccessoryForm({...editAccessoryForm, imageUrl: e.target.value})} />
-                            <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
-                              <button type="submit" className="admin-btn-primary" style={{ flex: 1, padding: '8px' }}>Save</button>
-                              <button type="button" onClick={() => setEditingAccessoryId(null)} className="admin-btn-secondary" style={{ flex: 1, padding: '8px', background: '#f1f5f9', color: '#0f172a' }}>Cancel</button>
-                            </div>
-                          </form>
-                        ) : (
-                          <>
-                            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginBottom: '10px' }}>
-                              <button onClick={() => { setEditingAccessoryId(acc.id); setEditAccessoryForm(acc); }} className="admin-btn-secondary" style={{ padding: '5px', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="Edit Accessory">
-                                <Settings size={16} />
-                              </button>
-                              <button onClick={() => handleDeleteAccessory(acc.id)} className="admin-delete-btn" style={{ position: 'relative', top: 0, right: 0 }} title="Delete Accessory">
-                                <Trash2 size={18} />
-                              </button>
-                            </div>
-                            <h4 className="admin-card-title">{acc.name}</h4>
-                            <p className="admin-card-desc">{acc.desc}</p>
-                            {acc.imageUrl && <p className="admin-card-details" style={{ fontSize: '0.8rem', color: '#64748b' }}>Has Image</p>}
-                          </>
-                        )}
-                      </motion.div>
-                    ))}
-                  </motion.div>
+                  {accessories.length === 0 ? (
+                    <div className="admin-empty-state">No accessories added yet.</div>
+                  ) : (
+                    <div className="admin-table-container">
+                      <table className="admin-table">
+                        <thead>
+                          <tr>
+                            <th style={{ width: '80px' }}>Image</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th style={{ width: '120px', textAlign: 'right' }}>Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {accessories.map(acc => (
+                            <tr key={acc.id}>
+                              <td data-label="Image">
+                                {acc.imageUrl ? (
+                                  <img src={acc.imageUrl} className="admin-table-thumb" alt={acc.name} />
+                                ) : (
+                                  <div className="admin-table-thumb-placeholder">
+                                    <ShoppingBag size={20} />
+                                  </div>
+                                )}
+                              </td>
+                              <td data-label="Name" style={{ fontWeight: '700' }}>{acc.name}</td>
+                              <td data-label="Description" style={{ color: 'var(--text-secondary)' }}>{acc.desc}</td>
+                              <td data-label="Actions">
+                                <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
+                                  <button onClick={() => { setEditingAccessoryId(acc.id); setEditAccessoryForm(acc); }} className="admin-btn-secondary" style={{ padding: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="Edit Accessory">
+                                    <Settings size={16} />
+                                  </button>
+                                  <button onClick={() => handleDeleteAccessory(acc.id)} className="admin-delete-btn" style={{ width: '32px', height: '32px' }} title="Delete Accessory">
+                                    <Trash2 size={16} />
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
                 </motion.div>
               </motion.div>
             )}
@@ -827,6 +840,144 @@ const AdminDashboard = () => {
           </AnimatePresence>
         </div>
       </main>
+
+      {/* Edit Service Modal */}
+      {editingServiceId && editServiceForm && (
+        <div className="admin-modal-overlay">
+          <div className="admin-modal-content">
+            <button className="admin-modal-close" onClick={() => setEditingServiceId(null)}>
+              <X size={20} />
+            </button>
+            <h3 className="admin-modal-title">Edit Service Details</h3>
+            <form onSubmit={(e) => handleSaveServiceEdit(e, editingServiceId)}>
+              <div className="admin-form-group">
+                <label>Category</label>
+                <select 
+                  className="admin-input" 
+                  value={editServiceForm.category} 
+                  onChange={(e) => setEditServiceForm({...editServiceForm, category: e.target.value})}
+                >
+                  <option value="hardware">Hardware Repair</option>
+                  <option value="software">Software Solutions</option>
+                </select>
+              </div>
+
+              <div className="admin-form-group">
+                <label>Service Name</label>
+                <input 
+                  type="text" className="admin-input" required 
+                  value={editServiceForm.name} 
+                  onChange={(e) => setEditServiceForm({...editServiceForm, name: e.target.value})} 
+                />
+              </div>
+
+              <div className="admin-form-group">
+                <label>Short Description (For listings)</label>
+                <input 
+                  type="text" className="admin-input" required 
+                  value={editServiceForm.desc} 
+                  onChange={(e) => setEditServiceForm({...editServiceForm, desc: e.target.value})} 
+                />
+              </div>
+
+              <div className="admin-form-group">
+                <label>Detailed Description / Steps (Markdown supported)</label>
+                <textarea 
+                  rows="4" className="admin-input" 
+                  value={editServiceForm.details || ''} 
+                  onChange={(e) => setEditServiceForm({...editServiceForm, details: e.target.value})} 
+                />
+              </div>
+
+              <div className="admin-form-group">
+                <label>Image URL (Optional)</label>
+                <input 
+                  type="url" className="admin-input" 
+                  placeholder="Image link" 
+                  value={editServiceForm.imageUrl || ''} 
+                  onChange={(e) => setEditServiceForm({...editServiceForm, imageUrl: e.target.value})} 
+                />
+              </div>
+
+              <div className="admin-form-group">
+                <label>Video URL (Optional)</label>
+                <input 
+                  type="url" className="admin-input" 
+                  placeholder="e.g. https://www.youtube.com/watch?v=..." 
+                  value={editServiceForm.videoUrl || ''} 
+                  onChange={(e) => setEditServiceForm({...editServiceForm, videoUrl: e.target.value})} 
+                />
+              </div>
+
+              <div style={{ display: 'flex', gap: '15px', marginTop: '20px' }}>
+                <button type="submit" className="admin-btn-primary" style={{ flex: 1 }}>Save Changes</button>
+                <button type="button" onClick={() => setEditingServiceId(null)} className="admin-btn-secondary" style={{ flex: 1 }}>Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Accessory Modal */}
+      {editingAccessoryId && editAccessoryForm && (
+        <div className="admin-modal-overlay">
+          <div className="admin-modal-content">
+            <button className="admin-modal-close" onClick={() => setEditingAccessoryId(null)}>
+              <X size={20} />
+            </button>
+            <h3 className="admin-modal-title">Edit Accessory Details</h3>
+            <form onSubmit={(e) => handleSaveAccessoryEdit(e, editingAccessoryId)}>
+              <div className="admin-form-group">
+                <label>Accessory Name</label>
+                <input 
+                  type="text" className="admin-input" required 
+                  value={editAccessoryForm.name} 
+                  onChange={(e) => setEditAccessoryForm({...editAccessoryForm, name: e.target.value})} 
+                />
+              </div>
+
+              <div className="admin-form-group">
+                <label>Description</label>
+                <input 
+                  type="text" className="admin-input" required 
+                  value={editAccessoryForm.desc} 
+                  onChange={(e) => setEditAccessoryForm({...editAccessoryForm, desc: e.target.value})} 
+                />
+              </div>
+
+              <div className="admin-form-group">
+                <label>Image URL (Optional)</label>
+                <input 
+                  type="url" className="admin-input" 
+                  placeholder="Image link" 
+                  value={editAccessoryForm.imageUrl || ''} 
+                  onChange={(e) => setEditAccessoryForm({...editAccessoryForm, imageUrl: e.target.value})} 
+                />
+              </div>
+
+              <div className="admin-form-group">
+                <label>Icon / Category</label>
+                <select 
+                  className="admin-input" 
+                  value={editAccessoryForm.icon} 
+                  onChange={(e) => setEditAccessoryForm({...editAccessoryForm, icon: e.target.value})}
+                >
+                  <option value="Headphones">Audio / Headphones</option>
+                  <option value="Battery">Batteries / Power Banks</option>
+                  <option value="Smartphone">Cases / Tempered Glass</option>
+                  <option value="Cable">Cables / Adapters</option>
+                  <option value="ShoppingBag">Other / General</option>
+                </select>
+              </div>
+
+              <div style={{ display: 'flex', gap: '15px', marginTop: '20px' }}>
+                <button type="submit" className="admin-btn-primary" style={{ flex: 1 }}>Save Changes</button>
+                <button type="button" onClick={() => setEditingAccessoryId(null)} className="admin-btn-secondary" style={{ flex: 1 }}>Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

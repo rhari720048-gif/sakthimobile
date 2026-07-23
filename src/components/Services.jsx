@@ -82,8 +82,10 @@ const Services = ({ limit }) => {
     <section id="services" className="services-section">
       <div className="container">
         <div className="section-header">
-          <TextReveal text={<>Premium <span className="gradient-text-gold">Services</span></>} />
-          <p>Professional, reliable, and swift solutions for all your mobile needs.</p>
+          <h2 className="section-title" style={{ fontSize: '2.5rem', fontWeight: 800, margin: '0 0 10px 0', letterSpacing: '-0.5px' }}>
+            Our Mobile <span className="gradient-text-gold">Repair Services</span>
+          </h2>
+          <p>Display Replacement, Glass Replacement, IC Level Repair, Software Flashing & Quality Second-Hand Mobiles in Srivilliputhur.</p>
         </div>
 
         {/* Modern Animated Tabs */}
@@ -244,7 +246,7 @@ const Services = ({ limit }) => {
                             <td className="service-cell">
                               <div className="table-img-container">
                                 {service.imageUrl ? (
-                                  <img src={service.imageUrl} alt={service.name} className="table-service-img" />
+                                  <img src={service.imageUrl} alt={`${service.name} in Srivilliputhur - Display Replacement & IC Level Mobile Repair Shop`} className="table-service-img" />
                                 ) : (
                                   <div className="table-service-icon">
                                     {service.category === 'hardware' && <Wrench size={20} color="var(--accent-cyan)" />}

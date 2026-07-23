@@ -56,8 +56,8 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
           >
-            Sakthi <br/>
-            <span className="hero-gradient-text">Mobiles</span> 
+            Best Mobile Repair & <br/>
+            <span className="hero-gradient-text">Second-Hand Mobile Shop in Srivilliputhur</span> 
           </motion.h1>
 
           {/* Live Typing Subtitle */}

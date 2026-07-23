@@ -80,6 +80,12 @@ const ServiceDetailsPage = () => {
     fetchRelatedServices();
   }, [id, navigate]);
 
+  useEffect(() => {
+    if (service) {
+      document.title = `${service.name} in Srivilliputhur | Sakthi Mobiles Repair Shop`;
+    }
+  }, [service]);
+
   const getEmbedVideoUrl = (url) => {
     if (!url) return null;
     try {

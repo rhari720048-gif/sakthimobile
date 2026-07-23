@@ -42,6 +42,12 @@ const SecondMobileDetailsPage = () => {
     fetchPhone();
   }, [id, navigate]);
 
+  useEffect(() => {
+    if (phone) {
+      document.title = `Buy ${phone.brand || ''} ${phone.model || phone.name || 'Used Mobile'} in Srivilliputhur | Sakthi Mobiles`;
+    }
+  }, [phone]);
+
   if (loading) {
     return (
       <div className="loading-container">

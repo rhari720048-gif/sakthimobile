@@ -37,8 +37,20 @@ const CtaBanner = () => {
               href={`https://wa.me/${settings.phone}?text=Hi%20Sakthi%20Mobiles,%20I%20need%20help%20with%20my%20device.`} 
               target="_blank" 
               rel="noreferrer"
-              className="btn-primary"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '12px 24px', borderRadius: '30px', fontWeight: 'bold', textDecoration: 'none', background: 'var(--accent-cyan)', color: '#0f172a' }}
+              style={{ 
+                display: 'inline-flex', 
+                alignItems: 'center', 
+                gap: '10px', 
+                padding: '14px 28px', 
+                borderRadius: '30px', 
+                fontWeight: '700', 
+                fontFamily: "'Outfit', sans-serif",
+                textDecoration: 'none', 
+                background: 'linear-gradient(135deg, #22c55e, #16a34a)', 
+                color: '#ffffff',
+                boxShadow: '0 8px 25px rgba(22, 163, 74, 0.35)',
+                transition: 'all 0.3s ease'
+              }}
             >
               <MessageCircle size={20} /> Chat on WhatsApp
             </a>

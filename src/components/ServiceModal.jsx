@@ -46,7 +46,7 @@ const ServiceModal = ({ service, category, onClose }) => {
         onClick={onClose}
       >
         <motion.div 
-          className="modal-content glass-panel"
+          className="modal-content"
           initial={{ y: 50, opacity: 0, scale: 0.9 }}
           animate={{ y: 0, opacity: 1, scale: 1 }}
           exit={{ y: 20, opacity: 0, scale: 0.9 }}

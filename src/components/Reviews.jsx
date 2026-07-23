@@ -122,7 +122,7 @@ const Reviews = () => {
             style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.6)', zIndex: 999999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
           >
             <motion.div 
-              className="service-modal-content glass-panel"
+              className="service-modal-content"
               initial={{ scale: 0.9, opacity: 0, y: 30 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 30 }}
@@ -140,17 +140,18 @@ const Reviews = () => {
               
               <form onSubmit={handleReviewSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
                 <div>
-                  <label style={{ display: 'block', marginBottom: '5px' }}>Your Name</label>
+                  <label style={{ display: 'block', marginBottom: '8px', color: 'var(--text-primary)', fontWeight: 600, fontSize: '0.9rem' }}>Your Name</label>
                   <input 
                     type="text" required placeholder="e.g. Ramesh"
+                    className="form-input"
                     value={reviewForm.name}
                     onChange={(e) => setReviewForm({...reviewForm, name: e.target.value})}
-                    style={{ width: '100%', padding: '12px', borderRadius: '8px', background: 'rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.1)', color: 'var(--text-primary)', outline: 'none' }}
+                    style={{ margin: 0 }}
                   />
                 </div>
                 
                 <div>
-                  <label style={{ display: 'block', marginBottom: '5px' }}>Rating</label>
+                  <label style={{ display: 'block', marginBottom: '8px', color: 'var(--text-primary)', fontWeight: 600, fontSize: '0.9rem' }}>Rating</label>
                   <div style={{ display: 'flex', gap: '10px' }}>
                     {[1, 2, 3, 4, 5].map((star) => (
                       <Star 
@@ -166,12 +167,13 @@ const Reviews = () => {
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', marginBottom: '5px' }}>Your Feedback</label>
+                  <label style={{ display: 'block', marginBottom: '8px', color: 'var(--text-primary)', fontWeight: 600, fontSize: '0.9rem' }}>Your Feedback</label>
                   <textarea 
                     required rows="4" placeholder="How was the service?"
+                    className="form-input"
                     value={reviewForm.text}
                     onChange={(e) => setReviewForm({...reviewForm, text: e.target.value})}
-                    style={{ width: '100%', padding: '12px', borderRadius: '8px', background: 'rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.1)', color: 'var(--text-primary)', outline: 'none', resize: 'vertical' }}
+                    style={{ margin: 0, resize: 'vertical' }}
                   />
                 </div>
                 

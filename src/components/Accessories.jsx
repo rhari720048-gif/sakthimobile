@@ -4,6 +4,7 @@ import { collection, onSnapshot } from 'firebase/firestore';
 import { ShoppingBag, Headphones, Battery, Smartphone, Cable } from 'lucide-react';
 import { useSettings } from '../context/SettingsContext';
 import { trackWhatsAppClick } from '../utils/analytics';
+import { isVideoUrl } from '../utils/media';
 import TiltCard from './TiltCard';
 import MagneticButton from './MagneticButton';
 import './Accessories.css';
@@ -49,7 +50,11 @@ const Accessories = () => {
               <div>
                 {item.imageUrl ? (
                   <div className="acc-image-wrapper">
-                    <img src={item.imageUrl} alt={item.name} className="acc-image" />
+                    {isVideoUrl(item.imageUrl) ? (
+                      <video src={item.imageUrl} autoPlay loop muted playsInline className="acc-image" />
+                    ) : (
+                      <img src={item.imageUrl} alt={item.name} className="acc-image" />
+                    )}
                   </div>
                 ) : (
                   <div className="acc-icon-wrapper">

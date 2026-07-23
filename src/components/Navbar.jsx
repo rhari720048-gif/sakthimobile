@@ -291,10 +291,6 @@ const Navbar = () => {
             {/* Bottom Details */}
             {!loading && settings && (
               <div className="sidebar-footer">
-                <p className="footer-title">Need help?</p>
-                <a href={`tel:${settings.phone}`} className="sidebar-footer-link">
-                  📞 {settings.phone}
-                </a>
                 <p className="footer-copyright">Crafted by Sakthi Mobiles</p>
               </div>
             )}

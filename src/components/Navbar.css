@@ -9,7 +9,7 @@
   background: var(--glass-bg);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: var(--glass-border);
   animation: navPulse 4s infinite alternate ease-in-out;
   transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
 }
@@ -43,10 +43,11 @@
   align-items: center;
   gap: 8px;
   text-decoration: none;
-  font-size: 1.4rem;
-  font-weight: 700;
+  font-size: 1.5rem;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
   color: var(--text-primary);
-  letter-spacing: -0.2px;
+  letter-spacing: -0.5px;
 }
 
 .logo-icon {
@@ -62,17 +63,18 @@
 .nav-link {
   color: var(--text-secondary);
   text-decoration: none;
-  font-weight: 500;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
   font-size: 0.95rem;
   padding: 8px 16px;
   border-radius: 20px;
-  transition: color 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+  letter-spacing: -0.1px;
 }
 
 .nav-link:hover,
 .nav-link.active {
   color: var(--text-primary);
-  font-weight: 600;
 }
 
 .nav-indicator {
@@ -81,9 +83,9 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(90deg, rgba(6, 182, 212, 0.15), rgba(212, 175, 55, 0.15));
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.05);
+  background: rgba(6, 182, 212, 0.08);
+  border: 1px solid rgba(6, 182, 212, 0.15);
+  box-shadow: 0 4px 12px rgba(6, 182, 212, 0.06);
   border-radius: 20px;
   z-index: 1;
 }
@@ -181,12 +183,13 @@
 .sidebar-nav-link {
   color: var(--text-secondary);
   text-decoration: none;
+  font-family: 'Outfit', sans-serif;
   font-size: 1.2rem;
-  font-weight: 600;
+  font-weight: 700;
   padding: 14px 20px;
   border-radius: 16px;
   display: block;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
   background: transparent;
   border: 1px solid transparent;
 }
@@ -272,6 +275,8 @@
   align-items: center;
   gap: 6px;
   user-select: none;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
 }
 
 .dropdown-arrow {
@@ -311,7 +316,8 @@
   gap: 10px;
   color: var(--text-secondary);
   text-decoration: none;
-  font-weight: 500;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
   font-size: 0.9rem;
   padding: 10px 14px;
   border-radius: 10px;

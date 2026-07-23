@@ -1,20 +1,21 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 
 :root {
   /* Premium Light Theme Variables */
-  --bg-main: #ffffff;
-  --bg-secondary: #f8fafc;
+  --bg-main: #f8fafc;
+  --bg-secondary: #ffffff;
   
   --text-primary: #0f172a;
   --text-secondary: #475569;
   
   --accent-gold: #d4af37;
   --accent-cyan: #06b6d4;
+  --accent-purple: #8b5cf6;
   
-  --glass-bg: rgba(255, 255, 255, 0.85);
-  --glass-border: 1px solid rgba(0, 0, 0, 0.06);
-  --glass-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.08), 0 10px 15px -5px rgba(0, 0, 0, 0.04);
-  --glass-blur: blur(20px);
+  --glass-bg: rgba(255, 255, 255, 0.45);
+  --glass-border: 1px solid rgba(6, 182, 212, 0.22);
+  --glass-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  --glass-blur: blur(25px);
 }
 
 * {
@@ -33,13 +34,14 @@ html, body {
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background-color: var(--bg-main);
   color: var(--text-primary);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  background-image: radial-gradient(circle at 100% 0%, rgba(6, 182, 212, 0.03) 0%, transparent 40%),
-                    radial-gradient(circle at 0% 100%, rgba(212, 175, 55, 0.03) 0%, transparent 40%);
+  background-image: 
+    radial-gradient(circle at 80% 20%, rgba(6, 182, 212, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 20% 80%, rgba(212, 175, 55, 0.06) 0%, transparent 50%);
 }
 
 .app-container {
@@ -84,35 +86,67 @@ body {
   }
 }
 
-/* Floating Background Glows (Static for Performance) */
+/* Floating Background Glows (Liquid Animation) */
 .floating-glow-1,
-.floating-glow-2 {
+.floating-glow-2,
+.floating-glow-3 {
   content: '';
-  position: absolute;
+  position: fixed;
   width: 600px;
   height: 600px;
   border-radius: 50%;
   z-index: -1;
   pointer-events: none;
-  opacity: 0.1;
+  opacity: 0.18;
+  filter: blur(80px);
+  animation: floatGlow 25s infinite alternate ease-in-out;
 }
 
 .floating-glow-1 {
   background: radial-gradient(circle, var(--accent-cyan) 0%, transparent 70%);
   top: 10%;
   left: -10%;
+  animation-delay: 0s;
 }
 
 .floating-glow-2 {
   background: radial-gradient(circle, var(--accent-gold) 0%, transparent 70%);
-  top: 40%;
+  top: 50%;
   right: -10%;
+  animation-delay: 5s;
+}
+
+.floating-glow-3 {
+  background: radial-gradient(circle, var(--accent-purple) 0%, transparent 70%);
+  top: 80%;
+  left: 20%;
+  animation-delay: 10s;
+  opacity: 0.12;
+}
+
+@keyframes floatGlow {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  33% {
+    transform: translate(80px, -50px) scale(1.15) rotate(120deg);
+  }
+  66% {
+    transform: translate(-50px, 80px) scale(0.9) rotate(240deg);
+  }
+  100% {
+    transform: translate(0, 0) scale(1) rotate(360deg);
+  }
 }
 
 @media (max-width: 768px) {
   .floating-glow-1,
-  .floating-glow-2 {
-    display: none;
+  .floating-glow-2,
+  .floating-glow-3 {
+    width: 300px;
+    height: 300px;
+    opacity: 0.14;
+    filter: blur(50px);
   }
 }
 
@@ -182,6 +216,7 @@ section:last-child {
 }
 /* Global Typography */
 h1, h2, h3, h4, h5, h6 {
+  font-family: 'Outfit', sans-serif;
   font-weight: 800;
   line-height: 1.2;
   letter-spacing: -0.5px;
@@ -231,7 +266,7 @@ p {
 
 /* UI Elements */
 .glass-panel {
-  background: var(--glass-bg);
+  background: linear-gradient(135deg, #ffffff 0%, rgba(6, 182, 212, 0.05) 100%) !important;
   border: var(--glass-border);
   box-shadow: var(--glass-shadow);
   backdrop-filter: var(--glass-blur);
@@ -299,22 +334,24 @@ p {
   box-shadow: 0 20px 40px rgba(6, 182, 212, 0.3);
 }
 
-/* Scrollbar */
+/* Premium Light Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-main);
+  background: #f1f5f9;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(6, 182, 212, 0.2);
   border-radius: 10px;
+  border: 2px solid #f1f5f9;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--accent-cyan);
 }
 
 /* Global Responsive Adjustments */
@@ -353,34 +390,41 @@ p {
   .section-hero { order: 1; }
   .section-services { order: 2; }
   .mobile-only-hero-image { order: 3; } /* Mobile mockup graphics right below Premium Services */
-  .section-brand-carousel { order: 4; } 
-  .section-ad { order: 5; }
-  .section-why-choose-us { order: 6; }
-  .section-stats { order: 7; }
-  .section-reviews { order: 8; }
-  .section-marquee { order: 9; }
-  .section-cta { order: 10; }
-  .section-footer { order: 11; }
+  .section-live-feed { order: 4; } /* Live Shop Activity Feed */
+  .section-brand-carousel { order: 5; } 
+  .section-ad { order: 6; }
+  .section-why-choose-us { order: 7; }
+  .section-stats { order: 8; }
+  .section-reviews { order: 9; }
+  .section-marquee { order: 10; }
+  .section-cta { order: 11; }
+  .section-footer { order: 12; }
 }
 
 /* ==========================================================================
    Premium Global Form & Input Styles (For Home, Service, About, Contact, etc.)
    ========================================================================== */
 .service-enquiry-form, 
+.service-enquiry-section,
 #inquiry-form, 
 .review-form-container, 
+.service-modal-content,
+.modal-content,
 .admin-form-card, 
 .admin-modal-content,
 .login-card,
+.login-box,
 .booking-form {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(6, 182, 212, 0.04) 100%) !important;
-  border: 1px solid rgba(6, 182, 212, 0.2) !important;
+  background: rgba(224, 242, 254, 0.55) !important; /* Translucent blue glass */
+  backdrop-filter: blur(25px) !important;
+  -webkit-backdrop-filter: blur(25px) !important;
+  border: 1px solid rgba(14, 165, 233, 0.3) !important;
   border-radius: 24px !important;
   box-shadow: 
-    0 20px 40px -10px rgba(6, 182, 212, 0.08),
-    inset 0 0 20px rgba(255, 255, 255, 0.8) !important;
+    0 30px 60px -15px rgba(14, 165, 233, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
   padding: 30px !important;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 /* Input Fields, Select Dropdowns, Textareas */
@@ -395,16 +439,16 @@ p {
 .booking-form input,
 .booking-form select,
 .booking-form textarea {
-  background: rgba(255, 255, 255, 0.95) !important;
-  border: 1px solid rgba(6, 182, 212, 0.18) !important;
+  background: #ffffff !important; /* White input background for maximum readability inside blue forms */
+  border: 1px solid rgba(14, 165, 233, 0.22) !important;
   color: #0f172a !important; /* High-contrast text color */
-  border-radius: 12px !important;
-  padding: 12px 16px !important;
+  border-radius: 14px !important;
+  padding: 15px 18px !important;
   font-family: inherit;
-  font-size: 0.95rem !important;
+  font-size: 1rem !important;
   width: 100% !important;
-  transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
-  box-shadow: inset 0 2px 4px rgba(6, 182, 212, 0.01) !important;
+  transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1) !important;
+  box-shadow: inset 0 2px 4px rgba(14, 165, 233, 0.01) !important;
   margin-bottom: 5px;
 }
 
@@ -423,9 +467,9 @@ p {
   border-color: var(--accent-cyan) !important;
   outline: none !important;
   box-shadow: 
-    0 0 0 4px rgba(6, 182, 212, 0.1),
+    0 0 0 5px rgba(6, 182, 212, 0.12),
     inset 0 2px 4px rgba(6, 182, 212, 0.02) !important;
-  background: #ffffff !important;
+  background: #ffffff !important; /* Transitions to white on focus */
 }
 
 /* Form Group Labels */

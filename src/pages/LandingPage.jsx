@@ -10,6 +10,7 @@ import WhyChooseUs from '../components/WhyChooseUs';
 import CtaBanner from '../components/CtaBanner';
 import Footer from '../components/Footer';
 import GoogleAd from '../components/GoogleAd';
+import LiveActivityFeed from '../components/LiveActivityFeed';
 import { motion, useScroll } from 'framer-motion';
 
 const LandingPage = () => {
@@ -45,6 +46,10 @@ const LandingPage = () => {
         {/* Mobile-only Hero Mockup Graphics placed below Premium Services */}
         <div className="mobile-only-hero-image">
           <HeroImage />
+        </div>
+
+        <div className="section-live-feed pb-0">
+          <LiveActivityFeed />
         </div>
         
         <div className="section-ad container mt-0 mb-0">

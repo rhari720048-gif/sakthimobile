@@ -7,10 +7,10 @@ import MagneticButton from './MagneticButton';
 import HeroImage from './HeroImage';
 import './Hero.css';
 
+const words = ["Display Replacement", "Display Glass Replacement", "IC Level Repair", "Software Flash", "Data Recovery"];
+
 const Hero = () => {
   const { settings } = useSettings();
-  // Live Typing State
-  const words = ["iPhones", "Samsung", "Broken Screens", "Water Damage", "Motherboards"];
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
 
   useEffect(() => {
@@ -18,7 +18,7 @@ const Hero = () => {
       setCurrentWordIndex((prev) => (prev + 1) % words.length);
     }, 2500);
     return () => clearInterval(interval);
-  }, []);
+  }, [words.length]);
 
   return (
     <section id="home" className="hero-section">

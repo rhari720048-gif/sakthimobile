@@ -74,10 +74,10 @@ const Timeline = () => {
               <div className="timeline-node-wrapper">
                 <motion.div 
                   className="timeline-node"
-                  initial={{ scale: 0 }}
-                  whileInView={{ scale: 1 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.4, delay: 0.2 }}
+                  initial={{ scale: 0, opacity: 0.4, filter: 'grayscale(70%)' }}
+                  whileInView={{ scale: 1.1, opacity: 1, filter: 'grayscale(0%)', boxShadow: '0 0 20px rgba(6, 182, 212, 0.4)' }}
+                  viewport={{ once: false, amount: 0.8 }}
+                  transition={{ duration: 0.5, type: 'spring' }}
                 >
                   {step.icon}
                 </motion.div>

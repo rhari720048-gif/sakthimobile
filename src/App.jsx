@@ -12,6 +12,7 @@ import SuperAdminLogin from './pages/SuperAdminLogin';
 import SuperAdminDashboard from './pages/SuperAdminDashboard';
 import LegalPage from './pages/LegalPage';
 import ServiceDetailsPage from './pages/ServiceDetailsPage';
+import SecondMobileDetailsPage from './pages/SecondMobileDetailsPage';
 import { SettingsProvider } from './context/SettingsContext';
 import { AnimatePresence } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
@@ -21,17 +22,21 @@ import AnnouncementBanner from './components/AnnouncementBanner';
 
 function AnimatedRoutes() {
   const location = useLocation();
+  const isAdminPage = location.pathname.startsWith('/admin') || location.pathname.startsWith('/superadmin');
   
   return (
     <>
-      <header className="main-header">
-        <AnnouncementBanner />
-        <Navbar />
-      </header>
+      {!isAdminPage && (
+        <header className="main-header">
+          <AnnouncementBanner />
+          <Navbar />
+        </header>
+      )}
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<PageTransition><LandingPage /></PageTransition>} />
         <Route path="/services" element={<PageTransition><ServicesPage /></PageTransition>} />
         <Route path="/service/:id" element={<PageTransition><ServiceDetailsPage /></PageTransition>} />
+        <Route path="/seconds-mobile/:id" element={<PageTransition><SecondMobileDetailsPage /></PageTransition>} />
         <Route path="/about" element={<PageTransition><AboutPage /></PageTransition>} />
         <Route path="/contact" element={<PageTransition><ContactPage /></PageTransition>} />
         <Route path="/admin" element={<PageTransition><AdminLogin /></PageTransition>} />
@@ -53,6 +58,7 @@ function App() {
       <Router>
         <div className="floating-glow-1"></div>
         <div className="floating-glow-2"></div>
+        <div className="floating-glow-3"></div>
         <Toaster position="top-center" reverseOrder={false} />
         <AnimatedRoutes />
       </Router>

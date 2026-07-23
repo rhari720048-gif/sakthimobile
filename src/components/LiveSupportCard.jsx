@@ -40,7 +40,18 @@ const LiveSupportCard = () => {
           <a 
             href={`tel:${settings.phone}`}
             className="btn-primary"
-            style={{ display: 'inline-block', textDecoration: 'none', padding: '12px 24px', borderRadius: '30px' }}
+            style={{ 
+              display: 'inline-block', 
+              textDecoration: 'none', 
+              padding: '14px 28px', 
+              borderRadius: '30px',
+              background: '#22c55e',
+              color: '#ffffff',
+              fontWeight: '700',
+              fontFamily: "'Outfit', sans-serif",
+              boxShadow: '0 8px 20px rgba(34, 197, 94, 0.25)',
+              transition: 'all 0.3s ease'
+            }}
           >
             Call Now
           </a>

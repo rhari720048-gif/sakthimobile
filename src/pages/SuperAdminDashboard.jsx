@@ -70,7 +70,7 @@ const SuperAdminDashboard = () => {
           <p style={{ color: 'var(--text-secondary)', margin: 0 }}>Configure global integrations and monetization tools.</p>
         </div>
 
-        <div className="glass-panel" style={{ padding: '40px', borderRadius: '24px' }}>
+        <div className="admin-form-card" style={{ width: '100%' }}>
           <form onSubmit={handleSave}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px', borderBottom: 'var(--glass-border)', paddingBottom: '16px' }}>
               <Settings color="var(--accent-cyan)" size={24} />
@@ -84,17 +84,36 @@ const SuperAdminDashboard = () => {
               </p>
               <input 
                 type="text" 
+                className="admin-input"
                 value={googleAdsId}
                 onChange={(e) => setGoogleAdsId(e.target.value)}
                 placeholder="ca-pub-XXXXXXXXXXXXXXXX"
-                style={{ width: '100%', padding: '16px 20px', borderRadius: '12px', background: 'rgba(0,0,0,0.2)', border: 'var(--glass-border)', color: 'var(--text-primary)', fontSize: '1rem', outline: 'none' }} 
+                style={{ margin: 0 }} 
               />
             </div>
             
             <button 
               type="submit" 
               disabled={isSaving}
-              style={{ width: '100%', padding: '16px', borderRadius: '12px', background: 'linear-gradient(135deg, var(--accent-cyan), #0284c7)', color: '#fff', border: 'none', fontSize: '1rem', fontWeight: 700, cursor: isSaving ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', opacity: isSaving ? 0.7 : 1 }}
+              style={{ 
+                width: '100%', 
+                padding: '16px', 
+                borderRadius: '12px', 
+                background: 'linear-gradient(135deg, var(--accent-cyan), #0284c7)', 
+                color: '#fff', 
+                border: 'none', 
+                fontSize: '1rem', 
+                fontWeight: 700, 
+                fontFamily: "'Outfit', sans-serif",
+                cursor: isSaving ? 'not-allowed' : 'pointer', 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center', 
+                gap: '8px', 
+                opacity: isSaving ? 0.7 : 1,
+                boxShadow: '0 8px 25px rgba(6, 182, 212, 0.25)',
+                transition: 'all 0.3s ease'
+              }}
             >
               <Save size={20} /> {isSaving ? 'Saving...' : 'Save Configuration'}
             </button>

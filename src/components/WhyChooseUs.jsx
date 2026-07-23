@@ -20,12 +20,13 @@ const WhyChooseUs = () => {
               key={idx}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
+              whileHover={{ scale: 1.08, y: -5, boxShadow: '0 15px 30px rgba(6, 182, 212, 0.15)' }}
               viewport={{ once: true }}
-              transition={{ delay: idx * 0.1 }}
-              style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'var(--bg-main)', padding: '12px 24px', borderRadius: '30px', boxShadow: '0 4px 15px rgba(0,0,0,0.1)', border: '1px solid rgba(255,255,255,0.02)' }}
+              transition={{ delay: idx * 0.1, type: "spring", stiffness: 300, damping: 20 }}
+              style={{ display: 'flex', alignItems: 'center', gap: '12px', background: 'var(--glass-bg)', backdropFilter: 'var(--glass-blur)', WebkitBackdropFilter: 'var(--glass-blur)', padding: '16px 32px', borderRadius: '30px', boxShadow: 'var(--glass-shadow)', border: 'var(--glass-border)', cursor: 'pointer' }}
             >
               {feature.icon}
-              <span style={{ fontWeight: '600', color: 'var(--text-primary)' }}>{feature.text}</span>
+              <span style={{ fontWeight: '700', fontFamily: "'Outfit', sans-serif", color: 'var(--text-primary)' }}>{feature.text}</span>
             </motion.div>
           ))}
         </div>

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, MessageCircle, Info, CheckCircle, Smartphone, Wrench } from 'lucide-react';
+import { ArrowLeft, MessageCircle, Info, CheckCircle, Smartphone, Wrench, ShieldCheck, Clock } from 'lucide-react';
 import { db } from '../firebase';
 import { doc, getDoc, collection, getDocs, query, limit } from 'firebase/firestore';
 import Footer from '../components/Footer';
 import { trackWhatsAppClick } from '../utils/analytics';
 import { Link } from 'react-router-dom';
+import { isVideoUrl } from '../utils/media';
 import './ServiceDetailsPage.css';
 
 const ServiceDetailsPage = () => {
@@ -122,16 +123,14 @@ const ServiceDetailsPage = () => {
     // For all other links (like ImageKit), use native video tag
     return (
       <video 
+        src={embedUrl}
         className="service-details-video" 
         controls 
         playsInline 
         autoPlay 
         muted 
         loop
-      >
-        <source src={embedUrl} />
-        Your browser does not support the video tag.
-      </video>
+      />
     );
   };
 
@@ -220,19 +219,66 @@ const ServiceDetailsPage = () => {
                 </div>
               </motion.div>
               
-              {service.videoUrl && (
-                <motion.div 
-                  className="service-video-column"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.2 }}
-                >
-                  <h2>Watch it in Action</h2>
-                  <div className="service-video-wrapper">
-                    {renderVideoPlayer(service.videoUrl)}
+              <motion.div 
+                className="service-guarantee-card glass-panel"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2 }}
+                style={{
+                  marginTop: '25px',
+                  padding: '24px',
+                  borderRadius: '20px',
+                  background: 'linear-gradient(135deg, rgba(224, 242, 254, 0.6) 0%, rgba(240, 249, 255, 0.8) 100%)',
+                  border: '1px solid rgba(14, 165, 233, 0.3)',
+                  boxShadow: '0 15px 35px rgba(14, 165, 233, 0.08)'
+                }}
+              >
+                <h3 style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '1.2rem', color: '#0f172a', margin: '0 0 16px 0', fontWeight: '800' }}>
+                  <ShieldCheck size={22} color="var(--accent-cyan)" /> Sakthi Mobiles Service Assurance & Guarantee
+                </h3>
+                
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+                  <div style={{ background: '#ffffff', padding: '14px', borderRadius: '14px', border: '1px solid rgba(14, 165, 233, 0.15)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                      <Wrench size={16} color="var(--accent-cyan)" />
+                      <span style={{ fontWeight: '800', fontSize: '0.88rem', color: '#0f172a' }}>100% Original Parts</span>
+                    </div>
+                    <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--text-secondary)', lineHeight: '1.4' }}>
+                      We use grade-A OEM screens, batteries, and IC components for maximum durability.
+                    </p>
                   </div>
-                </motion.div>
-              )}
+
+                  <div style={{ background: '#ffffff', padding: '14px', borderRadius: '14px', border: '1px solid rgba(14, 165, 233, 0.15)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                      <Clock size={16} color="var(--accent-gold)" />
+                      <span style={{ fontWeight: '800', fontSize: '0.88rem', color: '#0f172a' }}>Express Same-Day Service</span>
+                    </div>
+                    <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--text-secondary)', lineHeight: '1.4' }}>
+                      Most screen, battery, and port repairs completed in 1 to 2 hours while you wait.
+                    </p>
+                  </div>
+
+                  <div style={{ background: '#ffffff', padding: '14px', borderRadius: '14px', border: '1px solid rgba(14, 165, 233, 0.15)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                      <CheckCircle size={16} color="var(--accent-cyan)" />
+                      <span style={{ fontWeight: '800', fontSize: '0.88rem', color: '#0f172a' }}>25-Point Diagnostic Test</span>
+                    </div>
+                    <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--text-secondary)', lineHeight: '1.4' }}>
+                      Every device undergoes a 25-point hardware diagnostic test before handover.
+                    </p>
+                  </div>
+
+                  <div style={{ background: '#ffffff', padding: '14px', borderRadius: '14px', border: '1px solid rgba(14, 165, 233, 0.15)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                      <Smartphone size={16} color="var(--accent-gold)" />
+                      <span style={{ fontWeight: '800', fontSize: '0.88rem', color: '#0f172a' }}>Store Warranty Included</span>
+                    </div>
+                    <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--text-secondary)', lineHeight: '1.4' }}>
+                      Full store support and testing warranty provided for complete peace of mind.
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
             </div>
 
             <div className="service-sticky-sidebar">

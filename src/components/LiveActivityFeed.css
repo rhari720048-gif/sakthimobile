@@ -1,0 +1,251 @@
+.live-feed-section {
+  padding: 80px 0;
+  position: relative;
+}
+
+.live-feed-header-panel {
+  padding: 40px !important;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.live-header-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 12px;
+}
+
+.live-header-title h2 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+/* Pulsing Green Dot */
+.live-pulse-container {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.live-pulse-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #22c55e;
+  z-index: 2;
+}
+
+.live-pulse-ring {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 4px solid rgba(34, 197, 94, 0.4);
+  animation: pulse 1.8s infinite ease-out;
+  z-index: 1;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.6);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+/* Filter Buttons */
+.feed-filters {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.feed-filter-btn {
+  padding: 10px 24px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(6, 182, 212, 0.15);
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+  font-family: 'Outfit', sans-serif;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.feed-filter-btn:hover {
+  background: rgba(6, 182, 212, 0.08);
+  color: var(--accent-cyan);
+  border-color: rgba(6, 182, 212, 0.3);
+}
+
+.feed-filter-btn.active {
+  background: var(--accent-cyan) !important;
+  color: #ffffff !important;
+  border-color: var(--accent-cyan) !important;
+  box-shadow: 0 4px 15px rgba(6, 182, 212, 0.25);
+}
+
+/* Feed List */
+.live-feed-list-container {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+}
+
+.feed-item-card {
+  display: flex;
+  align-items: center;
+  padding: 24px 30px !important;
+  border-radius: 20px;
+  gap: 20px;
+  position: relative;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feed-item-icon-wrapper {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.feed-device-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  background: rgba(6, 182, 212, 0.08);
+  border: 1px solid rgba(6, 182, 212, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feed-check-icon {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #22c55e;
+  border: 2px solid #ffffff;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);
+  z-index: 2;
+}
+
+.feed-item-details {
+  flex-grow: 1;
+}
+
+.feed-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.feed-item-header h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  font-family: 'Outfit', sans-serif;
+}
+
+.feed-item-details p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.feed-badge-time {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.82rem;
+  color: #22c55e;
+  font-weight: 700;
+  background: rgba(34, 197, 94, 0.08);
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-family: 'Outfit', sans-serif;
+  letter-spacing: 0.5px;
+}
+
+/* Category Tags */
+.feed-category-tag {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 4px 10px;
+  border-radius: 10px;
+  font-family: 'Outfit', sans-serif;
+}
+
+.feed-category-tag.hardware {
+  background: rgba(6, 182, 212, 0.08);
+  color: var(--accent-cyan);
+}
+
+.feed-category-tag.software {
+  background: rgba(139, 92, 246, 0.08);
+  color: var(--accent-purple);
+}
+
+.feed-category-tag.accessories {
+  background: rgba(212, 175, 55, 0.08);
+  color: var(--accent-gold);
+}
+
+.feed-empty-state {
+  padding: 40px !important;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 600px) {
+  .feed-item-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px !important;
+    gap: 15px;
+  }
+  
+  .feed-category-tag {
+    align-self: flex-end;
+    margin-top: -10px;
+  }
+  
+  .feed-item-header {
+    width: 100%;
+  }
+}

@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Services from '../components/Services';
 import Footer from '../components/Footer';
 import GoogleAd from '../components/GoogleAd';
 import LiveSupportCard from '../components/LiveSupportCard';
 import TextReveal from '../components/TextReveal';
-import { HelpCircle } from 'lucide-react';
+import { HelpCircle, ChevronDown } from 'lucide-react';
 
 const faqs = [
   {
@@ -26,6 +27,8 @@ const faqs = [
 ];
 
 const ServicesPage = () => {
+  const [expandedIndex, setExpandedIndex] = useState(null);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -51,17 +54,46 @@ const ServicesPage = () => {
             </div>
             
             <div style={{ maxWidth: '800px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-              {faqs.map((faq, index) => (
-                <div key={index} className="glass-panel" style={{ padding: '24px', borderRadius: '16px' }}>
-                  <h4 style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px', fontSize: '1.1rem', color: 'var(--text-primary)' }}>
-                    <HelpCircle size={20} color="var(--accent-cyan)" />
-                    {faq.question}
-                  </h4>
-                  <p style={{ color: 'var(--text-secondary)', marginLeft: '30px', fontSize: '0.95rem' }}>
-                    {faq.answer}
-                  </p>
-                </div>
-              ))}
+              {faqs.map((faq, index) => {
+                const isExpanded = expandedIndex === index;
+                return (
+                  <motion.div 
+                    key={index} 
+                    className="glass-panel" 
+                    whileHover={{ scale: 1.01, y: -2, boxShadow: '0 12px 30px rgba(6, 182, 212, 0.08)' }}
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                    onClick={() => setExpandedIndex(isExpanded ? null : index)}
+                    style={{ padding: '24px', borderRadius: '16px', border: 'var(--glass-border)', background: 'var(--glass-bg)', cursor: 'pointer' }}
+                  >
+                    <h4 style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '1.1rem', color: 'var(--text-primary)', margin: 0 }}>
+                      <HelpCircle size={20} color="var(--accent-cyan)" style={{ flexShrink: 0 }} />
+                      <span style={{ flexGrow: 1 }}>{faq.question}</span>
+                      <motion.span 
+                        animate={{ rotate: isExpanded ? 180 : 0 }}
+                        transition={{ duration: 0.2 }}
+                        style={{ display: 'inline-flex', alignItems: 'center', color: 'var(--accent-cyan)' }}
+                      >
+                        <ChevronDown size={18} />
+                      </motion.span>
+                    </h4>
+                    <AnimatePresence initial={false}>
+                      {isExpanded && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0, marginTop: 0 }}
+                          animate={{ height: "auto", opacity: 1, marginTop: 16 }}
+                          exit={{ height: 0, opacity: 0, marginTop: 0 }}
+                          transition={{ duration: 0.25, ease: "easeInOut" }}
+                          style={{ overflow: 'hidden' }}
+                        >
+                          <p style={{ color: 'var(--text-secondary)', marginLeft: '30px', fontSize: '0.95rem', margin: 0, lineHeight: 1.6 }}>
+                            {faq.answer}
+                          </p>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </section>

@@ -35,7 +35,7 @@ const Footer = () => {
               <h3>Sakthi <span className="gradient-text-cyan">Mobiles</span></h3>
               <p className="footer-brand-desc">Your trusted destination for expert mobile repairs, high-fidelity display replacements, and top-tier software flashing solutions.</p>
               <div className="footer-socials">
-                <a href="https://facebook.com" target="_blank" rel="noreferrer" className="social-icon-btn">
+                <a href="https://www.instagram.com/sakthi_mobiles_sss?igsh=bTV0NGxxOHhmeHJp" target="_blank" rel="noreferrer" className="social-icon-btn" title="Follow Sakthi Mobiles on Instagram">
                   <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="16" width="16" xmlns="http://www.w3.org/2000/svg">
                     <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
                   </svg>

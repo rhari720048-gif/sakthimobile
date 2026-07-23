@@ -639,13 +639,20 @@
     bottom: 200px;
     left: -10px;
   }
-  .hero-image-container {
-    width: 280px;
-    height: 520px;
+  .hero-image-container,
+  .hero-image-wrapper {
+    display: none !important;
   }
   .floating-card {
-    backdrop-filter: none; /* Removed for scroll performance */
-    background: rgba(255, 255, 255, 0.98); /* Less transparent to compensate */
+    display: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-image-wrapper,
+  .hero-image-container,
+  .hero-visual-col {
+    display: none !important;
   }
 }
 

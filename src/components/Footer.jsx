@@ -40,7 +40,7 @@ const Footer = () => {
                     <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
                   </svg>
                 </a>
-                <a href="https://instagram.com" target="_blank" rel="noreferrer" className="social-icon-btn">
+                <a href="https://www.instagram.com/sakthi_mobiles_sss?igsh=bTV0NGxxOHhmeHJp" target="_blank" rel="noreferrer" className="social-icon-btn" title="Follow Sakthi Mobiles on Instagram">
                   <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="16" width="16" xmlns="http://www.w3.org/2000/svg">
                     <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                     <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>

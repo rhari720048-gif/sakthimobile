@@ -291,6 +291,32 @@ const Navbar = () => {
             {/* Bottom Details */}
             {!loading && settings && (
               <div className="sidebar-footer">
+                <a 
+                  href="https://www.instagram.com/sakthi_mobiles_sss?igsh=bTV0NGxxOHhmeHJp" 
+                  target="_blank" 
+                  rel="noreferrer" 
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px',
+                    padding: '10px 16px',
+                    background: 'linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)',
+                    color: '#ffffff',
+                    borderRadius: '12px',
+                    fontWeight: '700',
+                    fontSize: '0.9rem',
+                    textDecoration: 'none',
+                    marginBottom: '12px',
+                    boxShadow: '0 4px 15px rgba(220, 39, 67, 0.3)'
+                  }}
+                >
+                  <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="18" width="18" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                  </svg> Follow on Instagram
+                </a>
                 <p className="footer-copyright">Crafted by Sakthi Mobiles</p>
               </div>
             )}

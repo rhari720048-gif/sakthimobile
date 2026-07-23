@@ -74,9 +74,13 @@ const Services = ({ limit }) => {
   const currentTabServices = combinedServices.filter(s => s.category === activeTab);
   const displayedServices = limit ? currentTabServices.slice(0, limit) : currentTabServices;
 
-  const { settings, loading } = useSettings();
-  
-  if (loading) return null;
+  const handleCourierClick = (e) => {
+    e.preventDefault();
+    const phoneNumber = settings?.phone || "917373472735";
+    const message = `Hello Sakthi Mobiles! 📦\n\nI want to send my mobile phone via *Courier Service* for repair from my city.\n\nPlease share your shop courier address and service instructions!`;
+    trackWhatsAppClick('book_courier');
+    window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
+  };
 
   return (
     <section id="services" className="services-section">
@@ -331,7 +335,8 @@ const Services = ({ limit }) => {
           </div>
           <MagneticButton>
             <a 
-              href="#contact" 
+              href="#courier" 
+              onClick={handleCourierClick}
               style={{ 
                 display: 'inline-block', 
                 padding: '14px 28px', 
@@ -342,10 +347,11 @@ const Services = ({ limit }) => {
                 fontWeight: '700',
                 fontFamily: "'Outfit', sans-serif",
                 boxShadow: '0 8px 20px rgba(6, 182, 212, 0.25)',
-                transition: 'all 0.3s ease'
+                transition: 'all 0.3s ease',
+                cursor: 'pointer'
               }}
             >
-              Book Courier
+              📦 Book Courier Service
             </a>
           </MagneticButton>
         </motion.div>

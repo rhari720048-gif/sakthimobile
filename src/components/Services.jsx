@@ -22,6 +22,7 @@ const categories = [
 const Services = ({ limit }) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { settings } = useSettings();
   const [activeTab, setActiveTab] = useState('hardware');
   const [customServices, setCustomServices] = useState([]);
   const [customAccessories, setCustomAccessories] = useState([]);
@@ -58,9 +59,9 @@ const Services = ({ limit }) => {
 
   useEffect(() => {
     if (location.state?.openService && customServices.length > 0) {
-      const serviceToOpen = customServices.find(s => s.name === location.state.openService);
-      if (serviceToOpen) {
-        navigate('/service/' + serviceToOpen.id, { state: { service: serviceToOpen } });
+      const found = customServices.find(s => s.id === location.state.openService);
+      if (found) {
+        navigate('/service/' + found.id, { state: { service: found } });
       }
     }
   }, [location.state?.openService, customServices, navigate]);
@@ -77,7 +78,7 @@ const Services = ({ limit }) => {
   const handleCourierClick = (e) => {
     e.preventDefault();
     const phoneNumber = settings?.phone || "917373472735";
-    const message = `Hello Sakthi Mobiles! 📦\n\nI want to send my mobile phone via *Courier Service* for repair from my city.\n\nPlease share your shop courier address and service instructions!`;
+    const message = `Hello Sakthi Mobiles!\n\nI want to send my mobile phone via *Courier Service* for repair from my city.\n\nPlease share your shop courier address and service instructions!`;
     trackWhatsAppClick('book_courier');
     window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
   };
@@ -351,7 +352,7 @@ const Services = ({ limit }) => {
                 cursor: 'pointer'
               }}
             >
-              📦 Book Courier Service
+              <img src="/favicon.svg" alt="icon" style={{ width: '1.2em', height: '1.2em', display: 'inline-block', verticalAlign: 'middle', marginRight: '6px' }} /> Book Courier Service
             </a>
           </MagneticButton>
         </motion.div>

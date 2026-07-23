@@ -206,7 +206,9 @@ const SecondMobileDetailsPage = () => {
                   <MessageCircle size={22} />
                   <span>Chat & Buy on WhatsApp</span>
                 </button>
-                <p className="buy-note">⚡ Click to connect with our Srivilliputhur shop team instantly on WhatsApp.</p>
+                <p className="buy-note">
+                  <img src="/favicon.svg" alt="icon" style={{ width: '1.1em', height: '1.1em', display: 'inline-block', verticalAlign: 'middle', marginRight: '4px' }} /> Click to connect with our Srivilliputhur shop team instantly on WhatsApp.
+                </p>
               </div>
 
             </div>

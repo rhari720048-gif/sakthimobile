@@ -22,15 +22,24 @@ async function fetchCollectionDocIds(collectionName) {
 }
 
 async function generateSitemap() {
-  console.log('⚡ Automatically generating dynamic XML Sitemap for Sakthi Mobiles...');
+  console.log('⚡ Automatically generating full website XML Sitemap for Sakthi Mobiles...');
 
   const today = new Date().toISOString().split('T')[0];
 
+  // ALL Static Website Pages
   const staticRoutes = [
     { url: '/', priority: '1.0', changefreq: 'daily' },
-    { url: '/services', priority: '0.9', changefreq: 'daily' }
+    { url: '/services', priority: '0.9', changefreq: 'daily' },
+    { url: '/about', priority: '0.8', changefreq: 'monthly' },
+    { url: '/contact', priority: '0.8', changefreq: 'monthly' },
+    { url: '/privacy', priority: '0.5', changefreq: 'yearly' },
+    { url: '/terms', priority: '0.5', changefreq: 'yearly' },
+    { url: '/refund', priority: '0.5', changefreq: 'yearly' },
+    { url: '/admin', priority: '0.4', changefreq: 'monthly' },
+    { url: '/superadmin', priority: '0.4', changefreq: 'monthly' }
   ];
 
+  // ALL Dynamic Firebase Database Pages
   const serviceIds = await fetchCollectionDocIds('services');
   const accessoryIds = await fetchCollectionDocIds('accessories');
   const secondsIds = await fetchCollectionDocIds('seconds_mobiles');
@@ -63,7 +72,7 @@ async function generateSitemap() {
   }
 
   fs.writeFileSync(path.join(publicDir, 'sitemap.xml'), xml, 'utf8');
-  console.log(`✅ sitemap.xml generated successfully with ${allRoutes.length} pages (Static: ${staticRoutes.length}, Services: ${serviceIds.length + accessoryIds.length}, Seconds Mobiles: ${secondsIds.length})!`);
+  console.log(`✅ sitemap.xml generated successfully for WHOLE WEBSITE with ${allRoutes.length} pages (Static Pages: ${staticRoutes.length}, Services: ${serviceIds.length + accessoryIds.length}, Seconds Mobiles: ${secondsIds.length})!`);
 
   const robotsTxt = `User-agent: *\nAllow: /\n\nSitemap: ${DOMAIN}/sitemap.xml\n`;
   fs.writeFileSync(path.join(publicDir, 'robots.txt'), robotsTxt, 'utf8');

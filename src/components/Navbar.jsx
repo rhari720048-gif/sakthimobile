@@ -105,17 +105,8 @@ const Navbar = () => {
     } else if (path === '#') {
       e.preventDefault();
     } else {
-      if (mobileMenuOpen) {
-        e.preventDefault();
-        setMobileMenuOpen(false);
-        setMobileServicesOpen(false);
-        setTimeout(() => {
-          navigate(path);
-        }, 100); // 100ms is super snappy and feels instant
-      } else {
-        setMobileMenuOpen(false);
-        setMobileServicesOpen(false);
-      }
+      setMobileMenuOpen(false);
+      setMobileServicesOpen(false);
     }
   };
 
@@ -204,138 +195,119 @@ const Navbar = () => {
     </nav>
 
     {/* Mobile Menu Backdrop and Sidebar Drawer */}
-    <AnimatePresence>
-      {mobileMenuOpen && (
-        <>
-          {/* Backdrop */}
-          <motion.div 
-            className="mobile-menu-backdrop"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.12 }}
+      {/* Backdrop */}
+      <div 
+        className={`mobile-menu-backdrop ${mobileMenuOpen ? 'open' : ''}`}
+        onClick={() => setMobileMenuOpen(false)}
+      />
+      
+      {/* Side Drawer */}
+      <div 
+        className={`mobile-sidebar glass-panel ${mobileMenuOpen ? 'open' : ''}`}
+      >
+        {/* Close Button Header */}
+        <div className="sidebar-header">
+          <Link to="/" className="logo" onClick={() => setMobileMenuOpen(false)}>
+            <Smartphone className="logo-icon" />
+            <span className="logo-text">Sakthi <span className="gradient-text-cyan">Mobiles</span></span>
+          </Link>
+          <button 
+            className="sidebar-close-btn"
             onClick={() => setMobileMenuOpen(false)}
-          />
-          
-          {/* Side Drawer */}
-          <motion.div 
-            className="mobile-sidebar glass-panel"
-            initial={{ x: '-100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '-100%' }}
-            transition={{ duration: 0.16, ease: 'easeOut' }}
           >
-            {/* Close Button Header */}
-            <div className="sidebar-header">
-              <Link to="/" className="logo" onClick={() => setMobileMenuOpen(false)}>
-                <Smartphone className="logo-icon" />
-                <span className="logo-text">Sakthi <span className="gradient-text-cyan">Mobiles</span></span>
-              </Link>
-              <button 
-                className="sidebar-close-btn"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <X size={24} />
-              </button>
-            </div>
+            <X size={24} />
+          </button>
+        </div>
 
-            {/* Sidebar Links */}
-            <div className="sidebar-menu">
-              {navLinks.map((link, idx) => {
-                const isActive = isLinkActive(link);
-                if (link.dropdown) {
-                  return (
-                    <div key={link.name} className="sidebar-dropdown-container">
-                      <button 
-                        className={`sidebar-nav-link dropdown-trigger ${isActive ? 'active' : ''}`}
-                        onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
-                        style={{ background: 'none', border: 'none', font: 'inherit', width: '100%', textAlign: 'left', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', outline: 'none' }}
-                      >
-                        <span>{link.name}</span>
-                        <span style={{ fontSize: '0.8rem', transition: 'transform 0.2s', transform: mobileServicesOpen ? 'rotate(180deg)' : 'rotate(0)', color: 'var(--accent-cyan)' }}>▼</span>
-                      </button>
-                      
-                      <div 
-                        className="sidebar-dropdown-menu"
-                        style={{ 
-                          height: mobileServicesOpen ? 'auto' : 0, 
-                          opacity: mobileServicesOpen ? 1 : 0, 
-                          overflow: 'hidden', 
-                          paddingLeft: '15px',
-                          transition: 'all 0.3s ease-in-out'
-                        }}
-                      >
-                        {link.dropdown.map((sublink) => (
-                          <Link 
-                            key={sublink.name} 
-                            to={sublink.path} 
-                            className={`sidebar-nav-link sub-link ${isLinkActive(sublink) ? 'active' : ''}`}
-                            onClick={(e) => handleLinkClick(e, sublink.path)}
-                          >
-                            <span style={{ marginRight: '8px' }}>{sublink.icon}</span>
-                            {sublink.name}
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  );
-                }
-                
-                return (
-                  <motion.div
-                    key={link.name}
-                    initial={{ x: 30, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ delay: idx * 0.05 }}
+        {/* Sidebar Links */}
+        <div className="sidebar-menu">
+          {navLinks.map((link) => {
+            const isActive = isLinkActive(link);
+            if (link.dropdown) {
+              return (
+                <div key={link.name} className="sidebar-dropdown-container">
+                  <button 
+                    className={`sidebar-nav-link dropdown-trigger ${isActive ? 'active' : ''}`}
+                    onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
+                    style={{ background: 'none', border: 'none', font: 'inherit', width: '100%', textAlign: 'left', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', outline: 'none' }}
                   >
-                    <Link 
-                      to={link.path} 
-                      className={`sidebar-nav-link ${isActive ? 'active' : ''}`}
-                      onClick={(e) => handleLinkClick(e, link.path)}
-                    >
-                      {link.name}
-                    </Link>
-                  </motion.div>
-                );
-              })}
-            </div>
-
-            {/* Bottom Details */}
-            {!loading && settings && (
-              <div className="sidebar-footer">
-                <a 
-                  href="https://www.instagram.com/sakthi_mobiles_sss?igsh=bTV0NGxxOHhmeHJp" 
-                  target="_blank" 
-                  rel="noreferrer" 
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '8px',
-                    padding: '10px 16px',
-                    background: 'linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)',
-                    color: '#ffffff',
-                    borderRadius: '12px',
-                    fontWeight: '700',
-                    fontSize: '0.9rem',
-                    textDecoration: 'none',
-                    marginBottom: '12px',
-                    boxShadow: '0 4px 15px rgba(220, 39, 67, 0.3)'
-                  }}
+                    <span>{link.name}</span>
+                    <span style={{ fontSize: '0.8rem', transition: 'transform 0.2s', transform: mobileServicesOpen ? 'rotate(180deg)' : 'rotate(0)', color: 'var(--accent-cyan)' }}>▼</span>
+                  </button>
+                  
+                  <div 
+                    className="sidebar-dropdown-menu"
+                    style={{ 
+                      height: mobileServicesOpen ? 'auto' : 0, 
+                      opacity: mobileServicesOpen ? 1 : 0, 
+                      overflow: 'hidden', 
+                      paddingLeft: '15px',
+                      transition: 'all 0.3s ease-in-out'
+                    }}
+                  >
+                    {link.dropdown.map((sublink) => (
+                      <Link 
+                        key={sublink.name} 
+                        to={sublink.path} 
+                        className={`sidebar-nav-link sub-link ${isLinkActive(sublink) ? 'active' : ''}`}
+                        onClick={(e) => handleLinkClick(e, sublink.path)}
+                      >
+                        <span style={{ marginRight: '8px' }}>{sublink.icon}</span>
+                        {sublink.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              );
+            }
+            
+            return (
+              <div key={link.name}>
+                <Link 
+                  to={link.path} 
+                  className={`sidebar-nav-link ${isActive ? 'active' : ''}`}
+                  onClick={(e) => handleLinkClick(e, link.path)}
                 >
-                  <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="18" width="18" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                  </svg> Follow on Instagram
-                </a>
-                <p className="footer-copyright">Crafted by Sakthi Mobiles</p>
+                  {link.name}
+                </Link>
               </div>
-            )}
-          </motion.div>
-        </>
-      )}
-    </AnimatePresence>
+            );
+          })}
+        </div>
+
+        {/* Bottom Details */}
+        {!loading && settings && (
+          <div className="sidebar-footer">
+            <a 
+              href="https://www.instagram.com/sakthi_mobiles_sss?igsh=bTV0NGxxOHhmeHJp" 
+              target="_blank" 
+              rel="noreferrer" 
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                padding: '10px 16px',
+                background: 'linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)',
+                color: '#ffffff',
+                borderRadius: '12px',
+                fontWeight: '700',
+                fontSize: '0.9rem',
+                textDecoration: 'none',
+                marginBottom: '12px',
+                boxShadow: '0 4px 15px rgba(220, 39, 67, 0.3)'
+              }}
+            >
+              <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="18" width="18" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg> Follow on Instagram
+            </a>
+            <p className="footer-copyright">Crafted by Sakthi Mobiles</p>
+          </div>
+        )}
+      </div>
     </>
   );
 };

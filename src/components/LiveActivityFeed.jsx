@@ -140,9 +140,17 @@ const LiveActivityFeed = () => {
                   <div className="feed-item-details">
                     <div className="feed-item-header">
                       <h3>{activity.model}</h3>
-                      <span className="feed-badge-time">
+                      <span 
+                        className="feed-badge-time" 
+                        title={activity.completedAt ? activity.completedAt.toDate().toLocaleString() : 'Just now'}
+                      >
                         <Clock size={12} style={{ marginRight: '4px' }} />
                         {formatRelativeTime(activity.completedAt)}
+                        {activity.completedAt && (
+                          <span style={{ marginLeft: '6px', opacity: 0.85, fontSize: '0.9em', borderLeft: '1px solid rgba(34, 197, 94, 0.35)', paddingLeft: '6px' }}>
+                            {activity.completedAt.toDate().toLocaleDateString([], { day: '2-digit', month: 'short' })}
+                          </span>
+                        )}
                       </span>
                     </div>
                     <p>{activity.serviceType}</p>

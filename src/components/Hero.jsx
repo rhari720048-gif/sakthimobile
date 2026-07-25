@@ -7,7 +7,7 @@ import MagneticButton from './MagneticButton';
 import HeroImage from './HeroImage';
 import './Hero.css';
 
-const words = ["Display Replacement", "Display Glass Replacement", "IC Level Repair", "Software Flash", "Data Recovery"];
+const words = ["Display Replacement", "Display Glass Replacement", "IC Level Repair", "Software Flash", "Laptop & System Service", "Data Recovery"];
 
 const Hero = () => {
   const { settings } = useSettings();

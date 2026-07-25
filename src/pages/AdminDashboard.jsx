@@ -1479,10 +1479,8 @@ const AdminDashboard = () => {
                   <p>Broadcast daily completed services and repairs instantly to the customer portal.</p>
                 </motion.header>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 2fr', gap: '30px', alignItems: 'start' }}>
-                  
                   {/* Log Form Card */}
-                  <motion.div className="admin-form-card" variants={itemVariants} style={{ margin: 0, width: '100%' }}>
+                  <motion.div className="admin-form-card" variants={itemVariants} style={{ marginBottom: '40px' }}>
                     <h3 className="admin-section-title" style={{ marginTop: 0 }}>Add Live Update</h3>
                     
                     {/* Quick Preset Buttons */}
@@ -1584,9 +1582,9 @@ const AdminDashboard = () => {
                     </form>
                   </motion.div>
 
-                  {/* History Logs Table Card */}
-                  <motion.div className="admin-form-card" variants={itemVariants} style={{ margin: 0, width: '100%', maxWidth: 'none' }}>
-                    <h3 className="admin-section-title" style={{ marginTop: 0 }}>Activity Log History</h3>
+                  {/* History Logs Table */}
+                  <motion.div variants={itemVariants}>
+                    <h3 className="admin-section-title">Activity Log History</h3>
                     
                     {/* Search & Filter Bar */}
                     <div style={{ display: 'flex', gap: '15px', marginBottom: '20px', flexWrap: 'wrap' }}>
@@ -1611,7 +1609,7 @@ const AdminDashboard = () => {
                       </select>
                     </div>
 
-                    <div className="admin-table-container" style={{ margin: 0 }}>
+                    <div className="admin-table-container">
                       <table className="admin-table">
                         <thead>
                           <tr>
@@ -1654,10 +1652,8 @@ const AdminDashboard = () => {
                       </table>
                     </div>
                   </motion.div>
-
-                </div>
-              </motion.div>
-            )}
+                </motion.div>
+              )}
 
           </AnimatePresence>
         </div>

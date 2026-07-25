@@ -720,14 +720,19 @@ textarea.admin-input {
 
 /* Tables styling for Services and Accessories lists */
 
-/* ── Mobile responsive table (no card, no horizontal scroll) ── */
+/* ── Mobile responsive table ── */
 @media (max-width: 640px) {
   .admin-table-container {
-    overflow-x: hidden !important;
+    overflow-x: auto !important;
     border-radius: 20px !important;
+    -webkit-overflow-scrolling: touch;
   }
 
-  /* Hide description column on very small screens */
+  .admin-table {
+    min-width: 600px !important;
+  }
+
+  /* Hide description/storage column on very small screens */
   .admin-table th:nth-child(3),
   .admin-table td:nth-child(3) {
     display: none;

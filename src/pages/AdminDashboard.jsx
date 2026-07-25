@@ -1672,7 +1672,7 @@ const AdminDashboard = () => {
                             <th>Device</th>
                             <th>Service</th>
                             <th>Category</th>
-                            <th>Time</th>
+                            <th>Date & Time</th>
                             <th>Action</th>
                           </tr>
                         </thead>
@@ -1692,7 +1692,20 @@ const AdminDashboard = () => {
                                     {log.category}
                                   </span>
                                 </td>
-                                <td>{log.completedAt ? log.completedAt.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Just now'}</td>
+                                <td>
+                                  {log.completedAt ? (
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                                      <span style={{ fontWeight: '600' }}>
+                                        {log.completedAt.toDate().toLocaleDateString([], { day: '2-digit', month: 'short', year: 'numeric' })}
+                                      </span>
+                                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                                        {log.completedAt.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                      </span>
+                                    </div>
+                                  ) : (
+                                    <span style={{ fontStyle: 'italic', color: 'var(--text-secondary)' }}>Just now</span>
+                                  )}
+                                </td>
                                 <td>
                                   <button 
                                     className="admin-action-btn delete"

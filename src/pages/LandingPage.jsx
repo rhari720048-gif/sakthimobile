@@ -8,6 +8,7 @@ import BrandCarousel from '../components/BrandCarousel';
 import Reviews from '../components/Reviews';
 import WhyChooseUs from '../components/WhyChooseUs';
 import CtaBanner from '../components/CtaBanner';
+import WriteReview from '../components/WriteReview';
 import Footer from '../components/Footer';
 import GoogleAd from '../components/GoogleAd';
 import LiveActivityFeed from '../components/LiveActivityFeed';
@@ -78,6 +79,10 @@ const LandingPage = () => {
         
         <div className="section-cta">
           <CtaBanner />
+        </div>
+
+        <div className="section-write-review">
+          <WriteReview />
         </div>
         
         <div className="section-footer">

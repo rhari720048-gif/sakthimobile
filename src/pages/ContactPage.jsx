@@ -4,7 +4,7 @@ import Contact from '../components/Contact';
 import Footer from '../components/Footer';
 import TextReveal from '../components/TextReveal';
 import TiltCard from '../components/TiltCard';
-import { MapPin, Clock } from 'lucide-react';
+import { MapPin, Clock, Heart, MessageSquarePlus } from 'lucide-react';
 
 const ContactPage = () => {
   useEffect(() => {
@@ -51,6 +51,27 @@ const ContactPage = () => {
                     <p style={{ color: 'var(--text-secondary)' }}>
                       9:30 AM to 9:30 PM (All Days)
                     </p>
+                  </div>
+                </div>
+              </TiltCard>
+
+              <TiltCard className="glass-panel" maxTilt={15} scaleOnHover={1.05}>
+                <div style={{ padding: '30px', borderRadius: '24px', display: 'flex', alignItems: 'flex-start', gap: '20px', height: '100%' }}>
+                  <div style={{ padding: '12px', background: 'rgba(239, 68, 68, 0.1)', borderRadius: '12px' }}>
+                    <Heart size={32} color="#ef4444" />
+                  </div>
+                  <div>
+                    <h3 style={{ fontSize: '1.2rem', marginBottom: '10px' }}>Feedback & Reviews</h3>
+                    <p style={{ color: 'var(--text-secondary)', marginBottom: '12px' }}>
+                      Happy with our service? Share your feedback with us!
+                    </p>
+                    <a 
+                      href="/?write-review=true" 
+                      className="glass-button primary"
+                      style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 16px', fontSize: '0.85rem', textDecoration: 'none' }}
+                    >
+                      <MessageSquarePlus size={16} /> Write a Review
+                    </a>
                   </div>
                 </div>
               </TiltCard>

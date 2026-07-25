@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, X, Smartphone, Home, Wrench, Info, Phone, LayoutDashboard, ShoppingBag, Star, Settings, LogOut, HardDrive, MonitorSmartphone } from 'lucide-react';
+import { Menu, X, Smartphone, Home, Wrench, Info, Phone, LayoutDashboard, ShoppingBag, Star, Settings, LogOut, HardDrive, MonitorSmartphone, MessageSquarePlus } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import MagneticButton from './MagneticButton';
 import { useSettings } from '../context/SettingsContext';
@@ -70,7 +70,8 @@ const Navbar = () => {
       { name: 'Home', path: '/', icon: <Home size={16} /> },
       { name: 'Services', path: '/services', icon: <Wrench size={16} /> },
       { name: 'About Us', path: '/about', icon: <Info size={16} /> },
-      { name: 'Contact', path: '/contact', icon: <Phone size={16} /> }
+      { name: 'Contact', path: '/contact', icon: <Phone size={16} /> },
+      { name: 'Write a Review', path: '/?write-review=true', icon: <MessageSquarePlus size={16} /> }
     ];
   };
 

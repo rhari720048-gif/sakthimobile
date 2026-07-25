@@ -7,14 +7,24 @@ import TextReveal from './TextReveal';
 import TiltCard from './TiltCard';
 import { db } from '../firebase';
 import { collection, onSnapshot, addDoc, serverTimestamp } from 'firebase/firestore';
-
-
+import { useSearchParams } from 'react-router-dom';
 
 const Reviews = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [customReviews, setCustomReviews] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [reviewForm, setReviewForm] = useState({ name: '', text: '', rating: 5 });
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (searchParams.get('write-review') === 'true') {
+      setShowForm(true);
+      // Clean up parameter from URL bar smoothly
+      const newParams = new URLSearchParams(searchParams);
+      newParams.delete('write-review');
+      setSearchParams(newParams, { replace: true });
+    }
+  }, [searchParams, setSearchParams]);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, 'reviews'), (querySnapshot) => {

@@ -100,6 +100,7 @@ body {
   opacity: 0.18;
   filter: blur(80px);
   animation: floatGlow 25s infinite alternate ease-in-out;
+  will-change: transform;
 }
 
 .floating-glow-1 {
@@ -147,6 +148,7 @@ body {
     height: 300px;
     opacity: 0.14;
     filter: blur(50px);
+    animation: none !important; /* Prevents performance lag on mobile */
   }
 }
 

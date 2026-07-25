@@ -70,6 +70,7 @@
   animation: floatParticle var(--duration) linear infinite alternate;
   animation-delay: var(--delay);
   opacity: 0.6;
+  will-change: transform, opacity;
 }
 
 @keyframes floatParticle {
@@ -79,8 +80,8 @@
 }
 
 @media (max-width: 768px) {
-  .particle {
-    box-shadow: none; /* Removed heavy shadow for mobile performance */
+  .particles-container {
+    display: none !important; /* Hide heavy particle background on mobile for high FPS scroll */
   }
 }
 

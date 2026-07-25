@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Smartphone, Wrench, Cpu, Headphones, Truck, ArrowRight, Activity, CheckCircle, ShieldCheck, Clock, HardDrive } from 'lucide-react';
+import { Smartphone, Wrench, Cpu, Headphones, Truck, ArrowRight, Activity, CheckCircle, ShieldCheck, Clock, HardDrive, Laptop } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import TextReveal from './TextReveal';
 import TiltCard from './TiltCard';
@@ -15,6 +15,7 @@ import { isVideoUrl } from '../utils/media';
 const categories = [
   { id: 'hardware', label: 'Hardware Repair', subtitle: 'Display, Battery, ICs', icon: <Wrench size={20} /> },
   { id: 'software', label: 'Software Solutions', subtitle: 'OS, Flashing, Unlocks', icon: <Cpu size={20} /> },
+  { id: 'laptop', label: 'Laptop & System Service', subtitle: 'Chip Level, OS, Upgrades', icon: <Laptop size={20} /> },
   { id: 'accessories', label: 'Accessories & Sales', subtitle: 'Cases, Chargers, TWS', icon: <Headphones size={20} /> },
   { id: 'seconds', label: 'Seconds Mobiles', subtitle: 'Certified Used Phones', icon: <Smartphone size={20} /> }
 ];

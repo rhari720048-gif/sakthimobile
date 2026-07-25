@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { LogOut, Settings, PlusCircle, Trash2, Star, LayoutDashboard, MessageSquarePlus, Smartphone, Wrench, Headphones, PieChart, Activity, User, Sliders, Save, CheckCircle, ShoppingBag, Battery, Cable, MessageCircle, Menu, X, ChevronDown, ChevronRight, ShieldCheck, Zap, Upload, Image as ImageIcon, Download } from 'lucide-react';
+import { LogOut, Settings, PlusCircle, Trash2, Star, LayoutDashboard, MessageSquarePlus, Smartphone, Wrench, Headphones, PieChart, Activity, User, Sliders, Save, CheckCircle, ShoppingBag, Battery, Cable, MessageCircle, Menu, X, ChevronDown, ChevronRight, ShieldCheck, Zap, Upload, Image as ImageIcon, Download, Laptop } from 'lucide-react';
 import { db, storage } from '../firebase';
 import { ref, uploadBytes, uploadBytesResumable, getDownloadURL, deleteObject } from 'firebase/storage';
 import { collection, addDoc, onSnapshot, deleteDoc, doc, serverTimestamp, getDoc, setDoc, updateDoc } from 'firebase/firestore';
@@ -383,14 +383,15 @@ const AdminDashboard = () => {
   const handleServiceSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    const category = activeTab === 'software' ? 'software' : 'hardware';
+    const category = activeTab;
     try {
       await addDoc(collection(db, 'services'), {
         ...serviceForm,
         category,
         createdAt: serverTimestamp()
       });
-      toast.success(`${category === 'hardware' ? 'Hardware' : 'Software'} service added successfully!`);
+      const catLabel = category === 'hardware' ? 'Hardware' : category === 'software' ? 'Software' : 'Laptop & System';
+      toast.success(`${catLabel} service added successfully!`);
       setServiceForm({ name: '', desc: '', details: '', category: 'hardware', imageUrl: '' });
     } catch (error) {
       console.error("Error adding service: ", error);
@@ -768,7 +769,7 @@ const AdminDashboard = () => {
                 </button>
 
                 <button 
-                  className={`admin-nav-item dropdown-trigger ${(activeTab === 'hardware' || activeTab === 'software' || activeTab === 'accessories' || activeTab === 'seconds') ? 'active' : ''}`}
+                  className={`admin-nav-item dropdown-trigger ${(activeTab === 'hardware' || activeTab === 'software' || activeTab === 'laptop' || activeTab === 'accessories' || activeTab === 'seconds') ? 'active' : ''}`}
                   onClick={() => setIsServicesMenuOpen(!isServicesMenuOpen)}
                 >
                   <Wrench size={20} />
@@ -802,6 +803,14 @@ const AdminDashboard = () => {
                       >
                         <Sliders size={16} />
                         Software Solution
+                      </button>
+
+                      <button 
+                        className={`admin-nav-item sub-item ${activeTab === 'laptop' ? 'active' : ''}`}
+                        onClick={() => { setActiveTab('laptop'); setIsSidebarOpen(false); }}
+                      >
+                        <Laptop size={16} />
+                        Laptop & System Service
                       </button>
 
                       <button 
@@ -935,8 +944,8 @@ const AdminDashboard = () => {
             )}
 
             {/* SERVICES TABS (HARDWARE / SOFTWARE) */}
-            {(activeTab === 'hardware' || activeTab === 'software') && (() => {
-              const category = activeTab; // 'hardware' or 'software'
+            {(activeTab === 'hardware' || activeTab === 'software' || activeTab === 'laptop') && (() => {
+              const category = activeTab; // 'hardware' or 'software' or 'laptop'
               const categoryServices = services.filter(s => s.category === category);
               
               return (
@@ -948,12 +957,20 @@ const AdminDashboard = () => {
                   exit="exit"
                 >
                   <motion.header className="admin-header" variants={itemVariants}>
-                    <h2>{category === 'hardware' ? 'Hardware Repair Management' : 'Software Solutions Management'}</h2>
-                    <p>Add new {category === 'hardware' ? 'hardware repair services' : 'software solutions'} or remove existing ones from the customer portal.</p>
+                    <h2>
+                      {category === 'hardware' && 'Hardware Repair Management'}
+                      {category === 'software' && 'Software Solutions Management'}
+                      {category === 'laptop' && 'Laptop & System Service Management'}
+                    </h2>
+                    <p>
+                      Add new {category === 'hardware' ? 'hardware repair services' : category === 'software' ? 'software solutions' : 'laptop & system services'} or remove existing ones from the customer portal.
+                    </p>
                   </motion.header>
 
                   <motion.div className="admin-form-card" variants={itemVariants}>
-                    <h3 className="admin-section-title" style={{ marginTop: 0 }}>Add New {category === 'hardware' ? 'Hardware Service' : 'Software Service'}</h3>
+                    <h3 className="admin-section-title" style={{ marginTop: 0 }}>
+                      Add New {category === 'hardware' ? 'Hardware Service' : category === 'software' ? 'Software Service' : 'Laptop & System Service'}
+                    </h3>
                     <form onSubmit={handleServiceSubmit}>
                       <div className="admin-form-group">
                         <label>Service Name</label>
@@ -962,7 +979,7 @@ const AdminDashboard = () => {
                           className="admin-input"
                           value={serviceForm.name}
                           onChange={(e) => setServiceForm({...serviceForm, name: e.target.value})}
-                          placeholder={category === 'hardware' ? 'e.g. Display Replacement' : 'e.g. OS Flash / Installation'}
+                          placeholder={category === 'hardware' ? 'e.g. Display Replacement' : category === 'software' ? 'e.g. OS Flash / Installation' : 'e.g. Laptop Motherboard Repair'}
                         />
                       </div>
                       
@@ -1004,11 +1021,15 @@ const AdminDashboard = () => {
 
                   <motion.div style={{ marginTop: '60px' }} variants={containerVariants}>
                     <motion.h2 className="admin-header" variants={itemVariants}>
-                      <h2 style={{fontSize: '1.8rem'}}>Existing {category === 'hardware' ? 'Hardware Services' : 'Software Services'}</h2>
+                      <h2 style={{fontSize: '1.8rem'}}>
+                        Existing {category === 'hardware' ? 'Hardware Services' : category === 'software' ? 'Software Services' : 'Laptop & System Services'}
+                      </h2>
                     </motion.h2>
 
                     {categoryServices.length === 0 ? (
-                      <div className="admin-empty-state">No {category === 'hardware' ? 'hardware repair' : 'software solutions'} services found.</div>
+                      <div className="admin-empty-state">
+                        No {category === 'hardware' ? 'hardware repair' : category === 'software' ? 'software solutions' : 'laptop & system'} services found.
+                      </div>
                     ) : (
                       <div className="admin-table-container">
                         <table className="admin-table">

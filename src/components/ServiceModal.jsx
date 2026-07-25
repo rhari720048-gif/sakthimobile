@@ -73,9 +73,9 @@ const ServiceModal = ({ service, category, onClose }) => {
                   Have questions about this service? Get an exact quote and details instantly from our experts.
                 </p>
                 <ul className="service-benefits">
-                  <li><img src="/favicon.svg" alt="icon" style={{ width: '1em', height: '1em', display: 'inline-block', verticalAlign: 'middle', marginRight: '5px' }} /> Free Diagnosis & Consultation</li>
-                  <li><img src="/favicon.svg" alt="icon" style={{ width: '1em', height: '1em', display: 'inline-block', verticalAlign: 'middle', marginRight: '5px' }} /> Ask about Parts Availability</li>
-                  <li><img src="/favicon.svg" alt="icon" style={{ width: '1em', height: '1em', display: 'inline-block', verticalAlign: 'middle', marginRight: '5px' }} /> Get Exact Pricing</li>
+                  <li><img src="/favicon.png" alt="icon" style={{ width: '1em', height: '1em', display: 'inline-block', verticalAlign: 'middle', marginRight: '5px' }} /> Free Diagnosis & Consultation</li>
+                  <li><img src="/favicon.png" alt="icon" style={{ width: '1em', height: '1em', display: 'inline-block', verticalAlign: 'middle', marginRight: '5px' }} /> Ask about Parts Availability</li>
+                  <li><img src="/favicon.png" alt="icon" style={{ width: '1em', height: '1em', display: 'inline-block', verticalAlign: 'middle', marginRight: '5px' }} /> Get Exact Pricing</li>
                 </ul>
               </div>
               <div className="modal-footer">

@@ -90,7 +90,7 @@ const Hero = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <span className="thunder-icon"><img src="/favicon.svg" alt="icon" style={{ width: '1em', height: '1em', display: 'inline-block', verticalAlign: 'middle' }} /></span> Crafted by Thunder
+            <span className="thunder-icon"><img src="/favicon.png" alt="icon" style={{ width: '1em', height: '1em', display: 'inline-block', verticalAlign: 'middle' }} /></span> Crafted by Thunder
           </motion.div>
           
           <motion.div 

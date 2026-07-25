@@ -353,7 +353,7 @@ const Services = ({ limit }) => {
                 cursor: 'pointer'
               }}
             >
-              <img src="/favicon.svg" alt="icon" style={{ width: '1.2em', height: '1.2em', display: 'inline-block', verticalAlign: 'middle', marginRight: '6px' }} /> Book Courier Service
+              <img src="/favicon.png" alt="icon" style={{ width: '1.2em', height: '1.2em', display: 'inline-block', verticalAlign: 'middle', marginRight: '6px' }} /> Book Courier Service
             </a>
           </MagneticButton>
         </motion.div>

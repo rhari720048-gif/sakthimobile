@@ -19,7 +19,7 @@ const Contact = () => {
             <TextReveal text={<>Contact <span className="gradient-text-gold">Us</span></>} />
             <Phone size={32} color="var(--accent-gold)" className="inline-icon-large" />
           </div>
-          <p>Unga mobile-la entha prachanai naalum engalukku call pannunga. Naanga ready! <img src="/favicon.svg" alt="icon" style={{ width: '1em', height: '1em', display: 'inline-block', verticalAlign: 'middle', marginLeft: '2px' }} /></p>
+          <p>Unga mobile-la entha prachanai naalum engalukku call pannunga. Naanga ready! <img src="/favicon.png" alt="icon" style={{ width: '1em', height: '1em', display: 'inline-block', verticalAlign: 'middle', marginLeft: '2px' }} /></p>
         </div>
 
         <div className="contact-grid">

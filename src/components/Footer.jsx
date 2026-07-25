@@ -50,7 +50,7 @@ const Footer = () => {
                 <a href={`https://wa.me/${settings.phone}`} target="_blank" rel="noreferrer" className="social-icon-btn" onClick={trackWhatsAppClick}><MessageCircle size={16} /></a>
               </div>
               <p style={{ color: 'var(--accent-gold)', fontWeight: 'bold', fontSize: '0.85rem', marginTop: '16px', textTransform: 'uppercase', letterSpacing: '1px' }}>
-                Made by Thunder <img src="/favicon.svg" alt="icon" style={{ width: '1em', height: '1em', display: 'inline-block', verticalAlign: 'middle', marginLeft: '2px' }} />
+                Made by Thunder <img src="/favicon.png" alt="icon" style={{ width: '1em', height: '1em', display: 'inline-block', verticalAlign: 'middle', marginLeft: '2px' }} />
               </p>
             </div>
             

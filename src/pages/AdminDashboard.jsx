@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { LogOut, Settings, PlusCircle, Trash2, Star, LayoutDashboard, MessageSquarePlus, Smartphone, Wrench, Headphones, PieChart, Activity, User, Sliders, Save, CheckCircle, ShoppingBag, Battery, Cable, MessageCircle, Menu, X, ChevronDown, ChevronRight, ShieldCheck, Zap, Upload, Image as ImageIcon } from 'lucide-react';
+import { LogOut, Settings, PlusCircle, Trash2, Star, LayoutDashboard, MessageSquarePlus, Smartphone, Wrench, Headphones, PieChart, Activity, User, Sliders, Save, CheckCircle, ShoppingBag, Battery, Cable, MessageCircle, Menu, X, ChevronDown, ChevronRight, ShieldCheck, Zap, Upload, Image as ImageIcon, Download } from 'lucide-react';
 import { db, storage } from '../firebase';
 import { ref, uploadBytes, uploadBytesResumable, getDownloadURL, deleteObject } from 'firebase/storage';
 import { collection, addDoc, onSnapshot, deleteDoc, doc, serverTimestamp, getDoc, setDoc, updateDoc } from 'firebase/firestore';
@@ -577,6 +577,53 @@ const AdminDashboard = () => {
         toast.error("Failed to delete log.");
       }
     }
+  };
+
+  const handleDownloadCSV = () => {
+    const filteredLogs = activityLogs.filter(log => {
+      const matchesSearch = log.model.toLowerCase().includes(logSearchQuery.toLowerCase());
+      const matchesCategory = logCategoryFilter === 'all' ? true : log.category === logCategoryFilter;
+      return matchesSearch && matchesCategory;
+    });
+
+    if (filteredLogs.length === 0) {
+      toast.error("No data available to download.");
+      return;
+    }
+
+    const headers = ["Device Model", "Service Completed", "Category", "Date / Time"];
+    const rows = filteredLogs.map(log => {
+      const dateObj = log.completedAt ? log.completedAt.toDate() : new Date();
+      const dateStr = dateObj.toLocaleDateString();
+      const timeStr = dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      
+      const model = `"${log.model.replace(/"/g, '""')}"`;
+      const serviceType = `"${log.serviceType.replace(/"/g, '""')}"`;
+      const category = `"${log.category}"`;
+      const dateTime = `"${dateStr} ${timeStr}"`;
+      
+      return [model, serviceType, category, dateTime];
+    });
+
+    const csvContent = [
+      headers.join(","),
+      ...rows.map(row => row.join(","))
+    ].join("\n");
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    const now = new Date();
+    const fileName = `Sakthi_Mobiles_Activity_Log_${now.getFullYear()}_${now.getMonth() + 1}.csv`;
+    
+    link.setAttribute("href", url);
+    link.setAttribute("download", fileName);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    toast.success("Activity log downloaded successfully!");
   };
 
   const handleSecondMobileSubmit = async (e) => {
@@ -1607,6 +1654,15 @@ const AdminDashboard = () => {
                         <option value="software">Software</option>
                         <option value="accessories">Accessories</option>
                       </select>
+                      <button 
+                        type="button"
+                        onClick={handleDownloadCSV}
+                        className="admin-btn-secondary"
+                        style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '12px 20px', borderRadius: '12px', whiteSpace: 'nowrap', border: '1px solid rgba(6, 182, 212, 0.2)', cursor: 'pointer', fontWeight: 600, color: 'var(--text-secondary)' }}
+                        title="Download logs as CSV"
+                      >
+                        <Download size={18} /> Export CSV
+                      </button>
                     </div>
 
                     <div className="admin-table-container">

@@ -101,10 +101,21 @@ const Navbar = () => {
       });
       navigate('/admin');
       setMobileMenuOpen(false);
+      setMobileServicesOpen(false);
     } else if (path === '#') {
       e.preventDefault();
     } else {
-      setMobileMenuOpen(false);
+      if (mobileMenuOpen) {
+        e.preventDefault();
+        setMobileMenuOpen(false);
+        setMobileServicesOpen(false);
+        setTimeout(() => {
+          navigate(path);
+        }, 220); // Let drawer close animation complete smoothly first
+      } else {
+        setMobileMenuOpen(false);
+        setMobileServicesOpen(false);
+      }
     }
   };
 
@@ -258,7 +269,7 @@ const Navbar = () => {
                             key={sublink.name} 
                             to={sublink.path} 
                             className={`sidebar-nav-link sub-link ${isLinkActive(sublink) ? 'active' : ''}`}
-                            onClick={(e) => { setMobileMenuOpen(false); setMobileServicesOpen(false); handleLinkClick(e, sublink.path); }}
+                            onClick={(e) => handleLinkClick(e, sublink.path)}
                           >
                             <span style={{ marginRight: '8px' }}>{sublink.icon}</span>
                             {sublink.name}

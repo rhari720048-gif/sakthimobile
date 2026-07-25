@@ -288,7 +288,23 @@ const AdminDashboard = () => {
   const [activityLogs, setActivityLogs] = useState([]);
   const [logSearchQuery, setLogSearchQuery] = useState('');
   const [logCategoryFilter, setLogCategoryFilter] = useState('all');
+  const [logMonthFilter, setLogMonthFilter] = useState('all');
   const [isSubmittingLog, setIsSubmittingLog] = useState(false);
+
+  const availableMonths = React.useMemo(() => {
+    const monthsMap = {};
+    activityLogs.forEach(log => {
+      if (log.completedAt) {
+        const date = log.completedAt.toDate();
+        const year = date.getFullYear();
+        const monthVal = date.getMonth(); // 0-indexed
+        const key = `${year}-${String(monthVal + 1).padStart(2, '0')}`;
+        const label = date.toLocaleDateString([], { year: 'numeric', month: 'long' });
+        monthsMap[key] = label;
+      }
+    });
+    return Object.entries(monthsMap).sort((a, b) => b[0].localeCompare(a[0]));
+  }, [activityLogs]);
 
   // Seconds Mobiles States
   const [secondMobileForm, setSecondMobileForm] = useState({ brand: '', model: '', storage: '', condition: '', price: '', imageUrl: '', backImage: '', leftImage: '', rightImage: '' });
@@ -584,11 +600,18 @@ const AdminDashboard = () => {
     const filteredLogs = activityLogs.filter(log => {
       const matchesSearch = log.model.toLowerCase().includes(logSearchQuery.toLowerCase());
       const matchesCategory = logCategoryFilter === 'all' ? true : log.category === logCategoryFilter;
-      return matchesSearch && matchesCategory;
+      const matchesMonth = logMonthFilter === 'all' ? true : (() => {
+        if (!log.completedAt) return false;
+        const date = log.completedAt.toDate();
+        const year = date.getFullYear();
+        const monthVal = String(date.getMonth() + 1).padStart(2, '0');
+        return `${year}-${monthVal}` === logMonthFilter;
+      })();
+      return matchesSearch && matchesCategory && matchesMonth;
     });
 
     if (filteredLogs.length === 0) {
-      toast.error("No data available to download.");
+      toast.error("No data available to download for the selected filters.");
       return;
     }
 
@@ -614,8 +637,15 @@ const AdminDashboard = () => {
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
-    const now = new Date();
-    const fileName = `Sakthi_Mobiles_Activity_Log_${now.getFullYear()}_${now.getMonth() + 1}.csv`;
+    
+    let fileName = `Sakthi_Mobiles_Activity_Log`;
+    if (logMonthFilter !== 'all') {
+      fileName += `_${logMonthFilter.replace('-', '_')}`;
+    } else {
+      const now = new Date();
+      fileName += `_${now.getFullYear()}_${now.getMonth() + 1}`;
+    }
+    fileName += `.csv`;
     
     link.setAttribute("href", url);
     link.setAttribute("download", fileName);
@@ -1675,6 +1705,17 @@ const AdminDashboard = () => {
                         <option value="software">Software</option>
                         <option value="accessories">Accessories</option>
                       </select>
+                      <select 
+                        className="admin-input"
+                        value={logMonthFilter}
+                        onChange={(e) => setLogMonthFilter(e.target.value)}
+                        style={{ width: '180px' }}
+                      >
+                        <option value="all">All Months</option>
+                        {availableMonths.map(([key, label]) => (
+                          <option key={key} value={key}>{label}</option>
+                        ))}
+                      </select>
                       <button 
                         type="button"
                         onClick={handleDownloadCSV}
@@ -1702,7 +1743,14 @@ const AdminDashboard = () => {
                             .filter(log => {
                               const matchesSearch = log.model.toLowerCase().includes(logSearchQuery.toLowerCase());
                               const matchesCategory = logCategoryFilter === 'all' ? true : log.category === logCategoryFilter;
-                              return matchesSearch && matchesCategory;
+                              const matchesMonth = logMonthFilter === 'all' ? true : (() => {
+                                if (!log.completedAt) return false;
+                                const date = log.completedAt.toDate();
+                                const year = date.getFullYear();
+                                const monthVal = String(date.getMonth() + 1).padStart(2, '0');
+                                return `${year}-${monthVal}` === logMonthFilter;
+                              })();
+                              return matchesSearch && matchesCategory && matchesMonth;
                             })
                             .map((log) => (
                               <tr key={log.id}>

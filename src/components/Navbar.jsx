@@ -111,7 +111,7 @@ const Navbar = () => {
         setMobileServicesOpen(false);
         setTimeout(() => {
           navigate(path);
-        }, 220); // Let drawer close animation complete smoothly first
+        }, 100); // 100ms is super snappy and feels instant
       } else {
         setMobileMenuOpen(false);
         setMobileServicesOpen(false);
@@ -213,6 +213,7 @@ const Navbar = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.12 }}
             onClick={() => setMobileMenuOpen(false)}
           />
           
@@ -222,7 +223,7 @@ const Navbar = () => {
             initial={{ x: '-100%' }}
             animate={{ x: 0 }}
             exit={{ x: '-100%' }}
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            transition={{ duration: 0.16, ease: 'easeOut' }}
           >
             {/* Close Button Header */}
             <div className="sidebar-header">
